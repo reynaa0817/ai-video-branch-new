@@ -1,0 +1,6 @@
+.DS_Store
+**/.DS_Store
+**/node_modules/
+.gstack/browse-audit.jsonl
+.gstack/browse-network.log
+.gstack/browse.json
