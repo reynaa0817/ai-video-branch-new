@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121311">
+  <title>AI 漫剧创作平台｜脑暴成果片</title>
+  <style>
+    :root{
+      --ink:#161713;--paper:#f1eddf;--paper-2:#e5dfcc;--night:#121311;
+      --red:#e8482e;--lime:#c7f05a;--cyan:#64d8db;--amber:#f5b942;
+      --muted:#6c6a60;--line:rgba(22,23,19,.2);--display:Impact,"Arial Narrow",sans-serif;
+      --sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+      --serif:"Songti SC","STSong",serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--night)}
+    body{margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans);overflow-x:hidden}
+    button,a{font:inherit}
+    a{color:inherit}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+    .progress{position:fixed;left:0;top:0;height:4px;background:var(--red);width:0;z-index:110}
+    .rail{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:80;display:grid;gap:9px}
+    .rail a{width:10px;height:10px;border:1px solid var(--paper);background:var(--night);display:block;transform:rotate(45deg);transition:.2s}
+    .rail a.active{background:var(--lime);transform:rotate(45deg) scale(1.5)}
+    .hero{min-height:100vh;background:var(--night);color:var(--paper);position:relative;display:grid;grid-template-rows:auto 1fr auto;padding:24px clamp(24px,5vw,80px) 28px;overflow:hidden}
+    .hero:before{content:"SEEDANCE 2.0";position:absolute;right:-.03em;bottom:-.16em;font:clamp(88px,19vw,310px)/.8 var(--display);color:transparent;-webkit-text-stroke:1px rgba(241,237,223,.1);white-space:nowrap}
+    .topline{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(241,237,223,.25);padding-bottom:14px;letter-spacing:.12em;font-size:12px;text-transform:uppercase;position:relative;z-index:2}
+    .rec{display:flex;gap:9px;align-items:center}.rec i{width:10px;height:10px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
+    @keyframes pulse{50%{box-shadow:0 0 0 8px rgba(232,72,46,0)}}
+    .hero-main{align-self:center;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:7vw;align-items:end;position:relative;z-index:2}
+    .kicker{color:var(--lime);font-size:13px;letter-spacing:.24em;margin-bottom:16px}
+    h1{font:clamp(64px,11vw,178px)/.78 var(--display);letter-spacing:-.035em;margin:0;text-transform:uppercase}
+    h1 span{display:block;color:var(--red)}
+    .hero-note{border-left:5px solid var(--lime);padding:2px 0 2px 22px;max-width:440px}
+    .hero-note strong{font:700 clamp(22px,3vw,40px)/1.12 var(--serif);display:block;margin-bottom:18px}
+    .hero-note p{color:#bab7aa;line-height:1.7;margin:0}
+    .hero-bottom{display:flex;justify-content:space-between;gap:24px;align-items:end;position:relative;z-index:2}
+    .meta{display:flex;gap:22px;color:#88877e;font-size:12px}.meta b{color:var(--paper);display:block;font-size:16px;margin-top:5px}
+    .scroll{color:var(--lime);font-size:12px;writing-mode:vertical-rl;letter-spacing:.18em}
+    .manifesto{padding:clamp(70px,10vw,150px) clamp(24px,8vw,130px);background:var(--red);color:var(--night);display:grid;grid-template-columns:.5fr 1.5fr;gap:6vw}
+    .section-no{font:80px/1 var(--display);opacity:.3}
+    .manifesto blockquote{margin:0;font:700 clamp(35px,6vw,88px)/1.03 var(--serif);letter-spacing:-.04em}
+    .manifesto p{max-width:920px;font-size:clamp(17px,2vw,25px);line-height:1.55;margin:40px 0 0}
+    .manifesto mark{background:var(--lime);padding:0 .12em;color:var(--ink)}
+    section{position:relative}
+    .tech{padding:clamp(80px,10vw,150px) clamp(24px,7vw,110px)}
+    .head{display:grid;grid-template-columns:120px 1fr auto;gap:24px;align-items:end;margin-bottom:70px}
+    .head .num{font:88px/.75 var(--display);color:var(--red)}
+    .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+    h2{font:clamp(42px,6vw,86px)/.92 var(--display);margin:0;letter-spacing:-.02em;text-transform:uppercase}
+    .head p{max-width:300px;margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+    .yesand{background:var(--paper)}
+    .script{border-top:3px solid var(--ink);max-width:1100px;margin:auto}
+    .beat{display:grid;grid-template-columns:120px 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--line);position:relative}
+    .beat .speaker{font:20px/1 var(--display);letter-spacing:.05em}.beat .speaker span{display:block;font:11px/1.2 var(--sans);color:var(--muted);margin-top:8px;letter-spacing:.1em}
+    .beat .line{font:clamp(21px,3vw,38px)/1.35 var(--serif);max-width:850px}
+    .beat:nth-child(even) .speaker{color:var(--red)}
+    .and{font:100px/.8 var(--display);color:var(--red);position:absolute;right:0;bottom:-34px;opacity:.13}
+    .pipeline{margin-top:70px;display:grid;grid-template-columns:repeat(7,1fr);border:2px solid var(--ink)}
+    .pipeline div{min-height:120px;padding:16px 12px;border-right:1px solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;font-weight:700}
+    .pipeline div:last-child{border:0}.pipeline small{font:28px/1 var(--display);color:var(--red)}
+    .gates{margin-top:26px;background:var(--night);color:var(--paper);padding:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .gates b{color:var(--lime);margin-right:14px}.gate{border:1px solid #555;padding:8px 12px;font-size:13px}.auto{color:#aaa;font-size:13px;margin-left:auto}
+    .round{background:#d7d0ba;overflow:hidden}
+    .round .head .num{color:var(--night)}
+    .tabletop{max-width:1120px;margin:auto;position:relative;min-height:650px;border:2px solid var(--ink);border-radius:50%;background:radial-gradient(circle at center,#eee8d6 0 34%,transparent 34%);padding:60px}
+    .center-note{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-2deg);background:var(--lime);width:260px;padding:28px;box-shadow:8px 9px 0 rgba(22,23,19,.2);font:700 22px/1.4 var(--serif)}
+    .note{position:absolute;width:250px;padding:22px;box-shadow:5px 6px 0 rgba(22,23,19,.16);transition:transform .25s;line-height:1.55}
+    .note:hover{transform:translateY(-7px) rotate(0)!important;z-index:3}
+    .note b{font:21px/1 var(--display);display:block;margin-bottom:10px}.note small{display:block;margin-top:12px;font-weight:700}
+    .n1{left:7%;top:4%;background:#f5b942;transform:rotate(-4deg)}.n2{right:5%;top:7%;background:#64d8db;transform:rotate(3deg)}
+    .n3{left:2%;bottom:10%;background:#f0ebde;transform:rotate(3deg)}.n4{right:4%;bottom:5%;background:#e8482e;color:#fff;transform:rotate(-3deg)}
+    .memory-strip{margin-top:70px;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)}
+    .memory-strip article{padding:30px}.memory-strip article+article{border-left:2px solid var(--ink)}
+    .memory-strip h3{font:34px/1 var(--display);margin:0 0 16px}.memory-strip p{line-height:1.7;margin:0}.memory-strip .tag{display:inline-block;border:1px solid currentColor;padding:5px 8px;font-size:11px;margin-top:18px}
+    .principles{background:var(--paper);padding-bottom:0}
+    .cutaway{display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:auto;border:3px solid var(--ink)}
+    .cut-left{padding:45px;background:var(--night);color:var(--paper)}
+    .cut-left .question{color:var(--lime);font:13px/1 var(--sans);letter-spacing:.18em;margin-bottom:24px}
+    .core{font:700 clamp(34px,5vw,69px)/1.08 var(--serif);margin:0}.core em{color:var(--red);font-style:normal}
+    .cut-right{display:flex;flex-direction:column}
+    .layer{flex:1;padding:25px 30px;border-bottom:1px solid var(--ink);display:grid;grid-template-columns:46px 1fr;gap:18px;align-items:start}
+    .layer:last-child{border:0}.layer i{font:26px/1 var(--display);color:var(--red);font-style:normal}.layer b{display:block;font-size:18px;margin-bottom:6px}.layer p{margin:0;color:var(--muted);line-height:1.5}
+    .enemy{margin-top:75px;background:var(--red);padding:clamp(50px,7vw,100px);display:grid;grid-template-columns:.7fr 1.3fr;gap:7vw;align-items:center}
+    .enemy h3{font:clamp(42px,7vw,100px)/.83 var(--display);margin:0}.enemy h3 span{color:var(--paper)}
+    .enemy ul{list-style:none;padding:0;margin:0;display:grid;gap:18px}.enemy li{background:var(--paper);padding:18px 22px;font-weight:700;display:flex;gap:15px}.enemy li:before{content:"×";color:var(--red);font:28px/18px var(--display)}
+    .story-rule{background:var(--night);color:var(--paper);padding:55px clamp(24px,7vw,110px);display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px}
+    .story-rule article{border:1px solid #3b3c37;padding:28px}.story-rule b{font:28px/1 var(--display);color:var(--lime);display:block;margin-bottom:15px}.story-rule p{margin:0;line-height:1.65;color:#c2c0b5}
+    .reverse{background:#0e1010;color:var(--paper);overflow:hidden}
+    .reverse .head .num{color:var(--cyan)}.reverse .head p,.reverse .eyebrow{color:#92968f}
+    .filmstrip{display:grid;grid-template-columns:1fr 1fr;border:2px solid #494d49;max-width:1200px;margin:auto;position:relative}
+    .filmstrip:before,.filmstrip:after{content:"";position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,transparent 0 18px,#0e1010 18px 26px);z-index:2}.filmstrip:before{top:-1px}.filmstrip:after{bottom:-1px}
+    .frame{padding:65px 42px 55px;min-height:470px}.frame:first-child{border-right:2px solid #494d49}.frame .label{color:#92968f;font-size:11px;letter-spacing:.19em;margin-bottom:30px}
+    .frame h3{font:clamp(34px,4vw,58px)/1 var(--display);margin:0 0 25px}.frame p{font-size:18px;line-height:1.65;color:#c9c7bd}
+    .frame.after{background:var(--cyan);color:var(--ink)}.frame.after p{color:var(--ink)}.frame.after .label{color:#34494a}
+    .decision{margin:40px auto 0;max-width:1200px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .decision article{padding:26px;border:1px solid #535650;position:relative}.decision h4{margin:0 0 10px;font:26px/1 var(--display)}.decision p{margin:0;line-height:1.6;color:#bdbbb1}
+    .decision.accept{border-color:var(--lime)}.decision.accept h4{color:var(--lime)}.decision.reject{border-color:var(--red)}.decision.reject h4{color:var(--red)}
+    .decision .stamp{position:absolute;right:16px;top:14px;border:2px solid currentColor;padding:4px 7px;transform:rotate(7deg);font:14px/1 var(--display)}
+    .asset-flow{max-width:1200px;margin:70px auto 0;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:15px;align-items:center;text-align:center}.asset-flow .box{border:1px solid #545750;padding:22px}.asset-flow .arrow{color:var(--lime);font-size:30px}.asset-flow b{display:block;color:var(--cyan);margin-bottom:8px}
+    .config{margin:60px auto 0;max-width:1200px;border-top:1px solid #555;padding-top:35px;display:grid;grid-template-columns:.65fr 1.35fr;gap:40px}.config h3{font:45px/1 var(--display);margin:0;color:var(--amber)}.config ul{margin:0;padding-left:20px;columns:2;line-height:1.9;color:#c9c7bd}
+    .converge{background:var(--paper);padding:clamp(90px,10vw,160px) clamp(24px,7vw,110px)}
+    .cluster-stage{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .cluster{min-height:190px;border:1px solid var(--ink);padding:18px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}.cluster:hover{background:var(--lime);transform:translateY(-5px)}
+    .cluster i{font:52px/1 var(--display);font-style:normal;color:var(--red)}.cluster b{font-size:18px}.cluster small{color:var(--muted);line-height:1.4}
+    .mainline{max-width:1200px;margin:60px auto 0;background:var(--red);padding:clamp(35px,6vw,70px);position:relative}.mainline:before{content:"用户确认";position:absolute;right:18px;top:18px;border:2px solid var(--ink);padding:5px 8px;font:15px/1 var(--display);transform:rotate(4deg)}
+    .mainline .eyebrow{color:var(--ink)}.mainline p{font:700 clamp(28px,4.8vw,65px)/1.12 var(--serif);margin:0;max-width:1000px}
+    .moscow{background:var(--night);color:var(--paper);padding:clamp(90px,10vw,160px) clamp(24px,7vw,110px)}
+    .moscow .head .num{color:var(--lime)}.moscow .head p,.moscow .eyebrow{color:#8e918a}
+    .scope{max-width:1200px;margin:auto;display:grid;grid-template-columns:2fr 1.25fr .9fr .9fr;min-height:580px;align-items:end;gap:10px}
+    .scope-col{border:1px solid #4e514c;position:relative;overflow:hidden}.scope-col header{padding:18px;border-bottom:1px solid currentColor;display:flex;justify-content:space-between;align-items:end}.scope-col header b{font:54px/1 var(--display)}.scope-col ol,.scope-col ul{margin:0;padding:22px 22px 22px 42px;line-height:1.55}.scope-col li{margin-bottom:13px}.must{height:580px;background:var(--lime);color:var(--ink)}.should{height:470px;background:var(--cyan);color:var(--ink)}.could{height:355px;background:var(--amber);color:var(--ink)}.wont{height:270px;background:#2c2e2b;color:#b6b7ae}.scope-col small{font-size:11px;letter-spacing:.1em}
+    .scope-note{max-width:1200px;margin:28px auto 0;color:#a7a99f;font-size:13px;border-left:3px solid var(--lime);padding-left:15px}
+    .triangle-section{background:#e8482e;color:var(--ink);padding:clamp(90px,10vw,160px) clamp(24px,7vw,110px);min-height:100vh}
+    .triangle-section .head .num{color:var(--ink)}.triangle-section .head p,.triangle-section .eyebrow{color:#652119}
+    .tri-wrap{max-width:1200px;margin:auto;display:grid;grid-template-columns:1.1fr .9fr;gap:7vw;align-items:center}
+    .triangle{aspect-ratio:1/ .86;position:relative;max-width:650px;margin:auto}
+    .triangle svg{width:100%;height:100%;overflow:visible}.triangle polygon{fill:var(--night);stroke:var(--paper);stroke-width:2}.triangle line{stroke:#4d4f49;stroke-width:1;stroke-dasharray:5 6}.triangle text{font-family:var(--display);font-size:28px;fill:var(--paper);letter-spacing:2px}.triangle .coretext{font-family:var(--serif);font-size:18px;fill:var(--lime);letter-spacing:0}
+    .tri-label{position:absolute;background:var(--paper);border:2px solid var(--ink);padding:12px 16px;font-weight:800;box-shadow:6px 6px 0 var(--ink)}
+    .tri-label.q{left:50%;top:-4%;transform:translateX(-50%)}.tri-label.e{right:-2%;bottom:7%}.tri-label.c{left:-2%;bottom:7%}
+    .levers{border-top:3px solid var(--ink)}.lever{display:grid;grid-template-columns:100px 1fr;padding:20px 0;border-bottom:1px solid rgba(22,23,19,.4);gap:18px}.lever b{font:25px/1 var(--display)}.lever p{margin:0;line-height:1.55}.lever[data-key="质量"] b{color:var(--paper)}
+    .acceptance{margin-top:45px;background:var(--night);color:var(--paper);padding:28px;font:700 22px/1.5 var(--serif);border-left:8px solid var(--lime)}
+    .finale{background:var(--paper);padding:clamp(90px,12vw,190px) clamp(24px,7vw,110px)}
+    .finale-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:.8fr 1.2fr;gap:8vw}
+    .clap{border:3px solid var(--ink);align-self:start;transform:rotate(-2deg)}.clap-top{background:repeating-linear-gradient(135deg,var(--night) 0 22px,var(--paper) 22px 44px);height:50px;border-bottom:3px solid var(--ink)}.clap-body{padding:25px}.clap h3{font:50px/.9 var(--display);margin:0 0 22px}.clap dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;font-size:13px}.clap dt{color:var(--muted)}.clap dd{margin:0;font-weight:700}
+    .finale h2{font:clamp(48px,7vw,105px)/.86 var(--display);margin:0 0 35px}.finale h2 span{color:var(--red)}
+    .finale .promise{font:700 clamp(23px,3vw,38px)/1.4 var(--serif);margin:0 0 32px}.checks{display:flex;flex-wrap:wrap;gap:10px}.checks span{background:var(--ink);color:var(--paper);padding:9px 12px;font-size:13px}.checks .no{background:transparent;color:var(--red);border:2px solid var(--red);text-decoration:line-through}
+    footer{background:var(--night);color:#8c8e86;padding:24px clamp(24px,7vw,110px);display:flex;justify-content:space-between;gap:20px;font-size:11px;letter-spacing:.08em}
+    .reveal{opacity:0;transform:translateY(30px);transition:.7s cubic-bezier(.2,.7,.2,1)}.reveal.on{opacity:1;transform:none}
+    @media(max-width:900px){
+      .rail{display:none}.hero-main,.manifesto,.tri-wrap,.finale-grid{grid-template-columns:1fr}.hero-main{align-items:center}.hero-note{margin-top:30px}.manifesto{gap:20px}.head{grid-template-columns:70px 1fr}.head p{display:none}.head .num{font-size:60px}.pipeline{grid-template-columns:repeat(2,1fr)}.pipeline div{border-bottom:1px solid var(--ink)}.tabletop{border-radius:30px;min-height:auto;padding:20px;display:grid;gap:14px}.center-note,.note{position:relative;inset:auto;transform:none!important;width:auto}.center-note{left:auto;top:auto}.cutaway,.memory-strip{grid-template-columns:1fr}.memory-strip article+article{border-left:0;border-top:2px solid var(--ink)}.story-rule{grid-template-columns:1fr}.filmstrip,.decision{grid-template-columns:1fr}.frame:first-child{border-right:0;border-bottom:2px solid #494d49}.asset-flow{grid-template-columns:1fr}.asset-flow .arrow{transform:rotate(90deg)}.config{grid-template-columns:1fr}.cluster-stage{grid-template-columns:1fr 1fr}.scope{grid-template-columns:1fr}.scope-col,.must,.should,.could,.wont{height:auto;min-height:0}.scope-col header b{font-size:38px}.finale-grid{gap:60px}
+    }
+    @media(max-width:560px){.hero{min-height:760px}.topline span:last-child{display:none}.meta{display:none}.beat{grid-template-columns:1fr;gap:10px}.pipeline{grid-template-columns:1fr}.cluster-stage{grid-template-columns:1fr}.enemy{grid-template-columns:1fr}.config ul{columns:1}.hero-bottom{justify-content:flex-end}.triangle text{font-size:22px}.tri-label{font-size:12px;padding:8px}.tri-label.e{right:-5%}.tri-label.c{left:-5%}footer{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.rec i{animation:none}}
+    @media print{.rail,.progress,.grain{display:none}.hero{min-height:auto;padding-block:50px}.reveal{opacity:1;transform:none}section{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
+  <nav class="rail" aria-label="章节导航">
+    <a href="#opening" aria-label="开场"></a><a href="#yesand" aria-label="Yes And"></a><a href="#round" aria-label="接力脑写"></a><a href="#principles" aria-label="第一性原理"></a><a href="#reverse" aria-label="假设反转"></a><a href="#moscow" aria-label="MoSCoW"></a><a href="#triangle" aria-label="约束三角"></a>
+  </nav>
+
+  <header class="hero" id="opening">
+    <div class="topline"><div class="rec"><i></i> BRAINSTORM / COMPLETE</div><span>Creative Partner · 2026.07.13</span></div>
+    <div class="hero-main">
+      <div><div class="kicker">FROM IDEA TO MOVING STORY</div><h1>AI 漫剧<span>创作工作室</span></h1></div>
+      <div class="hero-note"><strong>不是再做一个视频生成器。</strong><p>这是面向非专业创作者的 AI 漫剧工作室：让一句 idea 快速变成故事完整、全片动态、设定一致的作品，并让用户始终感到自己才是创作者。</p></div>
+    </div>
+    <div class="hero-bottom"><div class="meta"><span>主模型<b>Seedance 2.0</b></span><span>协作模式<b>Creative Partner</b></span><span>状态<b>已收敛</b></span></div><div class="scroll">向下进入创作现场 ↓</div></div>
+  </header>
+
+  <main>
+    <section class="manifesto reveal" aria-labelledby="northstar">
+      <div class="section-no">00</div><div><blockquote id="northstar">用户购买的不是“生成”，而是<mark>创意终于变成实际视频</mark>的满足感。</blockquote><p>核心价值是兑现创意。缩短从脑内想象到首次可观看成果的距离，同时守住用户设定、角色一致性与创作者归属感。平台真正的敌人，是等待、决策过载和全量返工造成的创作动量丢失。</p></div>
+    </section>
+
+    <section class="tech yesand" id="yesand">
+      <div class="head reveal"><div class="num">01</div><div><div class="eyebrow">Technique / Yes, and…</div><h2>把工具接成工作室</h2></div><p>连续叠加创意，从一句 idea 推到一条可控制、可审阅、可发布的制作流水线。</p></div>
+      <div class="script reveal">
+        <div class="beat"><div class="speaker">创作者<span>第一句</span></div><div class="line">“我有一个 idea。”</div><div class="and">AND</div></div>
+        <div class="beat"><div class="speaker">AI 工作室<span>主动扩写</span></div><div class="line">“好，而且我会调用不同大模型，依次交付故事脚本、图片、视频、声音、剪辑、字幕与发布成果。”</div><div class="and">AND</div></div>
+        <div class="beat"><div class="speaker">制作系统<span>补齐控制</span></div><div class="line">“好，而且加入创意简报、世界观与角色圣经、分镜与镜头清单、资产库、质量验收和发布反馈。”</div><div class="and">AND</div></div>
+        <div class="beat"><div class="speaker">共同创作<span>降低门槛</span></div><div class="line">“好，而且只在改变方向或引发高额返工的节点确认；其余工序自动执行，用户随时可以介入。”</div></div>
+      </div>
+      <div class="pipeline reveal" aria-label="端到端制作阶段">
+        <div><small>01</small>故事脚本</div><div><small>02</small>AI 图片</div><div><small>03</small>AI 视频</div><div><small>04</small>配音配乐</div><div><small>05</small>视频剪辑</div><div><small>06</small>字幕</div><div><small>07</small>发布</div>
+      </div>
+      <div class="gates reveal"><b>五个关键确认闸门</b><span class="gate">创意简报</span><span class="gate">大纲与角色圣经</span><span class="gate">分镜与样片</span><span class="gate">粗剪成片</span><span class="gate">发布版本</span><span class="auto">脚本细化、批量资产、镜头生成、配音配乐与字幕默认自动化</span></div>
+    </section>
+
+    <section class="tech round" id="round">
+      <div class="head reveal"><div class="num">02</div><div><div class="eyebrow">Technique / Brain Writing Round Robin</div><h2>把专业问题翻译成直觉</h2></div><p>不同角色轮流留下纸条。共同的判断：新手不该先学会影视术语，系统要先学会理解人。</p></div>
+      <div class="tabletop reveal">
+        <div class="center-note">用户只需判断：<br>喜欢 / 不喜欢。<br>AI 把直觉翻译成专业修改。</div>
+        <article class="note n1"><b>新手创作者</b>抽象产品功能问题很难回答。让我直接在作品旁说感受，不要让我先描述参数。<small>用户洞察</small></article>
+        <article class="note n2"><b>AI 导演</b>依据上下文只追问一句，给可视化候选和修改前后对比，把反馈落到剧本、镜头、表演或声音。<small>已认可交互</small></article>
+        <article class="note n3"><b>连续性守卫</b>建立可锁定的创作宪法和连续性账本。不得擅改用户设定，角色必须前后一致。<small>用户明确红线</small></article>
+        <article class="note n4"><b>长期搭档</b>从选择、否决和自然语言反馈中学习创意展开、分镜、剧本、节奏、视觉与声音偏好。<small>跨项目偏好</small></article>
+      </div>
+      <div class="memory-strip reveal">
+        <article><h3>作品连续性账本</h3><p>约束单个 IP 的事实一致性：用户设定、角色外形、性格、关系、能力和世界规则。每次生成前注入，生成后检查冲突。</p><span class="tag">硬约束 · 单项目</span></article>
+        <article><h3>创作者偏好档案</h3><p>跨项目学习叙事、分镜、剧本、节奏、视觉与声音审美。它是可解释的软默认，可继承、临时覆盖或关闭。</p><span class="tag">软默认 · 跨项目</span></article>
+      </div>
+      <div class="memory-strip reveal"><article><h3>记忆中心</h3><p>集中查看、修改、删除和分类平台记住的内容。</p></article><article><h3>内联提醒</h3><p>实际使用某条记忆时，说明来源与影响，并允许立即纠正。</p></article></div>
+    </section>
+
+    <section class="tech principles" id="principles">
+      <div class="head reveal"><div class="num">03</div><div><div class="eyebrow">Technique / First Principles Thinking</div><h2>先保证完成，再逐层变好</h2></div><p>剥离模型和影视流程，回到用户真正购买的结果，再重建产品优先级。</p></div>
+      <div class="cutaway reveal">
+        <div class="cut-left"><div class="question">最基本的事实是什么？</div><p class="core">创作者想要的是：<em>脑中的创意，真的被看见。</em></p></div>
+        <div class="cut-right">
+          <div class="layer"><i>01</i><div><b>首次惊喜时刻用时</b><p>idea 到首次可观看成果，到底有多短。</p></div></div>
+          <div class="layer"><i>02</i><div><b>创意匹配度</b><p>结果是否仍然像用户的创意，而不是 AI 擅自改写。</p></div></div>
+          <div class="layer"><i>03</i><div><b>成片完成率</b><p>用户能否真正走到一个可发布版本。</p></div></div>
+          <div class="layer"><i>04</i><div><b>创作者归属感</b><p>用户是否感到“这是我的作品”。</p></div></div>
+        </div>
+      </div>
+      <div class="enemy reveal"><h3>核心敌人<br><span>动量丢失</span></h3><ul><li>快速成片主路径，阶段成果持续可预览</li><li>后台并行生成，减少空等</li><li>局部返工，不让一次修改推倒全片</li><li>随时无损续作，始终接近可发布版本</li></ul></div>
+      <div class="story-rule reveal">
+        <article><b>最低发布标准</b><p>故事完整。先确保开端、冲突、推进和阶段性结局可理解，再优化单镜头视听质量。</p></article>
+        <article><b>悬念不是拖延</b><p>短剧允许高潮切集，但不能每集如此。完整性在短篇或阶段性故事弧上判断，承诺必须持续兑现。</p></article>
+        <article><b>默认节奏</b><p>10 集最多 3 集高潮直切；连续悬念上限 1 集；最多每 3 集兑现一次；故事弧结局禁用切断。悬念比例可由用户设置。</p></article>
+      </div>
+    </section>
+
+    <section class="tech reverse" id="reverse">
+      <div class="head reveal"><div class="num">04</div><div><div class="eyebrow">Technique / Assumption Reversal</div><h2>先看高潮，再造整部作品</h2></div><p>反转“先做完脚本才能看到画面”的默认顺序，用受控成本的概念样片抢回首次惊喜时刻。</p></div>
+      <div class="filmstrip reveal">
+        <article class="frame"><div class="label">旧假设 / LINEAR FIRST</div><h3>先把所有流程走完，最后才看见成片</h3><p>等待时间长，方向错误发现得晚。返工一旦发生，已经消耗了大量 Seedance 生成成本。</p></article>
+        <article class="frame after"><div class="label">反转后 / SURPRISE FIRST</div><h3>提交 idea，先生成高潮样片或概念预告</h3><p>优先验证核心角色、视觉风格和戏剧卖点。样片标记为非正式内容，可在正式脚本阶段继承、改写或丢弃，并采用受控预算与快速模式。</p></article>
+      </div>
+      <div class="decision reveal">
+        <article class="accept"><span class="stamp">采纳</span><h4>全片完整动态</h4><p>可发布成片的所有镜头都保持完整动态视频。通过资产复用、并行生成、低成本预览、缓存和局部重做优化效率。</p></article>
+        <article class="reject"><span class="stamp">明确否决</span><h4>动态质量混搭</h4><p>否决“关键镜头高动态、普通镜头轻动态”。不以动态漫画替代完整动态成片，这是不能跨过的现代短剧质量基线。</p></article>
+      </div>
+      <div class="asset-flow reveal"><div class="box"><b>先建可复用剧组资产</b>角色多视图与表情、服装、场景、道具、声音、动作参考、风格规则</div><div class="arrow">→</div><div class="box"><b>版本与引用关系</b>记录资产版本和镜头引用，修改前做影响分析</div><div class="arrow">→</div><div class="box"><b>批量生成完整动态镜头</b>锁定旧版本或选择性重生成，避免全量返工</div></div>
+      <div class="config reveal"><h3>节点级模型策略组</h3><ul><li>主模型与备用模型</li><li>快速预览与高质量档</li><li>提供方、版本、参数模板</li><li>凭证、配额与路由策略</li><li>配置版本与产物快照</li><li>复现、审计、成本与迁移</li><li>质量底线与兼容性校验</li><li>不能静默降级不合格成片</li></ul></div>
+    </section>
+
+    <section class="converge" id="converge">
+      <div class="head reveal"><div class="num">05</div><div><div class="eyebrow">Convergence / Affinity Clustering</div><h2>八个主题，一条主线</h2></div><p>扩张结束。把所有候选想法归并，寻找贯穿定位、体验、制作与运营的同一条产品逻辑。</p></div>
+      <div class="cluster-stage reveal">
+        <article class="cluster"><i>01</i><b>核心价值与定位</b><small>不是生成视频，是兑现创意</small></article><article class="cluster"><i>02</i><b>共同创作体验</b><small>自然语言、少量判断、AI 主动引导</small></article><article class="cluster"><i>03</i><b>创作治理与记忆</b><small>创作宪法、连续性账本、偏好档案</small></article><article class="cluster"><i>04</i><b>故事规划与完整性</b><small>叙事闭环、悬念预算、兑现节奏</small></article>
+        <article class="cluster"><i>05</i><b>端到端制作流水线</b><small>脚本到发布，可审阅可恢复</small></article><article class="cluster"><i>06</i><b>剧组资产与一致性</b><small>复用、版本、引用与影响分析</small></article><article class="cluster"><i>07</i><b>模型编排与系统配置</b><small>节点级策略、快照、路由与回退</small></article><article class="cluster"><i>08</i><b>速度、质量与可靠性</b><small>并行生成、局部重做、质量底线</small></article>
+      </div>
+      <div class="mainline reveal"><div class="eyebrow">PRODUCT NORTH STAR / 已确认</div><p>面向非专业创作者的 AI 漫剧工作室，快速把 idea 兑现为故事完整、全片动态且保持设定一致与创作者归属感的作品。</p></div>
+    </section>
+
+    <section class="moscow" id="moscow">
+      <div class="head reveal"><div class="num">06</div><div><div class="eyebrow">Convergence / MoSCoW</div><h2>首版绿灯表</h2></div><p>六项 Must 形成从 idea 到完整漫剧的最小产品闭环。用户已认可这一首版范围。</p></div>
+      <div class="scope reveal">
+        <article class="scope-col must"><header><b>MUST</b><small>已确认 · 6 个闭环能力</small></header><ol><li>共同创作入口与概念样片</li><li>故事、脚本与分镜</li><li>设定与基础资产一致性</li><li>Seedance 全动态镜头生产</li><li>声音、剪辑、字幕与成片</li><li>可恢复编排与管理员模型配置</li></ol></article>
+        <article class="scope-col should"><header><b>SHOULD</b><small>次优先</small></header><ul><li>偏好记忆与透明度</li><li>悬念节奏配置</li><li>模型策略组高级路由</li><li>资产影响分析</li><li>多平台发布反馈</li></ul></article>
+        <article class="scope-col could"><header><b>COULD</b><small>候选</small></header><ul><li>多人协作</li><li>资产市场</li><li>IP 衍生</li><li>A/B 与智能成本优化</li></ul></article>
+        <article class="scope-col wont"><header><b>WON'T</b><small>首版不做</small></header><ul><li>专业非线性剪辑器</li><li>通用工作流搭建器</li><li>默认全自动公开发布</li><li>动态漫画替代完整动态成片</li></ul></article>
+      </div>
+      <p class="scope-note reveal">边界说明：Should、Could、Won't 是收敛候选；用户明确认可的是六项 Must 构成首版闭环。页面保留这一决策层级，不把候选写成承诺。</p>
+    </section>
+
+    <section class="triangle-section" id="triangle">
+      <div class="head reveal"><div class="num">07</div><div><div class="eyebrow">Finale / Product Constraint Triangle</div><h2>质量 × 效率 × 成本</h2></div><p>用户指出决定平台成败的三个核心因素。它们成为首版最高产品验收维度。</p></div>
+      <div class="tri-wrap">
+        <div class="triangle reveal" aria-label="质量效率成本三角">
+          <svg viewBox="0 0 600 520" role="img"><polygon points="300,36 565,475 35,475"/><line x1="300" y1="36" x2="300" y2="328"/><line x1="35" y1="475" x2="300" y2="328"/><line x1="565" y1="475" x2="300" y2="328"/><text x="300" y="92" text-anchor="middle">QUALITY</text><text x="150" y="445" text-anchor="middle">COST</text><text x="450" y="445" text-anchor="middle">SPEED</text><text class="coretext" x="300" y="320" text-anchor="middle">创意兑现</text><text class="coretext" x="300" y="348" text-anchor="middle">可发布闭环</text></svg>
+          <span class="tri-label q">视频质量</span><span class="tri-label c">成本控制</span><span class="tri-label e">生成效率</span>
+        </div>
+        <div class="levers reveal">
+          <div class="lever" data-key="质量"><b>质量</b><p>剧组资产与连续性守卫，提升角色和设定一致性，同时减少返工。</p></div>
+          <div class="lever" data-key="效率"><b>效率</b><p>概念样片与关键闸门提前验证方向，并行生成与局部重做缩短成片时间。</p></div>
+          <div class="lever" data-key="成本"><b>成本</b><p>模型策略组、缓存与资产复用控制 Seedance 生成消耗，同时守住质量底线。</p></div>
+          <div class="acceptance">所有首版功能都必须说明它对质量、效率或成本至少一项的贡献。不能贡献者，不进入首版。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="finale">
+      <div class="finale-grid reveal">
+        <div class="clap"><div class="clap-top"></div><div class="clap-body"><h3>GREENLIGHT</h3><dl><dt>项目</dt><dd>Seedance 2.0 AI 漫剧工作室</dd><dt>用户</dt><dd>缺乏影视经验、追求快速产出的非专业创作者</dd><dt>主路径</dt><dd>idea → 概念样片 → 完整漫剧</dd><dt>底线</dt><dd>故事完整、全片动态、设定一致</dd><dt>体验</dt><dd>共同创作，AI 大胆扩写但不越过红线</dd></dl></div></div>
+        <div><h2>让创意<br><span>杀青。</span></h2><p class="promise">大胆扩写，不擅改设定。主动制作，不剥夺创作者。优先完成，不用廉价降级换速度。复杂的模型流水线藏在后台，用户看到的是一部越来越接近发布的作品。</p><div class="checks"><span>故事完整</span><span>全片动态</span><span>角色一致</span><span>用户归属感</span><span>可恢复制作</span><span class="no">动态漫画降级</span></div></div>
+      </div>
+    </section>
+  </main>
+  <footer><span>AI 漫剧创作平台 · 脑暴成果页</span><span>Creative Partner · 2026-07-13 · Status: Complete</span></footer>
+  <script>
+    (()=>{
+      const bar=document.querySelector('.progress');
+      const secs=[...document.querySelectorAll('header[id],section[id]')];
+      const links=[...document.querySelectorAll('.rail a')];
+      const reveals=[...document.querySelectorAll('.reveal')];
+      const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const update=()=>{
+        const max=document.documentElement.scrollHeight-innerHeight;
+        bar.style.width=(max?scrollY/max*100:0)+'%';
+        let current=secs[0]?.id;
+        secs.forEach(s=>{if(s.getBoundingClientRect().top<innerHeight*.5)current=s.id});
+        links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+      };
+      if(reduced){reveals.forEach(x=>x.classList.add('on'))}
+      else{
+        const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+        reveals.forEach(x=>io.observe(x));
+      }
+      addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
+    })();
+  </script>
+</body>
+</html>

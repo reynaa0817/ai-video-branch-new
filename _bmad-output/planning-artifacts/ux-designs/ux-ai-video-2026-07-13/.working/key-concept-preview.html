@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>旧物回声 · 概念样片确认</title>
+<style>
+/* 治理章节：DESIGN §1–10；EXPERIENCE §4.3、§5.2、Journey 1 steps 3–10、§7.2。 */
+:root{--base:#080A12;--side:#0B0E18;--raised:#101522;--elev:#171E2E;--ink:#F4F7FF;--sub:#AAB3C5;--muted:#8490A7;--border:#20283A;--strong:#374158;--violet:#6547D9;--cyan:#2DD4E5;--success:#45D6A0;--font:Geist,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#05060A;color:var(--ink);font:14px/1.5 var(--font)}
+.browser{width:1440px;height:900px;overflow:hidden;border:1px solid #30384C;border-radius:18px;background:var(--base);box-shadow:0 36px 100px #000b}
+.chrome{height:42px;display:flex;align-items:center;gap:9px;padding:0 16px;background:#141824;border-bottom:1px solid var(--border)}
+.dot{width:10px;height:10px;border-radius:50%;background:#FF6677}.dot:nth-child(2){background:#F5BD4F}.dot:nth-child(3){background:#58C96C}
+.address{width:520px;height:26px;margin:auto;padding:4px;text-align:center;color:var(--muted);font-size:12px;background:#0B0E17;border:1px solid var(--border);border-radius:7px}
+.app{height:858px;display:grid;grid-template-columns:64px minmax(0,1fr) 340px}
+.rail{padding:17px 10px;text-align:center;background:var(--side);border-right:1px solid var(--border)}
+.logo{width:38px;height:38px;margin:auto;display:grid;place-items:center;color:#080A12;font-weight:900;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--cyan))}
+.rnav{margin-top:24px;display:grid;gap:13px}.rnav span{height:38px;display:grid;place-items:center;color:var(--muted);border-radius:9px}.rnav .active{color:var(--ink);background:var(--elev)}
+.center{min-width:0;display:flex;flex-direction:column}
+.projectbar{height:66px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid var(--border)}
+.projectbar h1{margin:0;font-size:16px}.back{color:var(--muted)}.save{color:var(--success);font-size:12px}.money{margin-left:auto;color:var(--sub);font:12px monospace}.pause{padding:8px 11px;color:var(--ink);background:var(--raised);border:1px solid var(--strong);border-radius:9px}
+.stages{height:68px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:10px 24px;border-bottom:1px solid var(--border)}
+.stage{position:relative;padding-top:25px;color:var(--muted);font-size:12px}.stage:before{content:"";position:absolute;top:8px;left:0;right:0;height:2px;background:var(--border)}.stage i{position:absolute;top:3px;left:0;width:12px;height:12px;border:2px solid var(--base);border-radius:50%;background:#343D50}.stage.active{color:var(--ink);font-weight:600}.stage.active:before{background:var(--violet)}.stage.active i{top:0;width:17px;height:17px;background:var(--violet);box-shadow:0 0 0 3px #2B214F}.scope{color:var(--cyan);font-size:11px}
+.canvas{min-width:0;flex:1;padding:18px 24px;overflow:hidden}.gatehead{height:51px;display:flex;align-items:flex-start;justify-content:space-between}.gatehead h2{margin:0;font-size:21px}.muted{color:var(--muted)}.badge{padding:4px 9px;color:#E5DEFF;font-size:11px;background:#1B1740;border:1px solid #735ADE;border-radius:999px}
+.workspace{height:602px;display:grid;grid-template-columns:minmax(0,1fr) 220px 295px;gap:14px}
+.summary,.preview,.decision{min-width:0;background:var(--raised);border:1px solid var(--strong);border-radius:14px}
+.summary{padding:17px;overflow:hidden}.summary h3,.decision h3{margin:0 0 10px;font-size:16px}.anchor{padding:13px;margin-bottom:10px;background:var(--elev);border-left:3px solid var(--violet);border-radius:10px}.anchor small{color:var(--muted)}.anchor b{display:block;margin-top:4px}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{padding:3px 7px;color:#C7D1E4;font-size:11px;background:#182133;border:1px solid #2E3A52;border-radius:999px}.addition{margin-top:14px;padding-top:13px;border-top:1px solid var(--border)}.addition p{margin:7px 0;color:var(--sub)}.lock{display:block;margin-top:12px;color:var(--cyan);font-size:12px}
+.preview{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;background:#090B12}.phone{width:190px;height:338px;padding:7px;background:#030408;border:1px solid #4D5770;border-radius:18px;box-shadow:0 0 30px #2DD4E51C}.film{height:100%;position:relative;overflow:hidden;border-radius:12px;background:radial-gradient(circle at 51% 28%,#C8A07D 0 5%,transparent 6%),linear-gradient(157deg,transparent 0 42%,#1C2539 43% 67%,transparent 68%),linear-gradient(135deg,#4B2E35,#112235 47%,#071014)}.film:after{content:"修不好的是钟，还是人心？";position:absolute;left:12px;right:12px;bottom:44px;text-align:center;font-weight:600;text-shadow:0 2px 4px #000}.play{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;display:grid;place-items:center;background:#0009;border:1px solid #FFF8;border-radius:50%}.watermark{position:absolute;top:10px;right:10px;color:#FFF;font-size:11px}.time{position:absolute;right:12px;bottom:11px;left:12px;color:#FFF;font:10px monospace}.preview small{margin-top:9px;color:var(--muted);font-size:11px;text-align:center}
+.decision{display:flex;flex-direction:column;padding:15px}.question{margin:6px 0;padding:10px;background:var(--elev);border-radius:9px}.question b{display:block;font-size:12px}.question span{color:var(--muted);font-size:11px}.budget{margin-top:auto;padding-top:11px;border-top:1px solid var(--border)}.numbers{display:flex;justify-content:space-between;color:var(--sub);font:11px monospace}.bar{height:7px;margin:7px 0;display:flex;overflow:hidden;background:#252D3C;border-radius:8px}.used{width:6%;background:#68738A}.reserved{width:3%;background:repeating-linear-gradient(45deg,#6550C4,#6550C4 3px,#372C70 3px,#372C70 6px)}.estimate{margin:9px 0;padding:9px;color:var(--sub);background:#111A29;border:1px solid var(--border);border-radius:9px}.estimate b{color:var(--ink)}.buttons{display:grid;gap:7px}.buttons button{width:100%;padding:9px;color:var(--ink);border-radius:10px;font-weight:650}.primary{background:var(--violet);border:0}.secondary{background:var(--elev);border:1px solid var(--strong)}.ghost{color:var(--muted)!important;background:transparent;border:0}
+.ai{min-width:0;display:flex;flex-direction:column;background:var(--side);border-left:1px solid var(--border)}.aihead{height:66px;padding:14px 16px;border-bottom:1px solid var(--border)}.aihead b{display:block}.messages{padding:16px;overflow:hidden}.mem{padding:10px;color:var(--sub);font-size:12px;background:#111A28;border:1px solid #3B4E69;border-radius:10px}.message{margin-top:14px;padding:12px;color:var(--sub);background:var(--raised);border-radius:10px}.message b{color:var(--ink)}.chips{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}.chips span{padding:4px 7px;font-size:11px;border:1px solid var(--strong);border-radius:999px}.composer{height:82px;margin:auto 14px 14px;padding:11px;color:var(--muted);background:var(--raised);border:1px solid var(--strong);border-radius:12px}.composer footer{margin-top:13px;text-align:right;color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="browser">
+  <div class="chrome"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="address">studio.frochy.local / 旧物回声 / 创意</div></div>
+  <div class="app">
+    <aside class="rail"><div class="logo">F</div><div class="rnav"><span>▣</span><span class="active">◈</span><span>◴</span><span>◇</span></div></aside>
+    <section class="center">
+      <header class="projectbar"><span class="back">‹ 作品</span><h1>旧物回声</h1><span class="save">● 已保存</span><span class="money">已用 ¥18 · 已预留 ¥0 · 剩余 ¥282</span><button class="pause">暂停项目</button></header>
+      <nav class="stages">
+        <span class="stage active"><i></i>1 创意<br><small class="scope">需要你确认</small></span><span class="stage"><i></i>2 故事</span><span class="stage"><i></i>3 视觉</span><span class="stage"><i></i>4 制作</span><span class="stage"><i></i>5 后期</span><span class="stage"><i></i>6 成片</span>
+      </nav>
+      <main class="canvas">
+        <div class="gatehead"><div><h2>这个方向，值得继续拍吗？</h2><span class="muted">创意简报 v3 · 概念样片 00:14</span></div><span class="badge">创意简报 · 确认闸门</span></div>
+        <div class="workspace">
+          <article class="summary">
+            <h3>创意简报</h3>
+            <div class="anchor"><small>你的创意锚点 · 已锁定</small><b>能听见旧物最后一句话的修表匠，用别人的遗憾修补自己的人生。</b></div>
+            <div class="tags"><span class="tag">都市奇幻</span><span class="tag">情感悬疑</span><span class="tag">18–35 岁</span></div>
+            <div class="addition"><small class="muted">AI 大胆补充</small><p><b>核心冲突：</b>每修好一件旧物，他就会忘掉一段关于亡妻的记忆。</p><p><b>戏剧卖点：</b>一只停在火灾时刻的怀表，指向十年前被掩盖的真相。</p><p><b>角色方向：</b>沉默克制的修表匠 × 坚持追问真相的消防调查员。</p><span class="lock">▣ 本次将遵循 3 条已锁定设定</span></div>
+          </article>
+          <section class="preview"><div class="phone"><div class="film"><span class="watermark">AI 生成内容</span><span class="play">▶</span><span class="time">00:08 ━━━━━━━ 00:14</span></div></div><small>非正式概念样片 · 9:16 · 完整动态</small></section>
+          <aside class="decision">
+            <h3>看完后，只判断三件事</h3>
+            <div class="question"><b>故事像不像你想表达的？</b><span>锚点表达清楚，代价感比原始 idea 更强</span></div>
+            <div class="question"><b>角色感觉对不对？</b><span>修表匠克制，调查员更具行动力</span></div>
+            <div class="question"><b>值得继续做成多集短剧吗？</b><span>确认后 AI 将规划完整故事，而非立即批量生成</span></div>
+            <div class="budget"><div class="numbers"><span>已用 ¥18</span><span>预算 ¥300</span></div><div class="bar"><i class="used"></i><i class="reserved"></i></div><div class="estimate">下一步：故事规划与角色设定<br><b>预计新增 ¥4–8 · 约 3–6 分钟</b></div><div class="buttons"><button class="primary">确认方向并规划故事</button><button class="secondary">告诉 AI 怎么改</button><button class="ghost">暂时停在这里</button></div></div>
+          </aside>
+        </div>
+      </main>
+    </section>
+    <aside class="ai"><div class="aihead"><b>AI 共创</b><span class="scope">正在审阅：创意简报与概念样片</span></div><div class="messages"><div class="mem">▣ 使用中的创作设定<br><b>修表匠不主动解释自己的能力</b> 等 3 条</div><div class="message"><b>我把你的 idea 扩成了一个“每次帮助别人，都要失去自己”的代价结构。</b><br><br>样片只验证角色气质、旧物回声的视觉方向和核心冲突，不会自动成为正式剧情。<div class="chips"><span>角色更年轻一点</span><span>冲突太沉重</span><span>保留这个方向</span></div></div></div><div class="composer">说说哪里不像你想的，或直接指出画面、角色、声音……<footer>发送 ↑</footer></div></aside>
+  </div>
+</div>
+</body>
+</html>
