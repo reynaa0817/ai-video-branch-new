@@ -1,0 +1,31 @@
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 956B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/linuxserver/ffmpeg@sha256:e6b338a3a9d7ca2a33d345fa683d68767f799f2c13694542ba5bfb4f63dff585
+#2 DONE 1.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/linuxserver/ffmpeg@sha256:e6b338a3a9d7ca2a33d345fa683d68767f799f2c13694542ba5bfb4f63dff585
+#4 resolve docker.io/linuxserver/ffmpeg@sha256:e6b338a3a9d7ca2a33d345fa683d68767f799f2c13694542ba5bfb4f63dff585 done
+#4 DONE 0.1s
+
+#5 [2/2] RUN set -eu;     mkdir -p /usr/share/fonts/opentype/noto;     curl -fsSL "https://raw.githubusercontent.com/notofonts/noto-cjk/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/OTF/SimplifiedChinese/NotoSerifCJKsc-Regular.otf"       -o /usr/share/fonts/opentype/noto/NotoSerifCJKsc-Regular.otf;     printf '%s  %s\n' "2a2eae2628df83556c54018c41e20fa532c1b862c5256ae8b3f23feb918d12ca" /usr/share/fonts/opentype/noto/NotoSerifCJKsc-Regular.otf | sha256sum -c -
+#5 21.62 /usr/share/fonts/opentype/noto/NotoSerifCJKsc-Regular.otf: OK
+#5 DONE 21.7s
+
+#6 exporting to image
+#6 exporting layers
+#6 exporting layers 0.5s done
+#6 exporting manifest sha256:5205251ad2473d9a97eebfb18d033231277b55009c14695b46061351868d59f4 done
+#6 exporting config sha256:20b5285531aa3975d6a301ff8fe23321fb06dfc4508e3ece43e2810a2abb0cac done
+#6 exporting attestation manifest sha256:ebd2e3aa3600f8862b12160aff1a5a34447c3b66cd2dd7eabaf048a20e6aa2ce done
+#6 exporting manifest list sha256:5a01220d9daf0dc96251f4ac1f0ccc383c760434c118f67d38e4c692041ae4e4 done
+#6 naming to docker.io/ai-video/ffmpeg-baseline:8.1.2-noto-serif-cjk-2.003 done
+#6 unpacking to docker.io/ai-video/ffmpeg-baseline:8.1.2-noto-serif-cjk-2.003 0.1s done
+#6 DONE 0.7s

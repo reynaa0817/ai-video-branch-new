@@ -1,0 +1,41 @@
+name: full-stack-baseline
+
+on:
+  pull_request:
+    paths:
+      - "scripts/verify-full-stack-baseline.sh"
+      - "tests/acceptance/baseline/**"
+      - "reports/baseline/BASE-002/baseline-manifest*"
+  workflow_dispatch:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: BASE-002 ATDD contract
+        env:
+          BASE002_ATDD_ACTIVATE: "1"
+        run: bash tests/acceptance/baseline/base_002_test.sh
+      - name: Provider sandbox fixture contract
+        run: bash scripts/verify-provider-sandbox-fixtures.sh
+
+  signed-gate:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Authoritative BASE-002 gate
+        run: >-
+          bash scripts/verify-full-stack-baseline.sh
+          --manifest reports/baseline/BASE-002/baseline-manifest.yaml
+          --evidence-dir reports/baseline/BASE-002
+          --check all
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: BASE-002-evidence
+          path: reports/baseline/BASE-002/
+          retention-days: 180

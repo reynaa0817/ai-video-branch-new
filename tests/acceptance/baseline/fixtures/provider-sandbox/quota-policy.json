@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "policy_id": "quota-int-20260714-001",
+  "max_attempts": 2,
+  "max_concurrent": 1,
+  "immutable": true
+}

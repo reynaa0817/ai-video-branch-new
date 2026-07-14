@@ -1,0 +1,6 @@
+resource	integration	internal_prod
+namespace	ai-video-int	ai-video-prod-reserved
+topic	ai-video-int-events	ai-video-prod-events-reserved
+database	ai_video_int	ai_video_prod_reserved
+bucket	ai-video-int	ai-video-prod-reserved
+secret	ai-video-int-secret	ai-video-prod-secret-reserved

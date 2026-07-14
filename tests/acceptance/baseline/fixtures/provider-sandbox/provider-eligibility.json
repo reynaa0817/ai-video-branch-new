@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "eligibility_id": "provider-eligibility-int-20260714-001",
+  "provider": "fixture-provider",
+  "eligible": true,
+  "environment": "sandbox-fixture-only",
+  "immutable": true
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "quote_id": "pricing-int-20260714-001",
+  "currency": "CNY",
+  "unit_price_minor": 100,
+  "expires_at": "2099-01-01T00:00:00Z",
+  "immutable": true
+}

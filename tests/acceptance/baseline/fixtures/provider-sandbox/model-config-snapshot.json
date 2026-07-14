@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "model-config-int-20260714-001",
+  "model": "fixture/text-to-video-v1",
+  "immutable": true,
+  "environment": "sandbox-fixture-only"
+}

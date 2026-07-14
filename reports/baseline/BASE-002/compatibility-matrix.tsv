@@ -1,0 +1,7 @@
+component	combination	status
+temporal	server-1.31.2_sdk-go-1.46.0_mysql-8.4.10_schema-1.19-1.14	PREFLIGHT
+kafka	broker-4.0.0_sarama-1.46.3_kraft	PREFLIGHT
+nacos	server-3.2.2_sdk-go-1.1.6	PREFLIGHT
+redis	server-8.8.0_go-redis-9.17.2	PREFLIGHT
+object_storage	minio-RELEASE.2025-04-22T22-12-26Z_s3-integration	PREFLIGHT
+kubernetes	kind-1.35.0_cni-1.9.1_hostpath-csi-1.17.0_ingress-1.15.1	PREFLIGHT

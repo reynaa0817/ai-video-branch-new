@@ -1,0 +1,7 @@
+scenario	status	paid_progress
+budget_unavailable	PASS-CONTRACT	0
+object_store_unavailable	PASS-CONTRACT	0
+quality_gate_unavailable	PASS-CONTRACT	0
+orchestrator_unavailable	PASS-CONTRACT	0
+rolling_upgrade	PENDING	0
+rollback	PENDING	0

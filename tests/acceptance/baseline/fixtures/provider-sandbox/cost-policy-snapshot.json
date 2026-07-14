@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "cost-policy-int-20260714-001",
+  "max_cost_minor": 500,
+  "fail_closed": true,
+  "immutable": true
+}

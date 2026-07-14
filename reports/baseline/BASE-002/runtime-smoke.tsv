@@ -1,0 +1,6 @@
+component	status	evidence
+redis	PASS	runtime-redis.log
+object_storage	PASS	runtime-minio.log
+kafka	PASS-SINGLE-NODE	runtime-kafka.log
+nacos	PASS	runtime-nacos.log
+temporal_mysql	PENDING	manual-schema-and-workflow-smoke

@@ -1,0 +1,6 @@
+field	value
+static_contract	PASS
+kubernetes_version	1.35.0
+kind_node_digest	sha256:4613778f3cfcd10e615029370f5786704559103cf27bef934597ba562b269661
+csi	hostpath-csi-1.17.0@sha256:e20e2681349cb892bc88d8ab23c6785949bdb7e9b518bf3a261b5f13034f8b3b
+cluster_execution	PENDING

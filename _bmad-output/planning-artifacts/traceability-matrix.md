@@ -83,7 +83,7 @@ sources:
 | Gate | Entry | Exit Evidence | Owner | Status |
 |---|---|---|---|---|
 | G0-1 ag-core/工具链 | Story 1.1 ready | `reports/baseline/BASE-001/`：远端内容寻址 tool commit、受保护 root version、Go 1.25.1 clean build 7/7、13/13 负向/正向合同、`go version -m` 无 GitLab | Platform | Verified |
-| G0-2 全栈 P0 | Story 1.1 done | 精确版本/digest、兼容/升级/回滚/恢复矩阵、媒体/Web 金样 | Architecture/SRE | Open |
+| G0-2 全栈 P0 | Story 1.1 done | `reports/baseline/BASE-002/`：Web/媒体金样与 Redis/MinIO/Kafka/Nacos smoke 已有；Temporal/MySQL、Kafka RF3、K8s/CSI、DR 和 internal-prod 仍待完成 | Architecture/SRE | Open |
 | G0-3 确定性 harness | G0-2 环境可运行 | 虚拟时钟、ID-scoped probes、provider simulator、4-worker×50 burn-in | Test Architect | Open |
 | G0-4 最小付费闭环 | G0-2/G0-3 通过 | Quote → Reservation → Submit → Reconcile → Asset → Quality → Adoption 金样 | Budget/Model/Asset | Open |
 | G0-5 功能 Story 放行 | R-001～R-004 无 Open | P0 100%、无 score≥6 Open、readiness 不再含 C1/C2 | PO/Architect/QA | Open |

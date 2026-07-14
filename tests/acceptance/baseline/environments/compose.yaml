@@ -1,0 +1,34 @@
+name: ai-video-base002
+services:
+  mysql:
+    image: mysql@sha256:c831a0f11348d402b43d77453e17d770be2eef356615a2823fe0f5a0d6c8b9af
+    environment:
+      MYSQL_ROOT_PASSWORD: base002-only
+    volumes:
+      - mysql-int:/var/lib/mysql
+  kafka:
+    image: apache/kafka@sha256:3f7b939115cd4872e9cee9369d80bd69712fde55f9902f46d793f64848dedc75
+  nacos:
+    image: nacos/nacos-server@sha256:d6b3087bc2302c2b49c875e1c5ad8c916fc10696ceb355be56cffd715e178d81
+    environment:
+      MODE: standalone
+      NACOS_AUTH_TOKEN: YmFzZTAwMi1uYWNvcy1hdXRoLXRva2VuLW11c3QtYmUtYXQtbGVhc3QtMzItYnl0ZXM=
+      NACOS_AUTH_IDENTITY_KEY: base002
+      NACOS_AUTH_IDENTITY_VALUE: base002-secret
+      JVM_XMS: 512m
+      JVM_XMX: 512m
+      JVM_XMN: 256m
+  redis:
+    image: redis@sha256:77cb4599f0121142e25139cea1aafaf45fe765c74a0a41b38f4a4ea9fc8cb846
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+  minio:
+    image: minio/minio@sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
+    command: ["server", "/data"]
+    environment:
+      MINIO_ROOT_USER: base002admin
+      MINIO_ROOT_PASSWORD: base002-password
+    volumes:
+      - object-int:/data
+volumes:
+  mysql-int: {}
+  object-int: {}

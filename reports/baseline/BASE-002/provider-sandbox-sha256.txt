@@ -1,0 +1,5 @@
+6d1b0c82e50bae09fd730ffb8770bec50e6b8223c3ae0bb96934748ed000dcda  tests/acceptance/baseline/fixtures/provider-sandbox/model-config-snapshot.json
+865f2a43def1acf82cc14b75d4d23a20d39fc8ffd716e70ff3372f15bb115a6d  tests/acceptance/baseline/fixtures/provider-sandbox/pricing-quote.json
+ccf8deccbc2697513c1eceda0acde6b2c2bce89aa448fed77dd553d396c1c10a  tests/acceptance/baseline/fixtures/provider-sandbox/quota-policy.json
+ce8b9e0e2ba7cc63c8741171438f61405be81019896959903ec7e78d30456090  tests/acceptance/baseline/fixtures/provider-sandbox/cost-policy-snapshot.json
+741ffd3f06788192fc260ab2d50005118e7f04203621139ce312c003c3f84724  tests/acceptance/baseline/fixtures/provider-sandbox/provider-eligibility.json

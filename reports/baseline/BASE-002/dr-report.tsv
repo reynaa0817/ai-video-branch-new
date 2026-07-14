@@ -1,0 +1,7 @@
+field	value
+rpo_minutes	PENDING
+rto_minutes	PENDING
+mysql_pitr	PENDING
+temporal_restore	PENDING
+kafka_relationship	PENDING
+object_reference_consistent	PENDING

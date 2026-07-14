@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BASE-002 full-stack baseline manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "baseline_id", "base_001_status", "ag_core_tool_source_sha", "ag_core_root_dep_version", "ag_core_root_dep_sha", "environment_scope", "internal_prod_status", "manifest_signed", "manifest_approved_by", "release_approved", "evidence_path",
+    "temporal_server_version", "temporal_go_sdk_version", "temporal_schema_version", "mysql_version", "mysql_image_digest",
+    "kafka_version", "kafka_image_digest", "agsarama_version", "nacos_version", "redis_version",
+    "object_storage_product", "object_storage_version", "object_storage_image_digest", "ffmpeg_version", "ffmpeg_image_digest",
+    "node_version", "node_image_digest", "package_manager", "package_manager_version", "react_version", "vite_version", "typescript_version",
+    "kubernetes_version", "kubernetes_distribution", "cni_version", "csi_version", "ingress_version", "otel_collector_version", "ffprobe_version",
+    "license_index", "compatibility_matrix", "rollback_target"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "baseline_id": {"const": "BASE-002"},
+    "base_001_status": {"const": "Verified"},
+    "ag_core_tool_source_sha": {"pattern": "^[0-9a-f]{40}$"},
+    "ag_core_root_dep_version": {"const": "v0.0.1-alpha.3"},
+    "ag_core_root_dep_sha": {"const": "1624c77ab90b12b77191c38005b64d59f8a0029e"},
+    "environment_scope": {"const": "integration"},
+    "internal_prod_status": {"enum": ["Open", "Approved"]},
+    "manifest_signed": {"type": "boolean"},
+    "manifest_approved_by": {"type": "string"},
+    "release_approved": {"type": "boolean"},
+    "evidence_path": {"const": "reports/baseline/BASE-002/"},
+    "temporal_server_version": {"type": "string"}, "temporal_go_sdk_version": {"type": "string"}, "temporal_schema_version": {"type": "string"},
+    "mysql_version": {"type": "string"}, "mysql_image_digest": {"type": "string"}, "kafka_version": {"type": "string"}, "kafka_image_digest": {"type": "string"},
+    "agsarama_version": {"type": "string"}, "nacos_version": {"type": "string"}, "redis_version": {"type": "string"},
+    "object_storage_product": {"type": "string"}, "object_storage_version": {"type": "string"}, "object_storage_image_digest": {"type": "string"},
+    "ffmpeg_version": {"type": "string"}, "ffmpeg_image_digest": {"type": "string"}, "node_version": {"type": "string"}, "node_image_digest": {"type": "string"},
+    "package_manager": {"type": "string"}, "package_manager_version": {"type": "string"}, "react_version": {"type": "string"}, "vite_version": {"type": "string"}, "typescript_version": {"type": "string"},
+    "kubernetes_version": {"type": "string"}, "kubernetes_distribution": {"type": "string"}, "cni_version": {"type": "string"}, "csi_version": {"type": "string"},
+    "ingress_version": {"type": "string"}, "otel_collector_version": {"type": "string"}, "ffprobe_version": {"type": "string"},
+    "license_index": {"type": "string"}, "compatibility_matrix": {"type": "string"}, "rollback_target": {"type": "string"}
+  }
+}

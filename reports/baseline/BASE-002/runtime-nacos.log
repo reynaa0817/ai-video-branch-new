@@ -1,0 +1,139 @@
++ export CUSTOM_SEARCH_NAMES=application
++ CUSTOM_SEARCH_NAMES=application
++ export CUSTOM_SEARCH_LOCATIONS=file:/home/nacos/conf/
++ CUSTOM_SEARCH_LOCATIONS=file:/home/nacos/conf/
++ export MEMBER_LIST=
++ MEMBER_LIST=
++ PLUGINS_DIR=/home/nacos/plugins/peer-finder
+++ join_if_exist -Xms 512m
+++ '[' -n 512m ']'
+++ echo -Xms512m
++ Xms=-Xms512m
+++ join_if_exist -Xmx 512m
+++ '[' -n 512m ']'
+++ echo -Xmx512m
++ Xmx=-Xmx512m
+++ join_if_exist -Xmn 256m
+++ '[' -n 256m ']'
+++ echo -Xmn256m
++ Xmn=-Xmn256m
+++ join_if_exist -XX:MetaspaceSize= 128m
+++ '[' -n 128m ']'
+++ echo -XX:MetaspaceSize=128m
++ XX_MS=-XX:MetaspaceSize=128m
+++ join_if_exist -XX:MaxMetaspaceSize= 320m
+++ '[' -n 320m ']'
+++ echo -XX:MaxMetaspaceSize=320m
++ XX_MMS=-XX:MaxMetaspaceSize=320m
++ [[ standalone == standalone ]]
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true'
++ [[ all == config ]]
++ [[ all == naming ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ ! -z '' ]]
++ [[ -z YmFzZTAwMi1uYWNvcy1hdXRoLXRva2VuLW11c3QtYmUtYXQtbGVhc3QtMzItYnl0ZXM= ]]
++ [[ -z base002 ]]
++ [[ -z base002-secret ]]
++ [[ ip == hostname ]]
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list='
++ [[ ! -z '' ]]
+++ /opt/java/openjdk/bin/java -version
+++ sed -E -n 's/.* version "([0-9]*).*$/\1/p'
+Nacos is starting, you can docker logs your container
++ JAVA_MAJOR_VERSION=17
++ [[ 17 -ge 9 ]]
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar '
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application --logging.config=/home/nacos/conf/nacos-logback.xml'
++ JAVA_OPT=' -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application --logging.config=/home/nacos/conf/nacos-logback.xml --server.max-http-request-header-size=524288'
++ echo 'Nacos is starting, you can docker logs your container'
++ exec /opt/java/openjdk/bin/java -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= '-Xlog:gc*:file=/home/nacos/logs/nacos_gc.log:time,tags:filecount=10,filesize=102400' --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application --logging.config=/home/nacos/conf/nacos-logback.xml --server.max-http-request-header-size=524288
+13:22:16,048 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - <level> element is deprecated. Near [level] on line 730
+13:22:16,048 |-WARN in ch.qos.logback.classic.joran.action.LevelAction - Please use "level" attribute within <logger> or <root> elements instead.
+
+         ,--.
+       ,--.'|
+   ,--,:  : |                                           Nacos Server 3.2.2
+,`--.'`|  ' :                       ,---.               Running in stand alone mode, All function modules
+|   :  :  | |                      '   ,'\   .--.--.
+:   |   \ | :  ,--.--.     ,---.  /   /   | /  /    '   Pid: 1
+|   : '  '; | /       \   /     \.   ; ,. :|  :  /`./
+'   ' ;.    ;.--.  .-. | /    / ''   | |: :|  :  ;_
+|   | | \   | \__\/: . ..    ' / '   | .; : \  \    `.      https://nacos.io
+'   : |  ; .' ," .--.; |'   ; :__|   :    |  `----.   \
+|   | '`--'  /  /  ,.  |'   | '.'|\   \  /  /  /`--'  /
+'   : |     ;  :   .'   \   :    : `----'  '--'.     /
+;   |.'     |  ,     .-./\   \  /            `--'---'
+'---'        `--`---'     `----'
+
+2026-07-14 13:22:17,246 INFO Nacos Server is starting...
+
+2026-07-14 13:22:18,249 INFO Nacos Server is starting...
+
+2026-07-14 13:22:19,255 INFO Nacos Server is starting...
+
+2026-07-14 13:22:19,969 WARN Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+
+2026-07-14 13:22:20,258 INFO Nacos Server is starting...
+
+2026-07-14 13:22:20,276 INFO Nacos started successfully in stand alone mode with embedded storage in 4450 ms
+
+
+         ,--.
+       ,--.'|
+   ,--,:  : |                                           Nacos Server API 3.2.2
+,`--.'`|  ' :                       ,---.               Running in stand alone mode, All function modules
+|   :  :  | |                      '   ,'\   .--.--.    Port: 8848
+:   |   \ | :  ,--.--.     ,---.  /   /   | /  /    '   Pid: 1
+|   : '  '; | /       \   /     \.   ; ,. :|  :  /`./
+'   ' ;.    ;.--.  .-. | /    / ''   | |: :|  :  ;_
+|   | | \   | \__\/: . ..    ' / '   | .; : \  \    `.      https://nacos.io
+'   : |  ; .' ," .--.; |'   ; :__|   :    |  `----.   \
+|   | '`--'  /  /  ,.  |'   | '.'|\   \  /  /  /`--'  /
+'   : |     ;  :   .'   \   :    : `----'  '--'.     /
+;   |.'     |  ,     .-./\   \  /            `--'---'
+'---'        `--`---'     `----'
+
+2026-07-14 13:22:21,087 WARN Bean 'nacosWebBeanPostProcessorConfiguration' of type [com.alibaba.nacos.server.NacosWebBeanPostProcessorConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [nacosDuplicateSpringBeanPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+
+2026-07-14 13:22:21,213 INFO Tomcat initialized with port 8848 (http)
+
+2026-07-14 13:22:21,240 INFO Root WebApplicationContext: initialization completed in 893 ms
+
+2026-07-14 13:22:21,342 INFO Nacos Server API is starting...
+
+2026-07-14 13:22:21,554 INFO Exposing 1 endpoint beneath base path '/actuator'
+
+2026-07-14 13:22:21,577 INFO Tomcat started on port 8848 (http) with context path '/nacos'
+
+2026-07-14 13:22:21,586 INFO Nacos Server API started successfully in 1282 ms
+
+
+         ,--.
+       ,--.'|
+   ,--,:  : |                                           Nacos Console 3.2.2
+,`--.'`|  ' :                       ,---.               Running in stand alone mode, All function modules
+|   :  :  | |                      '   ,'\   .--.--.    Port: 8080
+:   |   \ | :  ,--.--.     ,---.  /   /   | /  /    '   Pid: 1
+|   : '  '; | /       \   /     \.   ; ,. :|  :  /`./   Console: http://172.20.0.5:8080
+'   ' ;.    ;.--.  .-. | /    / ''   | |: :|  :  ;_
+|   | | \   | \__\/: . ..    ' / '   | .; : \  \    `.      https://nacos.io
+'   : |  ; .' ," .--.; |'   ; :__|   :    |  `----.   \
+|   | '`--'  /  /  ,.  |'   | '.'|\   \  /  /  /`--'  /
+'   : |     ;  :   .'   \   :    : `----'  '--'.     /
+;   |.'     |  ,     .-./\   \  /            `--'---'
+'---'        `--`---'     `----'
