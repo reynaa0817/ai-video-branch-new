@@ -41,6 +41,25 @@ manifest_value() {
   ' "$MANIFEST"
 }
 
+sha256_file() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{ print $1 }'
+    return
+  fi
+  if command -v shasum >/dev/null 2>&1; then
+    LC_ALL=C LANG=C shasum -a 256 "$1" | awk '{ print $1 }'
+    return
+  fi
+  fail B001-E08 'sha256_tool=missing'
+}
+
+absolute_path() {
+  case "$1" in
+    /*) printf '%s\n' "$1" ;;
+    *) printf '%s/%s\n' "$(pwd)" "$1" ;;
+  esac
+}
+
 require_manifest_value() {
   key=$1
   value=$(manifest_value "$key")
@@ -130,8 +149,20 @@ check_environment_contract() {
     value=$(manifest_value "$key")
     [ -n "$value" ] || fail B001-E08 "$key=missing manifest=$MANIFEST"
   done
+  printf '%s\n' "$(manifest_value image_digest)" | grep -E '^sha256:[0-9a-f]{64}$' >/dev/null 2>&1 || \
+    fail B001-E08 "image_digest=$(manifest_value image_digest) reason=invalid_digest"
   [ "$(manifest_value gotoolchain)" = local ] || \
     fail B001-E08 "gotoolchain=$(manifest_value gotoolchain) expected=local"
+  [ "$(manifest_value goproxy)" = 'https://proxy.golang.org,direct' ] || \
+    fail B001-E08 "goproxy=$(manifest_value goproxy) expected=https://proxy.golang.org,direct"
+  [ "$(manifest_value gosumdb)" = 'sum.golang.org' ] || \
+    fail B001-E08 "gosumdb=$(manifest_value gosumdb) expected=sum.golang.org"
+  [ "$(manifest_value network_policy)" = canonical-remote-and-go-proxy-only ] || \
+    fail B001-E08 "network_policy=$(manifest_value network_policy) expected=canonical-remote-and-go-proxy-only"
+  [ "$(manifest_value gomodcache_policy)" = isolated ] || \
+    fail B001-E08 "gomodcache_policy=$(manifest_value gomodcache_policy) expected=isolated"
+  [ "$(manifest_value gocache_policy)" = isolated ] || \
+    fail B001-E08 "gocache_policy=$(manifest_value gocache_policy) expected=isolated"
 
   if [ "${BASE001_TEST_MODE:-0}" = 1 ]; then
     [ -r "$EVIDENCE_DIR/environment/build-contract.env" ] || \
@@ -141,8 +172,13 @@ check_environment_contract() {
 
 prepare_real_checkout() {
   command -v git >/dev/null 2>&1 || fail B001-E08 'git=missing'
-  command -v go >/dev/null 2>&1 || fail B001-E08 'go=missing'
-  GO_BIN=$(command -v go)
+  if [ -n "${BASE001_GO_BIN:-}" ]; then
+    [ -x "$BASE001_GO_BIN" ] || fail B001-E08 "go=$BASE001_GO_BIN reason=not_executable"
+    GO_BIN=$BASE001_GO_BIN
+  else
+    command -v go >/dev/null 2>&1 || fail B001-E08 'go=missing'
+    GO_BIN=$(command -v go)
+  fi
   CLEAN_PATH=$(dirname "$GO_BIN"):/usr/bin:/bin:/usr/sbin:/sbin
   WORK_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/base-001-gate.XXXXXX") || fail B001-E08 'work_root=create_failed'
   trap cleanup_work_root EXIT HUP INT TERM
@@ -184,14 +220,30 @@ check_fixture_build() {
 check_real_build() {
   prepare_real_checkout
   checkout=$CHECKOUT
-  mkdir -p "$EVIDENCE_DIR/metadata" "$EVIDENCE_DIR/environment" "$WORK_ROOT/bin" "$WORK_ROOT/gomod" "$WORK_ROOT/gocache"
+  isolated_home="$WORK_ROOT/home"
+  mkdir -p "$EVIDENCE_DIR/metadata" "$EVIDENCE_DIR/environment" "$WORK_ROOT/bin" "$WORK_ROOT/gomod" "$WORK_ROOT/gocache" "$isolated_home"
   go_version=$("$GO_BIN" version | awk '{ print $3 }')
   [ "$go_version" = "$(manifest_value go_version)" ] || \
     fail B001-E08 "go_version=$go_version expected=$(manifest_value go_version)"
+  goproxy=$(manifest_value goproxy)
+  gosumdb=$(manifest_value gosumdb)
+  actual_env=$(
+    env -i HOME="$isolated_home" PATH="$CLEAN_PATH" GOENV=off GOFLAGS=-modcacherw \
+      GOTOOLCHAIN=local GOWORK=off GOPROXY="$goproxy" GOSUMDB="$gosumdb" \
+      GOMODCACHE="$WORK_ROOT/gomod" GOCACHE="$WORK_ROOT/gocache" \
+      GOPRIVATE= GONOPROXY= GONOSUMDB= GOINSECURE= \
+      "$GO_BIN" env GOPROXY GOSUMDB GOWORK GOMODCACHE GOCACHE GOENV
+  ) || fail B001-E08 'go_env=failed'
+  [ "$(printf '%s\n' "$actual_env" | sed -n '1p')" = "$goproxy" ] || \
+    fail B001-E08 "actual_goproxy=$(printf '%s\n' "$actual_env" | sed -n '1p') expected=$goproxy"
+  [ "$(printf '%s\n' "$actual_env" | sed -n '2p')" = "$gosumdb" ] || \
+    fail B001-E08 "actual_gosumdb=$(printf '%s\n' "$actual_env" | sed -n '2p') expected=$gosumdb"
+  [ "$(printf '%s\n' "$actual_env" | sed -n '3p')" = off ] || \
+    fail B001-E08 "actual_gowork=$(printf '%s\n' "$actual_env" | sed -n '3p') expected=off"
   {
     printf 'GO_VERSION=%s\n' "$go_version"
     printf 'IMAGE_DIGEST=%s\n' "$(manifest_value image_digest)"
-    printf 'GOTOOLCHAIN=local\nGOPROXY=%s\nGOSUMDB=%s\nGOWORK=off\n' "$(manifest_value goproxy)" "$(manifest_value gosumdb)"
+    printf 'GOTOOLCHAIN=local\nGOPROXY=%s\nGOSUMDB=%s\nGOWORK=off\nGOENV=off\n' "$goproxy" "$gosumdb"
     printf 'GOMODCACHE=%s\nGOCACHE=%s\n' "$WORK_ROOT/gomod" "$WORK_ROOT/gocache"
   } >"$EVIDENCE_DIR/environment/build-contract.env"
   : >"$EVIDENCE_DIR/build.log"
@@ -204,12 +256,12 @@ check_real_build() {
     printf 'tool=%s module=%s action=build_start\n' "$tool" "$source_dir" >>"$EVIDENCE_DIR/build.log"
     (
       cd "$module_dir" || exit 1
-      env -i HOME="${HOME:-/tmp}" PATH="$CLEAN_PATH" GOFLAGS=-modcacherw GOTOOLCHAIN=local GOWORK=off \
-        GOPROXY="$(manifest_value goproxy)" GOSUMDB="$(manifest_value gosumdb)" \
+      env -i HOME="$isolated_home" PATH="$CLEAN_PATH" GOENV=off GOFLAGS=-modcacherw GOTOOLCHAIN=local GOWORK=off \
+        GOPROXY="$goproxy" GOSUMDB="$gosumdb" GOPRIVATE= GONOPROXY= GONOSUMDB= GOINSECURE= \
         GOMODCACHE="$WORK_ROOT/gomod" GOCACHE="$WORK_ROOT/gocache" \
         "$GO_BIN" mod download -x
-      env -i HOME="${HOME:-/tmp}" PATH="$CLEAN_PATH" GOFLAGS=-modcacherw GOTOOLCHAIN=local GOWORK=off \
-        GOPROXY="$(manifest_value goproxy)" GOSUMDB="$(manifest_value gosumdb)" \
+      env -i HOME="$isolated_home" PATH="$CLEAN_PATH" GOENV=off GOFLAGS=-modcacherw GOTOOLCHAIN=local GOWORK=off \
+        GOPROXY="$goproxy" GOSUMDB="$gosumdb" GOPRIVATE= GONOPROXY= GONOSUMDB= GOINSECURE= \
         GOMODCACHE="$WORK_ROOT/gomod" GOCACHE="$WORK_ROOT/gocache" \
         "$GO_BIN" build -mod=readonly -o "$WORK_ROOT/bin/$tool" .
     ) >>"$EVIDENCE_DIR/build.log" 2>>"$EVIDENCE_DIR/module-downloads.log" || \
@@ -236,7 +288,14 @@ check_build() {
 }
 
 check_metadata() {
-  metadata_root=${BASE001_METADATA_ROOT:-${BASE001_FIXTURE_ROOT:-}/metadata}
+  metadata_root=${BASE001_METADATA_ROOT:-}
+  if [ -z "$metadata_root" ]; then
+    if [ "${BASE001_TEST_MODE:-0}" = 1 ]; then
+      metadata_root="$BASE001_FIXTURE_ROOT/metadata"
+    else
+      metadata_root="$EVIDENCE_DIR/metadata"
+    fi
+  fi
   [ -d "$metadata_root" ] || fail B001-E07 "metadata_root=$metadata_root reason=missing"
   tool_source_sha=$(manifest_value tool_source_sha)
   root_dep_version=$(manifest_value root_dep_version)
@@ -252,9 +311,16 @@ check_metadata() {
     if grep -F 'gitlab.allinfinance.com/aifgo/ag-core' "$file" >/dev/null 2>&1; then
       fail B001-E03 "tool=$tool forbidden_path=gitlab.allinfinance.com/aifgo/ag-core metadata=$file"
     fi
+    awk '$1 ~ /^(path|mod|dep|replace)$/ && $2 ~ /ag-core/ && $2 !~ /^github.com\/aif-go\/ag-core(\/|$)/ { bad=1 } END { exit bad }' "$file" || \
+      fail B001-E03 "tool=$tool namespace=invalid metadata=$file"
     if grep -E '^[[:space:]]*replace[[:space:]]+github.com/aif-go/ag-core[[:space:]]+' "$file" >/dev/null 2>&1; then
       fail B001-E04 "tool=$tool replace=github.com/aif-go/ag-core go.work=forbidden reason=local_masking"
     fi
+    awk '
+      previous && $1 == "=>" && ($2 ~ /^\./ || $2 ~ /^\//) { bad=1 }
+      { previous = ($1 ~ /^(path|mod|dep|replace)$/ && $2 == "github.com/aif-go/ag-core") }
+      END { exit bad }
+    ' "$file" || fail B001-E04 "tool=$tool replace=local_path reason=local_masking"
     grep -F 'vcs.modified=false' "$file" >/dev/null 2>&1 || \
       fail B001-E07 "tool=$tool vcs.modified=missing_or_true"
     grep -F "vcs.revision=$tool_source_sha" "$file" >/dev/null 2>&1 || \
@@ -283,6 +349,55 @@ check_evidence() {
     [ -s "$EVIDENCE_DIR/metadata/$tool.txt" ] || fail B001-E07 "tool=$tool evidence_metadata=missing"
   done
 
+  manifest_sha=$(sha256_file "$MANIFEST")
+  grep -F "sha256=$manifest_sha" "$EVIDENCE_DIR/manifest-signature.txt" >/dev/null 2>&1 || \
+    fail B001-E09 "manifest_signature=mismatch expected_sha256=$manifest_sha"
+  grep -F "approved_by=$(manifest_value manifest_approved_by)" "$EVIDENCE_DIR/manifest-signature.txt" >/dev/null 2>&1 || \
+    fail B001-E09 "manifest_signature=approver_mismatch expected=$(manifest_value manifest_approved_by)"
+
+  grep -F 'enforcement=active' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+    fail B001-E09 'ref_protection=enforcement_not_active'
+  grep -F 'bypass_actors=none' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+    fail B001-E09 'ref_protection=bypass_actors_not_none'
+  grep -F 'rules=deletion,non_fast_forward,update' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+    fail B001-E09 'ref_protection=rules_incomplete'
+  tool_source_ref=$(manifest_value tool_source_ref)
+  if is_sha "$tool_source_ref"; then
+    grep -F "tool_source_ref=$tool_source_ref" "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+      fail B001-E09 "ref_protection=tool_source_ref_missing expected=$tool_source_ref"
+    grep -F 'tool_source_protection=content-addressed Git commit; immutable by object identity' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+      fail B001-E09 'ref_protection=tool_source_content_addressing_missing'
+  else
+    grep -F "tool_source_ref=$tool_source_ref" "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+      fail B001-E09 "ref_protection=tool_source_ref_missing expected=$tool_source_ref"
+    grep -F 'tool_source_protection=' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+      fail B001-E09 'ref_protection=tool_source_protection_missing'
+  fi
+  grep -F "root_dep_ref=refs/tags/$(manifest_value root_dep_version)" "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+    fail B001-E09 "ref_protection=root_dep_ref_missing expected=refs/tags/$(manifest_value root_dep_version)"
+  grep -F 'root_dep_protection=' "$EVIDENCE_DIR/ref-protection.txt" >/dev/null 2>&1 || \
+    fail B001-E09 'ref_protection=root_dep_protection_missing'
+
+  for pair in \
+    'BASE-001-N01 B001-E01' \
+    'BASE-001-N02 B001-E02' \
+    'BASE-001-N02B B001-E02' \
+    'BASE-001-N03 B001-E03' \
+    'BASE-001-N04 B001-E04' \
+    'BASE-001-N05 B001-E05' \
+    'BASE-001-N06 B001-E06' \
+    'BASE-001-N07 B001-E07' \
+    'BASE-001-N08 B001-E08' \
+    'BASE-001-N09 B001-E09'
+  do
+    scenario=${pair%% *}
+    code=${pair##* }
+    grep -F "$scenario PASS" "$EVIDENCE_DIR/negative-results.log" >/dev/null 2>&1 || \
+      fail B001-E09 "negative_result=$scenario reason=missing"
+    grep -F "$code" "$EVIDENCE_DIR/negative-results.log" >/dev/null 2>&1 || \
+      fail B001-E09 "negative_result=$scenario code=$code reason=missing"
+  done
+
   if [ "${BASE001_TEST_MODE:-0}" = 1 ]; then
     grep -F 'protected=true' "$BASE001_FIXTURE_ROOT/ref-protection.tsv" >/dev/null 2>&1 || \
       fail B001-E09 'ref_protection=missing protected=true'
@@ -304,7 +419,13 @@ done
 
 [ -r "$MANIFEST" ] || fail B001-E09 "manifest=$MANIFEST reason=missing"
 [ -n "$EVIDENCE_DIR" ] || usage
+MANIFEST=$(absolute_path "$MANIFEST")
+EVIDENCE_DIR=$(absolute_path "$EVIDENCE_DIR")
+[ -r "$MANIFEST" ] || fail B001-E09 "manifest=$MANIFEST reason=missing"
 REMOTE_URL=${REMOTE_URL:-$(manifest_value canonical_remote)}
+if [ "${BASE001_TEST_MODE:-0}" != 1 ] && [ "$REMOTE_URL" != "$(manifest_value canonical_remote)" ]; then
+  fail B001-E01 "remote_override=forbidden remote=$REMOTE_URL canonical=$(manifest_value canonical_remote)"
+fi
 
 case "$CHECK" in
   refs) check_refs; pass BASE-001-P01 ;;

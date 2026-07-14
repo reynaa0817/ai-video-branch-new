@@ -126,8 +126,8 @@ run_negative() {
   record_pass "$case_id"
 }
 
-printf 'TAP version 13\n'
-printf '1..13\n'
+printf 'TAP version 14\n'
+printf '1..14\n'
 
 run_positive BASE-001-P01 refs 'BASE-001-P01 PASS'
 run_positive BASE-001-P02 build 'BASE-001-P02 PASS'
@@ -136,6 +136,7 @@ run_positive BASE-001-P04 evidence 'BASE-001-P04 PASS'
 
 run_negative BASE-001-N01 missing_ref B001-E01 tool_source_ref
 run_negative BASE-001-N02 sha_mismatch B001-E02 actual_sha
+run_negative BASE-001-N02B root_sha_mismatch B001-E02 root_dep_version
 run_negative BASE-001-N03 legacy_gitlab B001-E03 gitlab.allinfinance.com/aifgo/ag-core
 run_negative BASE-001-N04 local_masking B001-E04 go.work
 run_negative BASE-001-N05 missing_gendb B001-E05 gendb

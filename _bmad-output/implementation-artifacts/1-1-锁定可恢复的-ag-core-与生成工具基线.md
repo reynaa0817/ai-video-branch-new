@@ -88,6 +88,16 @@ Status: review
   - [x] 仅在证据全部通过后，将 `traceability-matrix.md` 的 G0-1 从 Open 更新为 Verified/项目采用的等价通过状态并附证据路径。
   - [x] 不得将 `技术基线锁定.md` 整体 `status` 提前改为 `locked`；其余全栈 P0 仍由 Story 1.2 关闭。
 
+### Review Findings
+
+- [ ] [Review][Patch] 真实构建没有按 manifest 冻结环境执行，可能因相对 manifest 路径与本机 Go 配置导致代理/缓存假绿 [scripts/verify-ag-core-baseline.sh:205]
+- [ ] [Review][Patch] 归档证据来自本机 darwin 构建但声明了锁定 Go 镜像 digest，证据与放行环境不一致 [reports/baseline/BASE-001/metadata/aggo.txt:25]
+- [ ] [Review][Patch] 真实 gate 对 ref protection、manifest 签署和 negative-results 只做非空检查，不能证明 AC4/AC5 失败关闭 [scripts/verify-ag-core-baseline.sh:272]
+- [ ] [Review][Patch] manifest schema 约束未被权威 gate 执行，错误的网络/cache/image 策略非空即可通过 [scripts/verify-ag-core-baseline.sh:128]
+- [ ] [Review][Patch] root_dep_version 到 root_dep_sha 远端错配缺少负向覆盖 [tests/acceptance/baseline/base_001_test.sh:137]
+- [ ] [Review][Patch] metadata 对本地 replace 的 `=>` 形式和非 canonical ag-core 命名空间覆盖不足 [scripts/verify-ag-core-baseline.sh:252]
+- [ ] [Review][Patch] workflow 未覆盖规划/追踪文件变更，可能让 G0-1 状态变更绕过 BASE-001 检查 [.github/workflows/ag-core-baseline.yml:5]
+
 ## Dev Notes
 
 ### ATDD Artifacts
@@ -190,14 +200,14 @@ GPT-5 Codex
 
 - Create Story 上下文核验：2026-07-14
 - 2026-07-14 Dev Story RED：`BASE001_ATDD_ACTIVATE=1 bash tests/acceptance/baseline/base_001_test.sh` 初始 0/13，根因为权威 gate 缺失。
-- 2026-07-14 本地合同 GREEN：实现 fixture gate 后 13/13 通过；该结果仅证明接口与错误分类，不代表真实远端放行。
+- 2026-07-14 本地合同 GREEN：实现 fixture gate 后 14/14 通过；该结果仅证明接口与错误分类，不代表真实远端放行。
 - 2026-07-14 hermetic preflight HALT：规范 remote 无法 fetch 或从完整 refs clone 找到 `7bc2f4561a9284728cb92b15b9ae9ee760abfa5c`；证据见 `reports/baseline/BASE-001/远端源快照预检失败记录.md`。
 - 2026-07-14 Correct Course 后候选 preflight：`main@d199072...` 与 `v0.0.1-alpha.3@1624c77...` 均仅有 aggo/gendb 通过，五个 protoc 插件因 root dependency `go.sum` 校验项缺失失败；证据见 `reports/baseline/BASE-001/远端候选预检-2026-07-14.md`。
 - 2026-07-14 用户本机构建核验：七个源码命令均已产生二进制，但产物为 `+dirty`/`vcs.modified=true`，五插件 root dep 为 `(devel)`，数据库工具名为 `gen-go-db` 而非 `gendb`；证据见 `reports/baseline/BASE-001/本机构建核验-2026-07-14.md`。
 - 2026-07-14 精确 Go 1.25.1 修复验证：ag-core candidate `824786dc...` 完成 7/7 clean build，五插件 root dep 为 `v0.0.1-alpha.3`，全部 `vcs.modified=false`。
 - 2026-07-14 远端交付：已创建 `aif-go/ag-core#5`，main ruleset 要求 1 个独立审批；已创建 tag ruleset `18908015`，管理员也不可 bypass。
 - 2026-07-14 纠偏记录：PR #5 在用户明确要求“不合并”前已被管理员 squash merge；该操作被记录为执行错误，不作为 Story 完成条件。用户决定保留远端现状，不 revert、不打 tag、不推送。
-- 2026-07-14 最终 BASE-001：从空 checkout fetch 内容寻址 commit `3ad9bb9...`，Go 1.25.1 隔离 cache 重建 7/7；13/13 ATDD、metadata、证据完整性全部通过。
+- 2026-07-14 最终 BASE-001：从空 checkout fetch 内容寻址 commit `3ad9bb9...`，Go 1.25.1 隔离 cache 重建 7/7；14/14 ATDD、metadata、证据完整性全部通过。
 
 ### Completion Notes List
 
@@ -248,5 +258,5 @@ GPT-5 Codex
 
 ### Change Log
 
-- 2026-07-14：完成 BASE-001 双锁 manifest、权威 hermetic gate、CI job、13 场景 ATDD、真实远端 7/7 重建与审计证据；Story 状态转为 review。
+- 2026-07-14：完成 BASE-001 双锁 manifest、权威 hermetic gate、CI job、14 场景 ATDD、真实远端 7/7 重建与审计证据；Story 状态转为 review。
 - 2026-07-14：记录 PR #5 误合并纠偏；按用户决定保留现状，不执行 revert/tag/push，且不把合并视为 Story 前置条件。

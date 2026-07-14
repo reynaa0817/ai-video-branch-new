@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - .github/workflows/ag-core-baseline.yml
+      - _bmad-output/implementation-artifacts/**
+      - _bmad-output/planning-artifacts/**
       - reports/baseline/BASE-001/**
       - scripts/verify-ag-core-baseline.sh
       - tests/acceptance/baseline/**
@@ -12,6 +14,8 @@ on:
     branches:
       - main
     paths:
+      - _bmad-output/implementation-artifacts/**
+      - _bmad-output/planning-artifacts/**
       - reports/baseline/BASE-001/**
       - scripts/verify-ag-core-baseline.sh
       - tests/acceptance/baseline/**
@@ -62,4 +66,4 @@ jobs:
           name: BASE-001-${{ github.sha }}
           path: reports/baseline/BASE-001/
           if-no-files-found: error
-          retention-days: 180
+          retention-days: 90

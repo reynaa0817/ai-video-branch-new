@@ -1,4 +1,4 @@
-/var/folders/2l/48q5j39j6x33g_npz9s6zffw0000gn/T//base-001-gate.aa9EKM/bin/aggo: go1.25.1
+/var/folders/ch/f79tl_n922lb4pvnw1lqb76m0000gn/T//base-001-gate.VO04Le/bin/aggo: go1.25.1
 	path	github.com/aif-go/ag-core/tool/cmd/aggo
 	mod	github.com/aif-go/ag-core/tool/cmd/aggo	v0.0.0-20260714041655-3ad9bb9cf710
 	dep	github.com/AlecAivazis/survey/v2	v2.3.7	h1:6I/u8FvytdGsgonrYsVn2t8t4QiRnh6QSTqkkhIiSjQ=

@@ -1,4 +1,4 @@
-/var/folders/2l/48q5j39j6x33g_npz9s6zffw0000gn/T//base-001-gate.aa9EKM/bin/gendb: go1.25.1
+/var/folders/ch/f79tl_n922lb4pvnw1lqb76m0000gn/T//base-001-gate.VO04Le/bin/gendb: go1.25.1
 	path	github.com/aif-go/ag-core/tool/cmd/gen-go-db
 	mod	github.com/aif-go/ag-core/tool/cmd/gen-go-db	v0.0.0-20260714041655-3ad9bb9cf710
 	dep	github.com/360EntSecGroup-Skylar/excelize	v1.4.1	h1:l55mJb6rkkaUzOpSsgEeKYtS6/0gHwBYyfo5Jcjv/Ks=

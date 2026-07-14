@@ -92,12 +92,35 @@ GOCACHE=isolated
 ENV
 printf '%s\n' 'module downloads and checksums captured' >"$CASE_DIR/evidence/module-downloads.log"
 printf '%s\n' 'seven tools built from isolated fixture checkout' >"$CASE_DIR/evidence/build.log"
-printf '%s\n' 'signed=true approved_by=platform-release-owner' >"$CASE_DIR/evidence/manifest-signature.txt"
-printf '%s\n' 'protected=true force_move=false owner=platform-release-owner' >"$CASE_DIR/evidence/ref-protection.txt"
+printf '%s\n' 'signature is written after fixture mutations' >"$CASE_DIR/evidence/manifest-signature.txt"
+cat >"$CASE_DIR/evidence/ref-protection.txt" <<PROTECTION
+ruleset_id=fixture
+ruleset_name=BASE-001 immutable ag-core refs
+target=tag
+enforcement=active
+include=refs/tags/$ROOT_DEP_VERSION,refs/tags/ag-core-tools-v*
+rules=deletion,non_fast_forward,update
+bypass_actors=none
+tool_source_ref=$TOOL_SOURCE_REF
+tool_source_protection=ruleset fixture blocks update and deletion with no bypass actor
+root_dep_ref=refs/tags/$ROOT_DEP_VERSION
+root_dep_protection=ruleset fixture blocks update and deletion with no bypass actor
+PROTECTION
 printf '%s\n' 'rollback uses the previous verified immutable ref; never move a failed ref' >"$CASE_DIR/evidence/rollback.md"
 printf '%s\n' 'G0-1 -> reports/baseline/BASE-001/' >"$CASE_DIR/evidence/traceability.md"
 printf '%s\n' 'owner=platform-release-owner verified_at=2026-07-14T00:00:00Z' >"$CASE_DIR/evidence/owner-and-time.txt"
-printf '%s\n' 'negative fixture evidence is generated per isolated case' >"$CASE_DIR/evidence/negative-results.log"
+cat >"$CASE_DIR/evidence/negative-results.log" <<NEGATIVE
+BASE-001-N01 PASS B001-E01 unreachable ref
+BASE-001-N02 PASS B001-E02 SHA mismatch
+BASE-001-N02B PASS B001-E02 root dependency SHA mismatch
+BASE-001-N03 PASS B001-E03 legacy GitLab provenance
+BASE-001-N04 PASS B001-E04 local go.work/replace masking
+BASE-001-N05 PASS B001-E05 missing or misnamed gendb
+BASE-001-N06 PASS B001-E06 tool/root provenance mismatch
+BASE-001-N07 PASS B001-E07 invalid VCS stamping
+BASE-001-N08 PASS B001-E08 unfrozen environment
+BASE-001-N09 PASS B001-E09 unapproved or unprotected release
+NEGATIVE
 
 replace_manifest_value() {
   key=$1
@@ -122,6 +145,12 @@ case "$VARIANT" in
     cat >"$CASE_DIR/remote-resolution.tsv" <<TSV
 tool_source_ref	$TOOL_SOURCE_REF	3333333333333333333333333333333333333333
 root_dep_version	$ROOT_DEP_VERSION	$ROOT_DEP_SHA
+TSV
+    ;;
+  root_sha_mismatch)
+    cat >"$CASE_DIR/remote-resolution.tsv" <<TSV
+tool_source_ref	$TOOL_SOURCE_REF	$TOOL_SOURCE_SHA
+root_dep_version	$ROOT_DEP_VERSION	4444444444444444444444444444444444444444
 TSV
     ;;
   legacy_gitlab)
@@ -168,3 +197,17 @@ TSV
     exit 65
     ;;
 esac
+
+manifest_sha=$(
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$CASE_DIR/baseline-manifest.yaml" | awk '{ print $1 }'
+  else
+    LC_ALL=C LANG=C shasum -a 256 "$CASE_DIR/baseline-manifest.yaml" | awk '{ print $1 }'
+  fi
+)
+cat >"$CASE_DIR/evidence/manifest-signature.txt" <<SIGNATURE
+manifest=baseline-manifest.yaml
+sha256=$manifest_sha
+approved_by=$(awk '$1 == "manifest_approved_by:" { print $2; exit }' "$CASE_DIR/baseline-manifest.yaml")
+attestation_type=fixture-sha256-integrity-record
+SIGNATURE
