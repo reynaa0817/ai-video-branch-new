@@ -149,7 +149,7 @@ inputDocuments:
 ### DEV 实施清单
 
 - [ ] 实现唯一权威入口 `scripts/verify-ag-core-baseline.sh`，支持 `refs` / `build` / `metadata` / `evidence` / `all` 检查。
-- [ ] 实现 baseline manifest schema，覆盖 source snapshot、tool source 双字段、root dependency 双字段、环境冻结、签署/审批与保护证据。
+- [ ] 实现 baseline manifest schema，覆盖 tool source 双字段、root dependency 双字段、环境冻结、签署/审批与保护证据；本机调查 SHA 不得成为发布字段或固定断言。
 - [ ] 实现 remote+immutable ref 解析和 SHA 精确匹配，禁止本机 checkout 或可移动 ref 掩盖失败。
 - [ ] 在隔离 `GOWORK` / `GOMODCACHE` / `GOCACHE` 的环境中构建七个工具，并保证数据库工具输出名为 `gendb`。
 - [ ] 验证七份 Go build metadata 的 tool/root 双锁 provenance、GitHub 路径、VCS revision 和 `vcs.modified=false`。

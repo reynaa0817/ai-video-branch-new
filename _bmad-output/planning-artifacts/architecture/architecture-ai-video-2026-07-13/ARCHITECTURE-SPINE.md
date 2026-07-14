@@ -272,12 +272,12 @@ flowchart LR
 
 ## Stack
 
-以下版本是 2026-07-14 的**目标基线，不代表已物化构建**；ag-core 当前只确认 GitHub 工作快照，远端不可变 ref 尚待发布。所有 P0 项记录可恢复版本、镜像 digest、许可证和测试证据，未通过不得执行脚手架或进入 internal-prod。OpenTelemetry 是应用层集成，不是 ag-core 内建能力。
+以下版本是 2026-07-14 的**目标基线，不代表已物化构建**；ag-core 发布候选尚待 Story 1.1 从规范远端可达提交或受审 PR merge SHA 中选择。所有 P0 项记录可恢复版本、镜像 digest、许可证和测试证据，未通过不得执行脚手架或进入 internal-prod。OpenTelemetry 是应用层集成，不是 ag-core 内建能力。
 
 | Name | Version |
 | --- | --- |
 | Go | 1.25.x（与 GitHub ag-core 的 `go 1.25.0` 基线一致） |
-| ag-core | GitHub `github.com/aif-go/ag-core`；本地已验证工作快照 `7bc2f4561a9284728cb92b15b9ae9ee760abfa5c`，远端不可变 ref 待 P0 发布 |
+| ag-core | GitHub `github.com/aif-go/ag-core`；候选 ref/SHA 待 Story 1.1 完成远端可达性、clean build 与 provenance preflight 后锁定 |
 | MySQL | 8.4 LTS |
 | Temporal Server / Go SDK | 自托管受支持版本（精确 patch P0 锁定） |
 | Kafka | 4.x KRaft（agsarama 全链路后锁定 patch） |
@@ -346,8 +346,8 @@ flowchart TB
 ## Deferred
 
 - **Seedance 2.0 生产接入参数**：模型 ID、配额、回调、幂等、取消、计费与删除能力必须在供应商沙箱完成 P0 契约测试后锁定；此前只允许模拟或受控试验流量。
-- **GitHub ag-core 可恢复基线与工具链**：当前工作快照 SHA 尚无远端分支包含，且本机已安装的 `aggo`、`gendb`、`protoc-gen-go-ag*` 仍是旧 GitLab 构建。实施前必须先将确认快照发布为 GitHub 远端可达的不可变 tag/ref，再从该 ref 重建全部工具；`go version -m` 必须只显示 `github.com/aif-go/ag-core`，否则禁止运行脚手架。
-- **Kafka/Nacos/Redis 兼容版本**：围绕已锁定的 GitHub ag-core commit 做全链路兼容性、滚动升级与故障恢复测试，不在架构层猜测版本。
+- **GitHub ag-core 可恢复基线与工具链**：本机已安装的 `aggo`、`gendb`、`protoc-gen-go-ag*` 仍不能作为放行证据。Story 1.1 必须先从规范远端可达提交或受审 PR merge SHA 中选择候选，通过 clean build/provenance preflight 后再发布受保护 immutable tag/ref，并从该 ref 重建全部工具；`go version -m` 必须只显示 `github.com/aif-go/ag-core`，否则禁止运行脚手架。本机 checkout 仅作调查证据。
+- **Kafka/Nacos/Redis 兼容版本**：围绕 Story 1.1 最终锁定的 GitHub ag-core ref/SHA 做全链路兼容性、滚动升级与故障恢复测试，不在架构层猜测版本。
 - **P0 技术锁定产物**：在 `技术基线锁定.md` 记录 GitHub remote、远端可达 immutable ref+SHA、本机验证 checkout、工具链 build metadata 和工作区解析方式，以及 Temporal Server/SDK/schema、Kafka/agsarama、Nacos/Redis、Node/前端 lockfile、FFmpeg 镜像 digest、Kubernetes 发行版/patch；证据缺失即禁止脚手架和 internal-prod。
 - **OIDC 身份提供方**：协议和 BFF Session 边界已定，具体 IdP 在安全、采购和内部账号集成评估后选择。
 - **托管对象存储供应商**：S3 兼容端口、加密、版本、生命周期与删除证明已定，供应商随部署区域和采购选择。

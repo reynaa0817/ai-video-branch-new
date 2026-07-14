@@ -7,9 +7,13 @@ tags:
   - final
 date: 2026-07-14
 title: AI漫剧创作平台GitHub ag-core技术现实性最终复核
+status: superseded
+superseded_by: ../../sprint-change-proposal-2026-07-14-ag-core基线纠偏.md
 ---
 
 # AI 漫剧创作平台 GitHub ag-core 技术现实性最终复核
+
+> **历史现场复核，候选选择结论已被 2026-07-14 Correct Course 取代。** 表内本机 SHA 只说明当时 checkout，不参与发布放行。
 
 ## Verdict
 
@@ -31,7 +35,7 @@ title: AI漫剧创作平台GitHub ag-core技术现实性最终复核
 
 ## P0 关闭条件
 
-1. 将确认的 GitHub 工作快照发布为远端可达的不可变 tag/ref，并记录 ref + 完整 SHA。
+1. 从规范远端可达提交/tag 或受审 PR merge SHA 中选择候选，通过 clean-build/provenance preflight 后发布受保护的不可变 tag/ref，并记录 ref + 完整 SHA。
 2. 从该 ref 重建 `aggo`、`gendb`、全部 `protoc-gen-go-ag*`。
 3. 对每个二进制运行 `go version -m`，不得出现 `gitlab.allinfinance.com/aifgo/ag-core`。
 4. 在干净 clone/build context 中生成最小 BFF 与领域服务，并脱离本地 go.work 编译。
