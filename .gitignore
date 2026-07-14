@@ -9,3 +9,13 @@
 /api/*/server
 /services/*/server
 /workers/*/server
+
+# Offline dependency payloads are managed outside git; keep only manifests/placeholders.
+/deps/bin/*
+!/deps/bin/README.md
+/deps/fonts/*
+!/deps/fonts/README.md
+/deps/rpm/mysql/*
+!/deps/rpm/mysql/README.md
+/deps/source/*
+!/deps/source/README.md
