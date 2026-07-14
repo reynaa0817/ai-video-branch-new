@@ -43,7 +43,8 @@ services:
     pull_policy: never
     restart: unless-stopped
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
       # Temporal persistence 数据库地址。
       DB_HOST: mysql
@@ -175,13 +176,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - temporal
-      - kafka
+      temporal:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志和 trace。
       SERVICE_NAME: web-bff
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测 Temporal 与 Kafka。
+      REQUIRED_TCP_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -196,13 +203,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 topic producer。
       SERVICE_NAME: studio
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -215,14 +228,21 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - temporal
-      - kafka
-      - mysql
+      temporal:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 Temporal namespace。
       SERVICE_NAME: workflow
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测 Temporal、Kafka 与 MySQL。
+      REQUIRED_TCP_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092,mysql=mysql:3306"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -235,13 +255,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 budget topic producer。
       SERVICE_NAME: budget
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -254,14 +280,21 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
-      - minio
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 asset topic producer。
       SERVICE_NAME: asset
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库、Kafka 与 MinIO 端口。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -274,13 +307,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 model topic producer。
       SERVICE_NAME: model-gateway
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -293,13 +332,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 quality topic producer。
       SERVICE_NAME: quality
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -312,14 +357,21 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - mysql
-      - kafka
-      - minio
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 delivery topic producer。
       SERVICE_NAME: delivery
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测事实库、Kafka 与 MinIO 端口。
+      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -332,13 +384,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - kafka
-      - mysql
+      kafka:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志、trace 与 projection consumer group。
       SERVICE_NAME: experience-projection
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测 Kafka 与投影库。
+      REQUIRED_TCP_ENDPOINTS: "kafka=kafka:29092,mysql=mysql:3306"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -351,12 +409,15 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - model-gateway
+      model-gateway:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志和 trace。
       SERVICE_NAME: provider-worker
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -369,13 +430,19 @@ services:
     restart: unless-stopped
     healthcheck: *app-healthcheck
     depends_on:
-      - asset
-      - minio
+      asset:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       # 服务名称，用于日志和 trace。
       SERVICE_NAME: media-worker
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
+      # readiness TCP 依赖：health 命令必须真实探测 MinIO 端口。
+      REQUIRED_TCP_ENDPOINTS: "minio=minio:9000"
+      # readiness 单依赖超时时间，单位秒。
+      READINESS_TIMEOUT_SECONDS: "2"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error

@@ -112,7 +112,42 @@ const [file, name, kind, mayWrite] = process.argv.slice(2);
 const value = JSON.parse(fs.readFileSync(file, "utf8"));
 if (value.service_name !== name || value.service_kind !== kind || value.fact_owner !== (mayWrite === "true") || value.status !== "contract-boundary-ok") process.exit(1);
 NODE
+  health_dir="$WORK_DIR/health-$service_name"
+  mkdir -p "$health_dir"
+  APP_LOG_DIR="$health_dir/app" ERROR_LOG_DIR="$health_dir/error" LOG_RETENTION_DAYS=30 \
+    "$WORK_DIR/$output_name" health >"$health_dir/ready.json" || fail "health-$service_name" "health command without external dependencies should be ready"
+  node - "$health_dir/ready.json" "$health_dir/app" <<'NODE' || fail "health-$service_name" "ready health output or app log is invalid"
+const fs = require("fs");
+const path = require("path");
+const [healthFile, appDir] = process.argv.slice(2);
+const health = JSON.parse(fs.readFileSync(healthFile, "utf8"));
+if (health.status !== "ready" || !health.trace?.trace_id || !health.trace?.span_id || !health.trace?.request_id) throw new Error("missing ready trace health");
+const today = new Date().toISOString().slice(0, 10);
+const logPath = path.join(appDir, `app-${today}.log`);
+if (!fs.existsSync(logPath)) throw new Error("missing dated app log");
+const entry = JSON.parse(fs.readFileSync(logPath, "utf8").trim().split(/\n/).at(-1));
+if (entry.level !== "info" || entry.service !== health.service_name || !entry.trace_id) throw new Error("invalid app log entry");
+NODE
+  set +e
+  APP_LOG_DIR="$health_dir/app" ERROR_LOG_DIR="$health_dir/error" LOG_RETENTION_DAYS=30 REQUIRED_TCP_ENDPOINTS="missing=127.0.0.1:1" \
+    "$WORK_DIR/$output_name" health >"$health_dir/not-ready.json" 2>"$health_dir/not-ready.stderr"
+  not_ready_rc=$?
+  set -e
+  [[ $not_ready_rc -ne 0 ]] || fail "health-$service_name" "unreachable dependency did not fail readiness"
+  node - "$health_dir/not-ready.json" "$health_dir/error" <<'NODE' || fail "health-$service_name" "not-ready health output or error log is invalid"
+const fs = require("fs");
+const path = require("path");
+const [healthFile, errorDir] = process.argv.slice(2);
+const health = JSON.parse(fs.readFileSync(healthFile, "utf8"));
+if (health.status !== "not_ready" || health.dependencies?.[0]?.status !== "not_ready") throw new Error("missing not_ready dependency status");
+const today = new Date().toISOString().slice(0, 10);
+const logPath = path.join(errorDir, `error-${today}.log`);
+if (!fs.existsSync(logPath)) throw new Error("missing dated error log");
+const entry = JSON.parse(fs.readFileSync(logPath, "utf8").trim().split(/\n/).at(-1));
+if (entry.level !== "error" || entry.service !== health.service_name || !entry.trace_id) throw new Error("invalid error log entry");
+NODE
   pass "build-$service_name" "all packages build independently and runtime identity matches registry"
+  pass "health-$service_name" "health readiness, trace fields, app log and error log fail-closed checks passed"
 done <"$WORK_DIR/services.tsv"
 
 DOCKERFILE="$ROOT_DIR/deploy/images/go-service.Dockerfile"

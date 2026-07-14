@@ -90,6 +90,8 @@ jobs:
         run: |
           bash -n scripts/verify-contracts.sh
           bash -n scripts/verify-local-platform.sh
+          bash -n scripts/run-event-roundtrip.sh
+          bash -n scripts/verify-fail-closed.sh
           bash -n scripts/verify-offline.sh
           node --check scripts/check-service-boundaries.mjs
           node --check scripts/validate-event-envelope.mjs

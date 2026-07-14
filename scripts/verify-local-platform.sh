@@ -91,9 +91,23 @@ for (const name of Object.keys(registry.services)) {
   const service = services[name];
   const test = service.healthcheck?.test ?? [];
   if (JSON.stringify(test) !== JSON.stringify(["CMD", "/app/server", "health"])) throw new Error(`${name} lacks executable health command`);
+  const deps = service.depends_on ?? {};
+  if (Array.isArray(deps)) throw new Error(`${name} depends_on must use service_healthy conditions`);
+  for (const [dependency, policy] of Object.entries(deps)) {
+    if (policy?.condition !== "service_healthy") throw new Error(`${name} dependency ${dependency} must require service_healthy`);
+  }
   const volumes = (service.volumes ?? []).map((volume) => String(volume.source ?? volume));
   if (!volumes.some((value) => value.includes("data/logs/app")) || !volumes.some((value) => value.includes("data/logs/error"))) throw new Error(`${name} lacks app/error log volumes`);
   if (String(service.environment?.LOG_RETENTION_DAYS) !== "30") throw new Error(`${name} log retention must be 30 days`);
+  const tcpReadiness = String(service.environment?.REQUIRED_TCP_ENDPOINTS ?? "");
+  for (const dependency of Object.keys(deps)) {
+    if (["mysql", "kafka", "temporal", "minio"].includes(dependency) && !tcpReadiness.includes(`${dependency}=`)) {
+      throw new Error(`${name} health command does not probe ${dependency}`);
+    }
+  }
+  if (tcpReadiness && String(service.environment?.READINESS_TIMEOUT_SECONDS ?? "") === "") {
+    throw new Error(`${name} readiness timeout must be explicit`);
+  }
 }
 NODE
 pass "compose-config" "Compose parses; images are no-pull, host ports are loopback-only, and declared health/log policies are explicit"
@@ -126,6 +140,9 @@ pass "platform-health" "all Compose services are running and declared health che
 
 ROUNDTRIP="$ROOT_DIR/scripts/run-event-roundtrip.sh"
 [[ -x "$ROUNDTRIP" ]] || fail "event-roundtrip" "OBS_RUNTIME_NOT_IMPLEMENTED: executable roundtrip driver is missing"
+export AI_VIDEO_COMPOSE_PROJECT="$PROJECT"
+export AI_VIDEO_COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
+export AI_VIDEO_ENV_FILE
 "$ROUNDTRIP" "$REPORT_DIR/minimal-event-roundtrip.json" || fail "event-roundtrip" "OBS_EVENT_ROUNDTRIP_FAILED: persistence/outbox/Kafka/projection chain failed"
 node - "$REPORT_DIR/minimal-event-roundtrip.json" "$WORK_DIR/roundtrip-envelope.json" <<'NODE' || fail "event-roundtrip" "roundtrip evidence lacks independently correlatable fact/outbox/Kafka/projection proof"
 const fs = require("fs");
