@@ -83,7 +83,7 @@ sources:
 | Gate | Entry | Exit Evidence | Owner | Status |
 |---|---|---|---|---|
 | G0-1 ag-core/工具链 | Story 1.1 ready | `reports/baseline/BASE-001/`：远端内容寻址 tool commit、受保护 root version、Go 1.25.1 clean build 7/7、13/13 负向/正向合同、`go version -m` 无 GitLab | Platform | Verified |
-| G0-2 全栈 P0 | Story 1.1 done | `reports/baseline/BASE-002/`、`reports/dr/NFR-DR-001/`、workflow run `29322772950`、artifact `8306606622`：全栈兼容、升降级、恢复、四类 provider 前置 fail-closed 与远端证据均通过 | Architecture/SRE | Verified |
+| G0-2 全栈 P0 | Story 1.1 done | `reports/baseline/BASE-002/`、`reports/dr/NFR-DR-001/`、最终全绿 workflow run `29323611907`、artifact `8306942633`：全栈兼容、升降级、恢复、四类 provider 前置 fail-closed 与远端证据均通过 | Architecture/SRE | Verified |
 | G0-3 确定性 harness | G0-2 环境可运行 | 虚拟时钟、ID-scoped probes、provider simulator、4-worker×50 burn-in | Test Architect | Open |
 | G0-4 最小付费闭环 | G0-2/G0-3 通过 | Quote → Reservation → Submit → Reconcile → Asset → Quality → Adoption 金样 | Budget/Model/Asset | Open |
 | G0-5 功能 Story 放行 | R-001～R-004 无 Open | P0 100%、无 score≥6 Open、readiness 不再含 C1/C2 | PO/Architect/QA | Open |
