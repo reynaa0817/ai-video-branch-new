@@ -1,5 +1,7 @@
 owner=Zhangyong
-scope=integration
+scope=integration,internal-prod-object-storage
 approved=true
-internal_prod_status=Open
+internal_prod_status=Approved
+object_storage_product=minio-self-hosted
+object_storage_version=RELEASE.2025-04-22T22-12-26Z
 decision_date=2026-07-14

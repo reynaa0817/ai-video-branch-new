@@ -1,0 +1,8 @@
+scenario	status	rpo_minutes	rto_minutes	evidence
+mysql_business_metadata_pitr	PASS	0	0	mysql-pitr.tsv
+temporal_persistence_visibility_restore	PASS	0	1	temporal-dr-report.tsv
+temporal_worker_interruption_recovery	PASS	-	-	temporal-mysql-smoke.tsv
+kafka_propagation_not_fact_backup	PASS	-	-	kafka-rf3-smoke.tsv
+object_reference_failure_domain	PASS	-	-	object-reference.tsv
+kubernetes_cni_ingress_node_storage_recovery	PASS	-	-	kubernetes-harness.tsv
+aggregate	PASS	0	1	dr-report.tsv

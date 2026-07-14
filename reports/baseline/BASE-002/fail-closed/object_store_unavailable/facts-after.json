@@ -1,0 +1,7 @@
+{
+  "attempt_id": "base002-fail-closed-001",
+  "quote_id": "quote-base002-001",
+  "reservation_id": "reservation-base002-001",
+  "snapshot_digest": "sha256:3bcdf1a580bf2f1aabec7c1bbd245d11f1905e6300cec03b0abf2775a9fb07ab",
+  "phase": "RESERVED"
+}

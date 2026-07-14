@@ -1,0 +1,4 @@
+NAME                                   STATUS   ROLES           AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION     CONTAINER-RUNTIME
+ai-video-base002-22413-control-plane   Ready    control-plane   5m32s   v1.35.0   172.20.0.3    <none>        Debian GNU/Linux 12 (bookworm)   6.8.0-64-generic   containerd://2.2.0
+ai-video-base002-22413-worker          Ready    <none>          5m23s   v1.35.0   172.20.0.4    <none>        Debian GNU/Linux 12 (bookworm)   6.8.0-64-generic   containerd://2.2.0
+ai-video-base002-22413-worker2         Ready    <none>          5m23s   v1.35.0   172.20.0.2    <none>        Debian GNU/Linux 12 (bookworm)   6.8.0-64-generic   containerd://2.2.0

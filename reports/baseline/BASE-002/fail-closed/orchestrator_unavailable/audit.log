@@ -1,0 +1,1 @@
+attempt=base002-fail-closed-001 scenario=orchestrator_unavailable decision=DEPENDENCY_UNAVAILABLE:orchestrator provider=NOT_CALLED

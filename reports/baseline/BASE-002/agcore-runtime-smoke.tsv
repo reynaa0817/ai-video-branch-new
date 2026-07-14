@@ -1,0 +1,8 @@
+check	status	evidence
+nacos_agnacos_compatibility	PASS	agcore-runtime.log
+nacos_agconf_layering	PASS	agcore-runtime.log
+nacos_config_snapshot	PASS	nacos-config-snapshot.sha256
+nacos_failure_semantics	PASS	agcore-runtime.log
+redis_agredis_compatibility	PASS	agcore-runtime.log
+redis_cache_loss_semantics	PASS	agcore-redis-after-loss.log
+redis_fact_source_unchanged	PASS	agcore-runtime.log

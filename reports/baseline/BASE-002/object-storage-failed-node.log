@@ -1,0 +1,461 @@
+INFO: Unable to use the drive https://base002-object-54579-minio-2:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-2:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for a minimum of 2 drives to come online (elapsed 0s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-2:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for a minimum of 2 drives to come online (elapsed 1s)
+
+
+API: SYSTEM.grid
+Time: 08:13:52 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.927s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:13:52 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.357s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 2s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 3s)
+
+
+API: SYSTEM.grid
+Time: 08:13:53 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.462s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:13:54 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.276s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 4s)
+
+
+API: SYSTEM.grid
+Time: 08:13:55 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.687s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:13:55 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.655s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 5s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 6s)
+
+
+API: SYSTEM.grid
+Time: 08:13:57 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.783s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:13:57 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.063s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 7s)
+
+
+API: SYSTEM.grid
+Time: 08:13:58 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.198s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 8s)
+
+
+API: SYSTEM.grid
+Time: 08:13:59 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 920ms (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to connect to https://base002-object-54579-minio-4:9000/data: Get "https://base002-object-54579-minio-4:9000/minio/health/live": EOF, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 9s)
+
+
+API: SYSTEM.grid
+Time: 08:13:59 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.815s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:00 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.105s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 10s)
+
+
+API: SYSTEM.grid
+Time: 08:14:01 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.641s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:01 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.815s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 11s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 12s)
+
+
+API: SYSTEM.grid
+Time: 08:14:03 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.173s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:03 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.591s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 13s)
+
+
+API: SYSTEM.grid
+Time: 08:14:04 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.65s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 14s)
+
+
+API: SYSTEM.grid
+Time: 08:14:05 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.32s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 15s)
+
+
+API: SYSTEM.grid
+Time: 08:14:06 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.704s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:06 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.049s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 16s)
+
+
+API: SYSTEM.grid
+Time: 08:14:07 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.578s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 17s)
+
+
+API: SYSTEM.grid
+Time: 08:14:07 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 983ms (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to connect to https://base002-object-54579-minio-4:9000/data: Get "https://base002-object-54579-minio-4:9000/minio/health/live": EOF, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 18s)
+
+
+API: SYSTEM.grid
+Time: 08:14:08 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.524s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:09 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.638s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 19s)
+
+
+API: SYSTEM.grid
+Time: 08:14:10 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.522s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 20s)
+
+
+API: SYSTEM.grid
+Time: 08:14:11 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.728s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 21s)
+
+
+API: SYSTEM.grid
+Time: 08:14:12 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.697s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 22s)
+
+
+API: SYSTEM.grid
+Time: 08:14:12 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.171s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 23s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 24s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 25s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 26s)
+
+
+API: SYSTEM.grid
+Time: 08:14:16 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 0s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:16 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 0s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:16 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.328s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+
+API: SYSTEM.grid
+Time: 08:14:16 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.769s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to connect to https://base002-object-54579-minio-4:9000/data: Get "https://base002-object-54579-minio-4:9000/minio/health/live": EOF, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 27s)
+
+
+API: SYSTEM.grid
+Time: 08:14:18 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.617s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 28s)
+
+
+API: SYSTEM.grid
+Time: 08:14:18 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.602s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 29s)
+
+
+API: SYSTEM.grid
+Time: 08:14:20 UTC 07/14/2026
+Error: grid: https://base002-object-54579-minio-1:9000 re-connecting to https://base002-object-54579-minio-4:9000: EOF (*errors.errorString) Sleeping 1.093s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
+INFO: Formatting 1st pool, 1 set(s), 4 drives per set.
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1081
+INFO: All MinIO sub-systems initialized successfully in 6.798963ms
+INFO: IAM load(startup) finished. (duration: 1.168973ms)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.21.0.2:9000  https://127.0.0.1:9000 
+WebUI: https://172.21.0.2:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------
+INFO: Exiting on signal: TERMINATED

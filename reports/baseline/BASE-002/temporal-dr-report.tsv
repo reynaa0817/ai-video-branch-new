@@ -1,0 +1,6 @@
+field	value
+rpo_minutes	0
+rto_minutes	1
+workflow_count_before_restore	8
+workflow_count_after_restore	8
+workflow_after_restore	PASS

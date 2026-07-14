@@ -11,6 +11,8 @@ provisioner: hostpath.csi.k8s.io
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
+parameters:
+  kind: fast
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

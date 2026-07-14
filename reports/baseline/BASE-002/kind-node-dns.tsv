@@ -1,0 +1,4 @@
+node	nameserver
+ai-video-base002-22413-control-plane	8.8.8.8
+ai-video-base002-22413-worker	8.8.8.8
+ai-video-base002-22413-worker2	8.8.8.8

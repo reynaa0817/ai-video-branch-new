@@ -1,0 +1,4 @@
+check	status	rpo_minutes	rto_minutes	evidence
+mysql_pitr	PASS	0	0	mysql-pitr-restore.log
+fact_count_after_restore	2	-	-	mysql-pitr-target.tsv
+rto_seconds	0	-	-	mysql-pitr-restore.log

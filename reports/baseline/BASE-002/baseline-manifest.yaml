@@ -6,7 +6,7 @@ ag_core_tool_source_sha: 3ad9bb9cf7106560400391b62a7f373f682cf591
 ag_core_root_dep_version: v0.0.1-alpha.3
 ag_core_root_dep_sha: 1624c77ab90b12b77191c38005b64d59f8a0029e
 environment_scope: integration
-internal_prod_status: Open
+internal_prod_status: Approved
 manifest_signed: true
 manifest_approved_by: Zhangyong
 release_approved: true
@@ -19,9 +19,9 @@ mysql_image_digest: sha256:c831a0f11348d402b43d77453e17d770be2eef356615a2823fe0f
 kafka_version: 4.0.0
 kafka_image_digest: sha256:3f7b939115cd4872e9cee9369d80bd69712fde55f9902f46d793f64848dedc75
 agsarama_version: v1.46.3
-nacos_version: 3.2.2
+nacos_version: 2.5.2
 redis_version: 8.8.0
-object_storage_product: minio-integration-only
+object_storage_product: minio-self-hosted
 object_storage_version: RELEASE.2025-04-22T22-12-26Z
 object_storage_image_digest: sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
 ffmpeg_version: 8.1.2-noto-serif-cjk-2.003

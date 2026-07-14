@@ -1,0 +1,7 @@
+check	status	evidence
+nacos_n_minus_1_sdk	PASS	agcore-runtime-upgrade.log
+nacos_upgrade	PASS	agcore-runtime-upgrade.log
+nacos_rollback	PASS	agcore-runtime-upgrade.log
+redis_n_minus_1_sdk	PASS	agcore-runtime-upgrade.log
+redis_upgrade	PASS	agcore-runtime-upgrade.log
+redis_rollback	PASS	agcore-runtime-upgrade.log

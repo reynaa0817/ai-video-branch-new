@@ -1,0 +1,1 @@
+attempt=base002-fail-closed-001 scenario=object_store_unavailable decision=DEPENDENCY_UNAVAILABLE:object_store provider=NOT_CALLED

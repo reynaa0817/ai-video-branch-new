@@ -1,0 +1,5 @@
+
+GROUP             TOPIC                  PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                       HOST            CLIENT-ID
+base002-rebalance ai-video-int-rebalance 0          0               0               0               consumer-one-ad746c28-8282-4506-9eed-387acd9492a2 /172.20.0.2     console-consumer
+base002-rebalance ai-video-int-rebalance 1          0               0               0               consumer-one-ad746c28-8282-4506-9eed-387acd9492a2 /172.20.0.2     console-consumer
+base002-rebalance ai-video-int-rebalance 2          0               0               0               consumer-two-51e13c6c-7aa5-4bc5-8c91-219bf5da60fe /172.20.0.3     console-consumer

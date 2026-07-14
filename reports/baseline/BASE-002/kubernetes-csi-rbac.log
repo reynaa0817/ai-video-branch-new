@@ -1,0 +1,6 @@
+serviceaccount/csi-provisioner created
+clusterrole.rbac.authorization.k8s.io/external-provisioner-runner created
+clusterrolebinding.rbac.authorization.k8s.io/csi-provisioner-role created
+role.rbac.authorization.k8s.io/external-provisioner-cfg created
+rolebinding.rbac.authorization.k8s.io/csi-provisioner-role-cfg created
+csidriver.storage.k8s.io/hostpath.csi.k8s.io created

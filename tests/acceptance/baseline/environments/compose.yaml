@@ -9,7 +9,7 @@ services:
   kafka:
     image: apache/kafka@sha256:3f7b939115cd4872e9cee9369d80bd69712fde55f9902f46d793f64848dedc75
   nacos:
-    image: nacos/nacos-server@sha256:d6b3087bc2302c2b49c875e1c5ad8c916fc10696ceb355be56cffd715e178d81
+    image: nacos/nacos-server@sha256:de4fc59c2c3b2a6f87d30265c5d3c8b549316c17575ce2b32eab8d02a8be26dd
     environment:
       MODE: standalone
       NACOS_AUTH_TOKEN: YmFzZTAwMi1uYWNvcy1hdXRoLXRva2VuLW11c3QtYmUtYXQtbGVhc3QtMzItYnl0ZXM=

@@ -1,0 +1,2 @@
+scenario	status	paid_progress	provider_submit	denial	fact_digest
+orchestrator_unavailable	PASS	0	NOT_CALLED	DEPENDENCY_UNAVAILABLE:orchestrator	e5bade5c9db18ee8b1e962fd486cdd76f9d495f5d550c990ad18f220b9d0e10b

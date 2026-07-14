@@ -1,0 +1,91 @@
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 0s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 1s)
+
+INFO: Waiting for the first server to format the drives (elapsed 2s)
+
+INFO: Waiting for the first server to format the drives (elapsed 3s)
+
+INFO: Waiting for the first server to format the drives (elapsed 4s)
+
+INFO: Waiting for the first server to format the drives (elapsed 5s)
+
+INFO: Waiting for the first server to format the drives (elapsed 6s)
+
+INFO: Waiting for the first server to format the drives (elapsed 7s)
+
+INFO: Waiting for the first server to format the drives (elapsed 8s)
+
+INFO: Waiting for the first server to format the drives (elapsed 9s)
+
+INFO: Waiting for the first server to format the drives (elapsed 10s)
+
+INFO: Waiting for the first server to format the drives (elapsed 11s)
+
+INFO: Waiting for the first server to format the drives (elapsed 12s)
+
+INFO: Waiting for the first server to format the drives (elapsed 13s)
+
+INFO: Waiting for the first server to format the drives (elapsed 14s)
+
+INFO: Waiting for the first server to format the drives (elapsed 15s)
+
+INFO: Waiting for the first server to format the drives (elapsed 16s)
+
+INFO: Waiting for the first server to format the drives (elapsed 17s)
+
+INFO: Waiting for the first server to format the drives (elapsed 18s)
+
+INFO: Waiting for the first server to format the drives (elapsed 19s)
+
+INFO: Waiting for the first server to format the drives (elapsed 20s)
+
+INFO: Waiting for the first server to format the drives (elapsed 21s)
+
+INFO: Waiting for the first server to format the drives (elapsed 22s)
+
+INFO: Waiting for the first server to format the drives (elapsed 23s)
+
+INFO: Waiting for the first server to format the drives (elapsed 24s)
+
+INFO: Waiting for the first server to format the drives (elapsed 25s)
+
+INFO: Waiting for the first server to format the drives (elapsed 26s)
+
+INFO: Waiting for the first server to format the drives (elapsed 27s)
+
+INFO: Waiting for the first server to format the drives (elapsed 28s)
+
+INFO: Waiting for the first server to format the drives (elapsed 29s)
+
+INFO: Waiting for quorum READ healthcheck to succeed retrying in 790.637169ms.. possible cause unhealthy sets
+INFO: (Pool: 0 Set: 0 Healthy: false)
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1037
+INFO: All MinIO sub-systems initialized successfully in 5.61032ms
+INFO: IAM load(startup) finished. (duration: 1.237861ms)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.21.0.4:9000  https://127.0.0.1:9000 
+WebUI: https://172.21.0.4:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------
+
+API: SYSTEM.grid
+Time: 08:14:22 UTC 07/14/2026
+DeploymentID: b78e179f-e868-4a51-995f-3777d11a0264
+Error: grid: https://base002-object-54579-minio-3:9000 re-connecting to https://base002-object-54579-minio-1:9000: dial tcp 172.21.0.2:9000: connect: connection refused (*net.OpError) Sleeping 1.775s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()

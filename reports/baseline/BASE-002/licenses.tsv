@@ -4,7 +4,7 @@ mysql	GPL-2.0	approved
 kafka	Apache-2.0	approved
 nacos	Apache-2.0	approved
 redis	RSALv2-or-SSPLv1	approved-for-integration
-minio	AGPL-3.0	approved-for-integration
+minio	AGPL-3.0	approved-internal-prod-owner
 ffmpeg	GPL-3.0-build	approved-for-integration
 noto-cjk	SIL-OFL-1.1	approved
 node	MIT	approved
@@ -12,6 +12,7 @@ react	MIT	approved
 vite	MIT	approved
 typescript	Apache-2.0	approved
 kubernetes	Apache-2.0	approved
+cni-plugins	Apache-2.0	approved
 hostpath-csi	Apache-2.0	approved-for-integration
 ingress-nginx	Apache-2.0	approved
 otel-collector	Apache-2.0	approved

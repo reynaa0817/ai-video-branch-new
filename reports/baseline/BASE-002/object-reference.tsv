@@ -1,0 +1,2 @@
+attempt_id	object_key	expected_sha256	recovered_sha256	status
+base002-dr-001	secure/object.txt	81ac6cbd7f8bda5880e66cd6866c33375d0e360a31c7c180c388adc9d0997e82	81ac6cbd7f8bda5880e66cd6866c33375d0e360a31c7c180c388adc9d0997e82	PASS

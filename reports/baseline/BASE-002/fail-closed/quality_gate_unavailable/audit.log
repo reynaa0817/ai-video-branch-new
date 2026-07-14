@@ -1,0 +1,1 @@
+attempt=base002-fail-closed-001 scenario=quality_gate_unavailable decision=DEPENDENCY_UNAVAILABLE:quality_gate provider=NOT_CALLED

@@ -1,0 +1,1 @@
+kind v0.32.0 go1.25.5 darwin/arm64

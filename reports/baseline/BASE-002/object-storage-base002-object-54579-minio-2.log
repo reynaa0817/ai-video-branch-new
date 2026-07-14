@@ -1,0 +1,97 @@
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for a minimum of 2 drives to come online (elapsed 0s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 1s)
+
+INFO: Waiting for the first server to format the drives (elapsed 2s)
+
+INFO: Waiting for the first server to format the drives (elapsed 3s)
+
+INFO: Waiting for the first server to format the drives (elapsed 4s)
+
+INFO: Waiting for the first server to format the drives (elapsed 5s)
+
+INFO: Waiting for the first server to format the drives (elapsed 6s)
+
+INFO: Waiting for the first server to format the drives (elapsed 7s)
+
+INFO: Waiting for the first server to format the drives (elapsed 8s)
+
+INFO: Waiting for the first server to format the drives (elapsed 9s)
+
+INFO: Waiting for the first server to format the drives (elapsed 10s)
+
+INFO: Waiting for the first server to format the drives (elapsed 11s)
+
+INFO: Waiting for the first server to format the drives (elapsed 12s)
+
+INFO: Waiting for the first server to format the drives (elapsed 13s)
+
+INFO: Waiting for the first server to format the drives (elapsed 14s)
+
+INFO: Waiting for the first server to format the drives (elapsed 15s)
+
+INFO: Waiting for the first server to format the drives (elapsed 16s)
+
+INFO: Waiting for the first server to format the drives (elapsed 17s)
+
+INFO: Waiting for the first server to format the drives (elapsed 18s)
+
+INFO: Waiting for the first server to format the drives (elapsed 19s)
+
+INFO: Waiting for the first server to format the drives (elapsed 20s)
+
+INFO: Waiting for the first server to format the drives (elapsed 21s)
+
+INFO: Waiting for the first server to format the drives (elapsed 22s)
+
+INFO: Waiting for the first server to format the drives (elapsed 23s)
+
+INFO: Waiting for the first server to format the drives (elapsed 24s)
+
+INFO: Waiting for the first server to format the drives (elapsed 25s)
+
+INFO: Waiting for the first server to format the drives (elapsed 26s)
+
+INFO: Waiting for the first server to format the drives (elapsed 27s)
+
+INFO: Waiting for the first server to format the drives (elapsed 28s)
+
+INFO: Waiting for the first server to format the drives (elapsed 29s)
+
+INFO: Waiting for the first server to format the drives (elapsed 30s)
+
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1059
+INFO: All MinIO sub-systems initialized successfully in 6.718739ms
+INFO: IAM load(startup) finished. (duration: 654.25µs)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.21.0.3:9000  https://127.0.0.1:9000 
+WebUI: https://172.21.0.3:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------
+
+API: GetObject(bucket=ai-video-int, object=secure/object.txt, versionId=2f549cd2-797e-4cdc-b80e-41596d327d5a)
+Time: 08:14:23 UTC 07/14/2026
+DeploymentID: b78e179f-e868-4a51-995f-3777d11a0264
+RequestID: 18C219E281CAB712
+RemoteHost: 172.21.0.2
+Host: base002-object-54579-minio-2:9000
+UserAgent: MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z
+Error: Marking base002-object-54579-minio-1:9000 offline temporarily; caused by Get "https://base002-object-54579-minio-1:9000/minio/storage/data/v63/rver?did=37ffeab4-8c72-49a8-a734-26c099389529&fp=secure%2Fobject.txt&heal=false&incl-fv=false&ovol=&vid=2f549cd2-797e-4cdc-b80e-41596d327d5a&vol=ai-video-int": dial tcp 172.21.0.2:9000: connect: connection refused (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/rest/client.go:332:rest.(*Client).CallWithHTTPMethod()
+       3: cmd/storage-rest-client.go:181:cmd.(*storageRESTClient).callGet()
+       2: cmd/storage-rest-client.go:561:cmd.(*storageRESTClient).ReadVersion()
+       1: cmd/erasure-object.go:756:cmd.erasureObjects.getObjectFileInfo.func1.1()

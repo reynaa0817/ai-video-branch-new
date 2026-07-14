@@ -1,0 +1,18 @@
+NAME                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS            VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+persistentvolumeclaim/base002-smoke   Bound    pvc-fb1977f6-477e-4c3f-b783-357726500817   64Mi       RWO            ai-video-hostpath-csi   <unset>                 11s   Filesystem
+
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                        STORAGECLASS            VOLUMEATTRIBUTESCLASS   REASON   AGE   VOLUMEMODE
+persistentvolume/pvc-fb1977f6-477e-4c3f-b783-357726500817   64Mi       RWO            Delete           Bound    ai-video-int/base002-smoke   ai-video-hostpath-csi   <unset>                          11s   Filesystem
+
+NAME                        READY   STATUS      RESTARTS   AGE   IP           NODE                            NOMINATED NODE   READINESS GATES
+pod/base002-storage-smoke   0/1     Completed   0          11s   10.244.1.4   ai-video-base002-22413-worker   <none>           <none>
+NAME                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS            VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+persistentvolumeclaim/base002-smoke   Bound    pvc-fb1977f6-477e-4c3f-b783-357726500817   64Mi       RWO            ai-video-hostpath-csi   <unset>                 86s   Filesystem
+
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                        STORAGECLASS            VOLUMEATTRIBUTESCLASS   REASON   AGE   VOLUMEMODE
+persistentvolume/pvc-fb1977f6-477e-4c3f-b783-357726500817   64Mi       RWO            Delete           Bound    ai-video-int/base002-smoke   ai-video-hostpath-csi   <unset>                          86s   Filesystem
+
+NAME                           READY   STATUS      RESTARTS   AGE   IP           NODE                             NOMINATED NODE   READINESS GATES
+pod/base002-ingress-backend    1/1     Running     0          75s   10.244.1.5   ai-video-base002-22413-worker    <none>           <none>
+pod/base002-network-client     0/1     Completed   0          74s   10.244.2.5   ai-video-base002-22413-worker2   <none>           <none>
+pod/base002-storage-recovery   0/1     Completed   0          3s    10.244.1.6   ai-video-base002-22413-worker    <none>           <none>

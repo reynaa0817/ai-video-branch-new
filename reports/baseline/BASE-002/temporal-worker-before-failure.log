@@ -1,0 +1,3 @@
+WORKER_READY
+2026/07/14 09:14:05 INFO  Started Worker Namespace ai-video-int TaskQueue base002-sdk WorkerID 2801@f4911a4cde88@
+2026/07/14 09:14:19 DEBUG ExecuteActivity Namespace ai-video-int TaskQueue base002-sdk WorkerID 2801@f4911a4cde88@ WorkflowType interruptibleWorkflow WorkflowID base002-worker-recovery RunID 019f5fe7-e071-74ff-ba56-24ff7a575b4b Attempt 1 ActivityID 5 ActivityType interruptibleActivity

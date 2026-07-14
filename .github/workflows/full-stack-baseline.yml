@@ -20,6 +20,8 @@ jobs:
         run: bash tests/acceptance/baseline/base_002_test.sh
       - name: Provider sandbox fixture contract
         run: bash scripts/verify-provider-sandbox-fixtures.sh
+      - name: Executable paid-boundary fail-closed harness
+        run: bash tests/acceptance/baseline/fail_closed_test.sh
 
   signed-gate:
     if: github.event_name == 'workflow_dispatch'

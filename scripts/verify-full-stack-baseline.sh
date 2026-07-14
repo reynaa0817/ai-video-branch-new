@@ -112,8 +112,9 @@ check_media() {
 
 check_resilience() {
   require_file resilience.tsv
-  bad=$(awk -F '\t' 'NR > 1 && ($2 != "PASS" || $3 != 0) { print $1 "\t" $3; exit }' "$EVIDENCE_DIR/resilience.tsv")
-  [ -z "$bad" ] || fail B002-E05 "scenario=$(printf '%s' "$bad" | cut -f1) paid_progress=$(printf '%s' "$bad" | cut -f2) expected=0"
+  bad=$(awk -F '\t' 'NR > 1 && ($2 != "PASS" || $3 != 0) { print $1 "\t" $2 "\t" $3; exit }' "$EVIDENCE_DIR/resilience.tsv")
+  [ -z "$bad" ] || fail B002-E05 \
+    "scenario=$(printf '%s' "$bad" | cut -f1) status=$(printf '%s' "$bad" | cut -f2) paid_progress=$(printf '%s' "$bad" | cut -f3) expected_status=PASS expected_paid_progress=0"
   for scenario in budget_unavailable object_store_unavailable quality_gate_unavailable orchestrator_unavailable rolling_upgrade rollback; do
     grep -F "${scenario}"$'\t' "$EVIDENCE_DIR/resilience.tsv" >/dev/null 2>&1 || \
       fail B002-E05 "scenario=$scenario paid_progress=missing"

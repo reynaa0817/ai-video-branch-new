@@ -1,0 +1,1 @@
+{"Rules":[{"Expiration":{"Days":30},"ID":"d9auvnh875dc7je28sng","Filter":{"Prefix":"secure/"},"NoncurrentVersionExpiration":{"NoncurrentDays":7},"Status":"Enabled"}]}

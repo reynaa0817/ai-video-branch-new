@@ -33,7 +33,7 @@ mysql_image_digest: sha256:11111111111111111111111111111111111111111111111111111
 kafka_version: 4.0.0
 kafka_image_digest: sha256:2222222222222222222222222222222222222222222222222222222222222222
 agsarama_version: v0.0.0-20260701000000-aaaaaaaaaaaa
-nacos_version: 3.0.2
+nacos_version: 2.5.2
 redis_version: 8.0.3
 object_storage_product: minio
 object_storage_version: RELEASE.2025-04-22T22-12-26Z

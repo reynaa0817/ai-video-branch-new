@@ -1,0 +1,9 @@
+check	status	evidence
+encryption	PASS	object-storage-stat.json
+checksum	PASS	object-storage-expected.sha256
+versioning	PASS	object-storage-versions.txt
+lifecycle	PASS	object-storage-lifecycle.json
+short_term_access	PASS	object-storage-share.txt
+delete_marker_restore	PASS	object-storage-delete-restore.txt
+deletion_proof	PASS	object-storage-deletion-proof.txt
+failure_domain_read	PASS	object-storage-cluster-after-failure.txt

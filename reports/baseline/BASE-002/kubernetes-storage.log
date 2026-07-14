@@ -1,0 +1,5 @@
+namespace/ai-video-int created
+storageclass.storage.k8s.io/ai-video-hostpath-csi created
+persistentvolumeclaim/base002-smoke created
+pod/base002-storage-smoke created
+pod/base002-storage-recovery created

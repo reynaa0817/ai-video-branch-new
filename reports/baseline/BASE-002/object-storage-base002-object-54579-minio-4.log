@@ -1,0 +1,109 @@
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-3:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-3:9000/data: drive not found, will be retried
+INFO: Waiting for a minimum of 2 drives to come online (elapsed 0s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-54579-minio-3:9000/data: drive not found, will be retried
+INFO: Waiting for a minimum of 2 drives to come online (elapsed 1s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 2s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 3s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 4s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 5s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 6s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 7s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 8s)
+
+INFO: Unable to connect to https://base002-object-54579-minio-1:9000/data: <nil>, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 9s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 10s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 11s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 12s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 13s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 14s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 15s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 16s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 17s)
+
+INFO: Unable to connect to https://base002-object-54579-minio-1:9000/data: <nil>, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 18s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 19s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 20s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 21s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 22s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 23s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 24s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 25s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 26s)
+
+INFO: Unable to connect to https://base002-object-54579-minio-1:9000/data: <nil>, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 27s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 28s)
+
+INFO: Unable to use the drive https://base002-object-54579-minio-1:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 29s)
+
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1017
+INFO: All MinIO sub-systems initialized successfully in 8.502502ms
+INFO: IAM load(startup) finished. (duration: 1.263366ms)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.21.0.5:9000  https://127.0.0.1:9000 
+WebUI: https://172.21.0.5:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------

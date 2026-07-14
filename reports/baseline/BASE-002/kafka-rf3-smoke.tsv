@@ -5,4 +5,6 @@ min_insync_replicas	2
 produce_consume	PASS
 leader_failure	PASS
 dlq_topic	PASS
-rebalance_two_consumers	PENDING
+rebalance_two_consumers	PASS
+rebalance_member_count	2
+rebalance_message_count	30

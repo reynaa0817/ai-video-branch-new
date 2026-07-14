@@ -1,0 +1,12 @@
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                                                                                                     SELECTOR
+deployment.apps/ingress-nginx-controller   1/1     1            1           3m    controller   registry.k8s.io/ingress-nginx/controller:v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1   app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+
+NAME                                           READY   STATUS    RESTARTS   AGE   IP           NODE                             NOMINATED NODE   READINESS GATES
+pod/ingress-nginx-controller-56dc4b4c6-29pl4   1/1     Running   0          3m    10.244.2.4   ai-video-base002-22413-worker2   <none>           <none>
+
+NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE   SELECTOR
+service/ingress-nginx-controller             LoadBalancer   10.96.203.170   <pending>     80:31119/TCP,443:31311/TCP   3m    app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+service/ingress-nginx-controller-admission   ClusterIP      10.96.137.238   <none>        443/TCP                      3m    app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-nginx,app.kubernetes.io/name=ingress-nginx
+
+NAME                                   CONTROLLER             PARAMETERS   AGE
+ingressclass.networking.k8s.io/nginx   k8s.io/ingress-nginx   <none>       3m

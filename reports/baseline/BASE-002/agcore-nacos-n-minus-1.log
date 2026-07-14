@@ -1,0 +1,107 @@
++ export 'CUSTOM_SEARCH_NAMES=application'
++ export 'CUSTOM_SEARCH_LOCATIONS=file:/home/nacos/conf/'
++ export 'MEMBER_LIST='
++ PLUGINS_DIR=/home/nacos/plugins/peer-finder
++ join_if_exist -Xms 512m
++ '[' -n 512m ]
++ echo -Xms512m
++ Xms=-Xms512m
++ join_if_exist -Xmx 512m
++ '[' -n 512m ]
++ echo -Xmx512m
++ Xmx=-Xmx512m
++ join_if_exist -Xmn 256m
++ '[' -n 256m ]
++ echo -Xmn256m
++ Xmn=-Xmn256m
++ join_if_exist '-XX:MetaspaceSize=' 128m
++ '[' -n 128m ]
++ echo '-XX:MetaspaceSize=128m'
++ XX_MS='-XX:MetaspaceSize=128m'
++ join_if_exist '-XX:MaxMetaspaceSize=' 320m
++ '[' -n 320m ]
++ echo '-XX:MaxMetaspaceSize=320m'
++ XX_MMS='-XX:MaxMetaspaceSize=320m'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8 '
++ '[[' standalone '==' standalone ]]
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true'
++ '[[' all '==' config ]]
++ '[[' all '==' naming ]]
++ '[[' '!' -z  ]]
++ '[[' '!' -z  ]]
++ '[[' '!' -z  ]]
++ '[[' '!' -z  ]]
++ '[[' '!' -z  ]]
++ '[[' ip '==' hostname ]]
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list='
++ /usr/lib/jvm/java-1.8-openjdk/bin/java -version
++ sed -E -n 's/.* version "([0-9]*).*$/\1/p'
+Nacos is starting, you can docker logs your container
++ JAVA_MAJOR_VERSION=1
++ '[[' 1 -ge 9 ]]
++ JAVA_OPT_EXT_FIX='-Djava.ext.dirs=/usr/lib/jvm/java-1.8-openjdk/jre/lib/ext:/usr/lib/jvm/java-1.8-openjdk/lib/ext'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar '
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application --logging.config=/home/nacos/conf/nacos-logback.xml'
++ JAVA_OPT=' -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8  -Xms512m -Xmx512m -Xmn256m -Dnacos.standalone=true -Dnacos.member.list= -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M -Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector -Dnacos.home=/home/nacos -jar /home/nacos/target/nacos-server.jar  --spring.config.additional-location=file:/home/nacos/conf/ --spring.config.name=application --logging.config=/home/nacos/conf/nacos-logback.xml --server.max-http-header-size=524288'
++ echo 'Nacos is starting, you can docker logs your container'
++ exec /usr/lib/jvm/java-1.8-openjdk/bin/java -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection '-XX:CMSInitiatingOccupancyFraction=70' -XX:+CMSParallelRemarkEnabled '-XX:SoftRefLRUPolicyMSPerMB=0' -XX:+CMSClassUnloadingEnabled '-XX:SurvivorRatio=8' -Xms512m -Xmx512m -Xmn256m '-Dnacos.standalone=true' '-Dnacos.member.list=' -Xloggc:/home/nacos/logs/nacos_gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation '-XX:NumberOfGCLogFiles=10' '-XX:GCLogFileSize=100M' '-Dloader.path=/home/nacos/plugins,/home/nacos/plugins/health,/home/nacos/plugins/cmdb,/home/nacos/plugins/selector' '-Dnacos.home=/home/nacos' -jar /home/nacos/target/nacos-server.jar '--spring.config.additional-location=file:/home/nacos/conf/' '--spring.config.name=application' '--logging.config=/home/nacos/conf/nacos-logback.xml' '--server.max-http-header-size=524288'
+OpenJDK 64-Bit Server VM warning: UseCMSCompactAtFullCollection is deprecated and will likely be removed in a future release.
+
+         ,--.
+       ,--.'|
+   ,--,:  : |                                           Nacos 2.5.1
+,`--.'`|  ' :                       ,---.               Running in stand alone mode, All function modules
+|   :  :  | |                      '   ,'\   .--.--.    Port: 8848
+:   |   \ | :  ,--.--.     ,---.  /   /   | /  /    '   Pid: 1
+|   : '  '; | /       \   /     \.   ; ,. :|  :  /`./   Console: http://172.17.0.2:8848/nacos/index.html
+'   ' ;.    ;.--.  .-. | /    / ''   | |: :|  :  ;_
+|   | | \   | \__\/: . ..    ' / '   | .; : \  \    `.      https://nacos.io
+'   : |  ; .' ," .--.; |'   ; :__|   :    |  `----.   \
+|   | '`--'  /  /  ,.  |'   | '.'|\   \  /  /  /`--'  /
+'   : |     ;  :   .'   \   :    : `----'  '--'.     /
+;   |.'     |  ,     .-./\   \  /            `--'---'
+'---'        `--`---'     `----'
+
+2026-07-14 14:36:10,246 INFO Tomcat initialized with port(s): 8848 (http)
+
+2026-07-14 14:36:10,286 INFO Root WebApplicationContext: initialization completed in 1278 ms
+
+2026-07-14 14:36:12,318 INFO Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7ab34619, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@ae2db25, org.springframework.security.web.context.SecurityContextPersistenceFilter@268cbb86, org.springframework.security.web.header.HeaderWriterFilter@3a26ec8d, org.springframework.security.web.csrf.CsrfFilter@6e041285, org.springframework.security.web.authentication.logout.LogoutFilter@3d0035d2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@64d4f7c7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@17f3eefb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@363c4251, org.springframework.security.web.session.SessionManagementFilter@100c8b75, org.springframework.security.web.access.ExceptionTranslationFilter@3a37a501]
+
+2026-07-14 14:36:12,483 INFO Adding welcome page: class path resource [static/index.html]
+
+2026-07-14 14:36:12,670 INFO Exposing 1 endpoint(s) beneath base path '/actuator'
+
+2026-07-14 14:36:12,682 WARN You are asking Spring Security to ignore Ant [pattern='/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+
+2026-07-14 14:36:12,682 INFO Will not secure Ant [pattern='/**']
+
+2026-07-14 14:36:12,682 WARN You are asking Spring Security to ignore Mvc [pattern='/prometheus']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+
+2026-07-14 14:36:12,682 INFO Will not secure Mvc [pattern='/prometheus']
+
+2026-07-14 14:36:12,682 WARN You are asking Spring Security to ignore Mvc [pattern='/prometheus/namespaceId/{namespaceId}']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+
+2026-07-14 14:36:12,682 INFO Will not secure Mvc [pattern='/prometheus/namespaceId/{namespaceId}']
+
+2026-07-14 14:36:12,682 WARN You are asking Spring Security to ignore Mvc [pattern='/prometheus/namespaceId/{namespaceId}/service/{service}']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+
+2026-07-14 14:36:12,682 INFO Will not secure Mvc [pattern='/prometheus/namespaceId/{namespaceId}/service/{service}']
+
+2026-07-14 14:36:12,725 INFO Tomcat started on port(s): 8848 (http) with context path '/nacos'
+
+2026-07-14 14:36:12,733 INFO No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+
+2026-07-14 14:36:12,747 INFO Nacos started successfully in stand alone mode. use embedded storage
+
+2026-07-14 14:36:13,701 INFO Initializing Servlet 'dispatcherServlet'
+
+2026-07-14 14:36:13,701 INFO Completed initialization in 0 ms
+

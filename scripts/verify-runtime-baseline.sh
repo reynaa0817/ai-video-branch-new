@@ -77,8 +77,8 @@ docker run -d --name "$NACOS" --network "$NETWORK" -e MODE=standalone \
   -e NACOS_AUTH_TOKEN=YmFzZTAwMi1uYWNvcy1hdXRoLXRva2VuLW11c3QtYmUtYXQtbGVhc3QtMzItYnl0ZXM= \
   -e NACOS_AUTH_IDENTITY_KEY=base002 -e NACOS_AUTH_IDENTITY_VALUE=base002-secret \
   -e JVM_XMS=512m -e JVM_XMX=512m -e JVM_XMN=256m \
-  nacos/nacos-server@sha256:d6b3087bc2302c2b49c875e1c5ad8c916fc10696ceb355be56cffd715e178d81 >/dev/null
-probe nacos sh -c "docker logs '$NACOS' 2>&1 | grep -q 'Nacos Server API started successfully'"
+  nacos/nacos-server@sha256:de4fc59c2c3b2a6f87d30265c5d3c8b549316c17575ce2b32eab8d02a8be26dd >/dev/null
+probe nacos sh -c "docker logs '$NACOS' 2>&1 | grep -Eq 'Nacos (Server API )?started successfully'"
 docker logs "$NACOS" >"$EVIDENCE/runtime-nacos.log" 2>&1
 
 {

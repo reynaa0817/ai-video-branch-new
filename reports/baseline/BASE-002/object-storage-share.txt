@@ -1,0 +1,3 @@
+URL: https://base002-object-54579-minio-1:9000/ai-video-int/share/object.txt
+Expire: 5 minutes 0 seconds
+Share: https://base002-object-54579-minio-1:9000/ai-video-int/share/object.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=base002admin%2F20260714%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260714T081422Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&versionId=b4752359-1d1f-4cac-8902-f7203458c816&X-Amz-Signature=ae6015f80d0b60473d78dffa10757ac117c36d01e7a1edf46e13bac5669b3cda

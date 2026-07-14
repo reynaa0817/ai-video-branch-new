@@ -1,0 +1,49 @@
+INFO: Unable to use the drive https://base002-object-7676-minio-4:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-7676-minio-4:9000/data: drive not found, will be retried
+INFO: Waiting for all other servers to be online to format the drives (elapses 0s)
+
+INFO: Formatting 1st pool, 1 set(s), 4 drives per set.
+INFO: Waiting for quorum READ healthcheck to succeed retrying in 734.617109ms.. possible cause unhealthy sets
+INFO: (Pool: 0 Set: 0 Healthy: false)
+INFO: Waiting for quorum READ healthcheck to succeed retrying in 277.425914ms.. possible cause unhealthy sets
+INFO: (Pool: 0 Set: 0 Healthy: false)
+INFO: Waiting for quorum READ healthcheck to succeed retrying in 148.591716ms.. possible cause unhealthy sets
+INFO: (Pool: 0 Set: 0 Healthy: false)
+INFO: Waiting for quorum READ healthcheck to succeed retrying in 472.988743ms.. possible cause unhealthy sets
+INFO: (Pool: 0 Set: 0 Healthy: false)
+
+API: SYSTEM.peers
+Time: 06:50:40 UTC 07/14/2026
+DeploymentID: 183728e8-ccc5-40ed-8e15-44c5fb2814bd
+Error: Server not initialized, please try again (grid.RemoteErr)
+       peerAddress="base002-object-7676-minio-3:9000"
+       4: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       3: internal/logger/logonce.go:149:logger.LogOnceIf()
+       2: cmd/logging.go:71:cmd.peersLogOnceIf()
+       1: cmd/notification.go:140:cmd.(*NotificationGroup).Go.func1()
+
+API: SYSTEM.peers
+Time: 06:50:40 UTC 07/14/2026
+DeploymentID: 183728e8-ccc5-40ed-8e15-44c5fb2814bd
+Error: Server not initialized, please try again (grid.RemoteErr)
+       peerAddress="base002-object-7676-minio-4:9000"
+       4: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       3: internal/logger/logonce.go:149:logger.LogOnceIf()
+       2: cmd/logging.go:71:cmd.peersLogOnceIf()
+       1: cmd/notification.go:140:cmd.(*NotificationGroup).Go.func1()
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1084
+INFO: All MinIO sub-systems initialized successfully in 100.766187ms
+INFO: IAM load(startup) finished. (duration: 1.024358ms)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.20.0.2:9000  https://127.0.0.1:9000 
+WebUI: https://172.20.0.2:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------
+INFO: Exiting on signal: TERMINATED

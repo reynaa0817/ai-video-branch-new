@@ -3,4 +3,7 @@ mysql_8_4_10	PASS	temporal-mysql.log
 temporal_schema_1_19_1_14	PASS	temporal-schema-versions.tsv
 namespace_isolation	PASS	temporal-namespace.log
 workflow_sdk_compatibility	PASS	temporal-sdk.log
-upgrade_rollback_restore	PENDING	timed-DR
+server_upgrade_1_30_2_to_1_31_2	PASS	temporal-sdk-after-upgrade.log
+server_rollback_1_31_2_to_1_30_2	PASS	temporal-sdk-after-rollback.log
+worker_interruption_recovery	PASS	temporal-worker-recovery.log
+mysql_logical_restore	PASS	temporal-sdk-after-restore.log

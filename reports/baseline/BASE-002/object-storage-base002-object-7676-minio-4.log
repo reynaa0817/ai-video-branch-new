@@ -1,0 +1,59 @@
+INFO: Unable to use the drive https://base002-object-7676-minio-3:9000/data: drive not found, will be retried
+INFO: Unable to use the drive https://base002-object-7676-minio-3:9000/data: drive not found, will be retried
+INFO: Waiting for the first server to format the drives (elapsed 0s)
+
+INFO: Unable to use the drive https://base002-object-7676-minio-3:9000/data: drive not found, will be retried
+
+API: SYSTEM.storage
+Time: 06:50:38 UTC 07/14/2026
+DeploymentID: 183728e8-ccc5-40ed-8e15-44c5fb2814bd
+Error: saving pool.bin for pool index 0 failed with: Storage resources are insufficient for the write operation .minio.sys/pool.bin (*errors.errorString)
+      11: internal/logger/logger.go:268:logger.LogIf()
+      10: cmd/logging.go:156:cmd.storageLogIf()
+       9: cmd/erasure-server-pool-decom.go:474:cmd.poolMeta.save()
+       8: cmd/erasure-server-pool-decom.go:515:cmd.(*erasureServerPools).Init()
+       7: cmd/erasure-server-pool.go:208:cmd.newErasureServerPools.func5()
+       6: cmd/server-main.go:564:cmd.bootstrapTrace()
+       5: cmd/erasure-server-pool.go:207:cmd.newErasureServerPools()
+       4: cmd/server-main.go:1198:cmd.newObjectLayer()
+       3: cmd/server-main.go:942:cmd.serverMain.func12()
+       2: cmd/server-main.go:564:cmd.bootstrapTrace()
+       1: cmd/server-main.go:940:cmd.serverMain()
+
+API: SYSTEM.storage
+Time: 06:50:38 UTC 07/14/2026
+DeploymentID: 183728e8-ccc5-40ed-8e15-44c5fb2814bd
+Error: Unable to initialize backend: Storage resources are insufficient for the write operation .minio.sys/pool.bin, retrying in 3.250881497s (*fmt.wrapError)
+       7: internal/logger/logger.go:268:logger.LogIf()
+       6: cmd/logging.go:156:cmd.storageLogIf()
+       5: cmd/erasure-server-pool.go:215:cmd.newErasureServerPools()
+       4: cmd/server-main.go:1198:cmd.newObjectLayer()
+       3: cmd/server-main.go:942:cmd.serverMain.func12()
+       2: cmd/server-main.go:564:cmd.bootstrapTrace()
+       1: cmd/server-main.go:940:cmd.serverMain()
+INFO: Waiting for all MinIO sub-systems to be initialize...
+INFO: Configured max API requests per node based on available memory: 1018
+INFO: All MinIO sub-systems initialized successfully in 3.821338ms
+INFO: IAM load(startup) finished. (duration: 1.059899ms)
+---------------------------
+MinIO Object Storage Server
+Copyright: 2015-2026 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-22T22-12-26Z (go1.24.2 linux/arm64)
+
+API: https://172.20.0.5:9000  https://127.0.0.1:9000 
+WebUI: https://172.20.0.5:9001 https://127.0.0.1:9001  
+
+Docs: https://docs.min.io
+---------------------------
+
+API: SYSTEM.grid
+Time: 06:50:42 UTC 07/14/2026
+DeploymentID: 183728e8-ccc5-40ed-8e15-44c5fb2814bd
+Error: grid: https://base002-object-7676-minio-4:9000 re-connecting to https://base002-object-7676-minio-1:9000: dial tcp 172.20.0.2:9000: connect: connection refused (*net.OpError) Sleeping 1.125s (3) (*fmt.wrapError)
+       6: internal/logger/logonce.go:118:logger.(*logOnceType).logOnceIf()
+       5: internal/logger/logonce.go:149:logger.LogOnceIf()
+       4: internal/grid/connection.go:59:grid.gridLogOnceIf()
+       3: internal/grid/connection.go:672:grid.(*Connection).connect.func1()
+       2: internal/grid/connection.go:678:grid.(*Connection).connect()
+       1: internal/grid/connection.go:275:grid.newConnection.func3()
