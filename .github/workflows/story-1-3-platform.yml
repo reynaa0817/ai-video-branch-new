@@ -1,0 +1,205 @@
+name: story-1-3-platform
+
+"on":
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/story-1-3-platform.yml"
+      - ".env.example"
+      - "api/**"
+      - "services/**"
+      - "workers/**"
+      - "contracts/**"
+      - "deploy/**"
+      - "docker-compose.yml"
+      - "scripts/**"
+      - "deps/**"
+      - "images/**"
+      - "reports/contracts/**"
+      - "reports/observability/**"
+      - "reports/a11y/**"
+      - "reports/ui-state/**"
+      - "_bmad-output/implementation-artifacts/1-3-*"
+      - "_bmad-output/implementation-artifacts/sprint-status.yaml"
+      - "data/**"
+      - "tests/acceptance/contracts/**"
+      - "tests/acceptance/observability/**"
+      - "web/**"
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - ".env.example"
+      - "services/**"
+      - "workers/**"
+      - "contracts/**"
+      - "deploy/**"
+      - "docker-compose.yml"
+      - "scripts/**"
+      - "deps/**"
+      - "images/**"
+      - "reports/contracts/**"
+      - "reports/observability/**"
+      - "reports/a11y/**"
+      - "reports/ui-state/**"
+      - "_bmad-output/implementation-artifacts/1-3-*"
+      - "_bmad-output/implementation-artifacts/sprint-status.yaml"
+      - "data/**"
+      - "tests/acceptance/contracts/**"
+      - "tests/acceptance/observability/**"
+      - "web/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: story-1-3-platform
+  cancel-in-progress: false
+
+jobs:
+  contract:
+    name: CONTRACT-001 and Compose config
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GOTOOLCHAIN: local
+      GOWORK: "off"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - name: Set up Go 1.25.1
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
+        with:
+          go-version: 1.25.1
+          cache: false
+      - name: Set up Node 24.18.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.18.0
+      - name: Set up buf 1.53.0
+        uses: bufbuild/buf-setup-action@a47c93e0b1648d5651a065437926377d060baa99
+        with:
+          version: 1.53.0
+      - name: Initialize fresh evidence
+        run: |
+          rm -f reports/contracts/CONTRACT-001/result.tsv reports/observability/OBS-001/result.tsv
+          printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/contracts/CONTRACT-001/ci-run.tsv
+      - name: Validate shell and Node entrypoints
+        run: |
+          bash -n scripts/verify-contracts.sh
+          bash -n scripts/verify-local-platform.sh
+          bash -n scripts/verify-offline.sh
+          node --check scripts/check-service-boundaries.mjs
+          node --check scripts/validate-event-envelope.mjs
+          node --check scripts/validate-story-metadata.mjs
+          node scripts/validate-story-metadata.mjs
+      - name: Run executable contract acceptance
+        run: bash tests/acceptance/contracts/story_1_3_contract_test.sh
+      - name: Validate Compose without claiming runtime evidence
+        run: bash scripts/verify-local-platform.sh --config-only
+      - name: Upload contract evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: story-1-3-contract-${{ github.sha }}
+          path: |
+            reports/contracts/CONTRACT-001/
+            reports/observability/OBS-001/result.tsv
+          if-no-files-found: error
+          retention-days: 90
+
+  web:
+    name: Web frozen build and shell gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - name: Set up Node 24.18.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.18.0
+      - name: Set up pnpm 11.4.0
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+        with:
+          version: 11.4.0
+      - name: Initialize fresh browser evidence
+        run: |
+          rm -f reports/a11y/A11Y-001/result.tsv reports/ui-state/UI-STATE-001/result.tsv reports/ui-state/UI-STATE-001/static-result.tsv reports/ui-state/UI-STATE-001/viewport-*.png
+          printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/a11y/A11Y-001/ci-run.tsv
+      - name: Frozen install, build and static gate
+        run: |
+          pnpm --dir web install --frozen-lockfile
+          pnpm --dir web exec playwright install --with-deps chromium
+          bash scripts/verify-web-shell.sh
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: story-1-3-web-${{ github.sha }}
+          path: |
+            reports/a11y/A11Y-001/
+            reports/ui-state/UI-STATE-001/
+          if-no-files-found: error
+          retention-days: 90
+
+  runtime-evidence:
+    name: OBS-001 offline runtime and fault injection
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, ai-video-offline]
+    environment: offline-runtime
+    timeout-minutes: 30
+    env:
+      APP_IMAGE_TAG: story-1.3-${{ github.sha }}-arm64
+      AI_VIDEO_ENV_FILE: ${{ vars.AI_VIDEO_ENV_FILE }}
+      CI_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      EXPECTED_VCS_REF: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - name: Initialize fresh runtime evidence
+        run: |
+          rm -f reports/observability/OBS-001/result.tsv reports/observability/OBS-001/minimal-event-roundtrip.json
+          printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/observability/OBS-001/ci-run.tsv
+      - name: Verify isolated ARM64 offline runner prerequisites
+        shell: bash
+        run: |
+          case "$(uname -m)" in arm64|aarch64) ;; *) echo "runner must be ARM64" >&2; exit 1 ;; esac
+          test -n "$AI_VIDEO_ENV_FILE" && test -r "$AI_VIDEO_ENV_FILE"
+          command -v docker >/dev/null
+          command -v node >/dev/null
+          docker version
+          docker compose version
+      - name: Build application images without network or pulling
+        shell: bash
+        run: |
+          while IFS=$'\t' read -r name path; do
+            docker build --network=none --pull=false \
+              --build-arg SERVICE_PATH="$path" \
+              --build-arg VCS_REF="$GITHUB_SHA" \
+              -f deploy/images/go-service.Dockerfile \
+              -t "local.ai-video/$name:$APP_IMAGE_TAG" .
+          done < <(node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("contracts/services.yaml","utf8")); for (const [name,s] of Object.entries(r.services)) console.log(`${name}\t${s.path}`)')
+          docker build --network=none --pull=false \
+            --build-arg TARGETARCH=arm64 \
+            --build-arg VCS_REF="$GITHUB_SHA" \
+            -f web/Dockerfile \
+            -t "local.ai-video/web:$APP_IMAGE_TAG" .
+      - name: Verify offline bundle and loaded images
+        run: bash scripts/verify-offline.sh
+      - name: Run real observability acceptance
+        run: bash tests/acceptance/observability/story_1_3_observability_test.sh
+      - name: Upload runtime evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: story-1-3-runtime-${{ github.sha }}
+          path: reports/observability/OBS-001/
+          if-no-files-found: error
+          retention-days: 90

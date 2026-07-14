@@ -2,8 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 const (
@@ -19,15 +22,55 @@ type Health struct {
 	Status      string `json:"status"`
 }
 
-func main() {
-	status := Health{ServiceName: serviceName, ServiceKind: serviceKind, FactOwner: factOwner, Status: "ok"}
-	if len(os.Args) > 1 && os.Args[1] == "contract" {
-		status.Status = "contract-boundary-ok"
+func validateContract() error {
+	if serviceName == "" {
+		return errors.New("service name is required")
 	}
-	out, err := json.Marshal(status)
-	if err != nil {
+	validKind := serviceKind == "bff" || serviceKind == "core-fact-service" || serviceKind == "projection" || serviceKind == "execution-worker"
+	if !validKind {
+		return fmt.Errorf("unsupported service kind %q", serviceKind)
+	}
+	if factOwner != (serviceKind == "core-fact-service") {
+		return errors.New("fact ownership must match service kind")
+	}
+	return nil
+}
+
+func emit(status string) error {
+	return json.NewEncoder(os.Stdout).Encode(Health{serviceName, serviceKind, factOwner, status})
+}
+
+func main() {
+	if err := validateContract(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	fmt.Println(string(out))
+	mode := "serve"
+	if len(os.Args) > 1 {
+		mode = os.Args[1]
+	}
+	switch mode {
+	case "health":
+		if err := emit("ok"); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	case "contract":
+		if err := emit("contract-boundary-ok"); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	case "serve":
+		if err := emit("starting"); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		stop := make(chan os.Signal, 1)
+		signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+		<-stop
+		_ = emit("stopped")
+	default:
+		fmt.Fprintf(os.Stderr, "unknown mode %q\n", mode)
+		os.Exit(2)
+	}
 }

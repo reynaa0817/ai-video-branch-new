@@ -4,7 +4,9 @@ package ai.video.platform.v1;
 
 option go_package = "github.com/frochyzhang/ai-video/contracts/gen/go/ai/video/platform/v1;platformv1";
 
-// Domain enumerates fact-owning contexts. Zero must be fail-closed.
+// Domain enumerates the seven business fact-owning contexts. Zero and unknown
+// values must be rejected by consumers. Read-model projections are deliberately
+// absent because they are not business fact owners.
 enum Domain {
   DOMAIN_UNSPECIFIED = 0;
   DOMAIN_STUDIO = 1;
@@ -14,7 +16,6 @@ enum Domain {
   DOMAIN_MODEL_GATEWAY = 5;
   DOMAIN_QUALITY = 6;
   DOMAIN_DELIVERY = 7;
-  DOMAIN_EXPERIENCE_PROJECTION = 8;
 }
 
 // EventKind is intentionally small for Story 1.3 golden vectors.
@@ -40,9 +41,13 @@ message DomainEventEnvelope {
   Domain owner_domain = 5;
   EventKind event_kind = 6;
   string schema_version = 7;
+  // RFC3339 timestamp with an explicit UTC offset. Semantic validation is part
+  // of CONTRACT-001 so malformed values fail closed before publication.
   string occurred_at = 8;
   string producer = 9;
   TraceContext trace = 10;
+  // UTF-8 JSON, capped at 64 KiB by CONTRACT-001. Media URLs, prompt text and
+  // credentials are forbidden in both field names and string values.
   bytes payload = 11;
 
   reserved 12 to 20;

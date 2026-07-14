@@ -1,19 +1,22 @@
 check	status	detail
-proto-shape	PASS	Envelope enum zero values and reserved fields are present
-golden-valid	PASS	Valid event golden vector has required fields
-golden-unknown-enum	PASS	Unknown enum negative vector is preserved
-golden-unknown-field	PASS	Unknown field negative vector is preserved
-build-api/web-bff	PASS	independent Go module builds with GOWORK=off
-build-services/studio	PASS	independent Go module builds with GOWORK=off
-build-services/workflow	PASS	independent Go module builds with GOWORK=off
-build-services/budget	PASS	independent Go module builds with GOWORK=off
-build-services/asset	PASS	independent Go module builds with GOWORK=off
-build-services/model-gateway	PASS	independent Go module builds with GOWORK=off
-build-services/quality	PASS	independent Go module builds with GOWORK=off
-build-services/delivery	PASS	independent Go module builds with GOWORK=off
-build-services/experience-projection	PASS	independent Go module builds with GOWORK=off
-build-workers/provider-worker	PASS	independent Go module builds with GOWORK=off
-build-workers/media-worker	PASS	independent Go module builds with GOWORK=off
-forbidden-imports	PASS	no forbidden cross-service internal imports detected
+proto-schema	PASS	buf lint/build and breaking comparison passed
+golden-valid	PASS	valid vector decoded with buf and passed semantic constraints
+golden-unknown-enum	PASS	CONTRACT_UNKNOWN_ENUM: buf decoder rejected the vector
+golden-unknown-field	PASS	CONTRACT_UNKNOWN_FIELD: buf decoder rejected the vector
+service-registry	PASS	registry has 11 unique modules and single-owner business facts
+registry-completeness	PASS	every discovered independent module is registered exactly once
+build-web-bff	PASS	all packages build independently and runtime identity matches registry
+build-studio	PASS	all packages build independently and runtime identity matches registry
+build-workflow	PASS	all packages build independently and runtime identity matches registry
+build-budget	PASS	all packages build independently and runtime identity matches registry
+build-asset	PASS	all packages build independently and runtime identity matches registry
+build-model-gateway	PASS	all packages build independently and runtime identity matches registry
+build-quality	PASS	all packages build independently and runtime identity matches registry
+build-delivery	PASS	all packages build independently and runtime identity matches registry
+build-experience-projection	PASS	all packages build independently and runtime identity matches registry
+build-provider-worker	PASS	all packages build independently and runtime identity matches registry
+build-media-worker	PASS	all packages build independently and runtime identity matches registry
+image-entry	PASS	shared image entry builds every registered independent module
+service-boundaries	PASS	cross-service private imports and shared business tables are absent
 canonical-agcore	PASS	legacy GitLab ag-core path absent
-CONTRACT-001	PASS	Story 1.3 contract boundary checks passed
+CONTRACT-001	PASS	Story 1.3 executable contract boundary checks passed

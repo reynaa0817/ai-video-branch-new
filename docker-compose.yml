@@ -1,11 +1,19 @@
 # 项目：ai-video Story 1.3 local 平台骨架
 # 说明：所有镜像必须由离线包预加载或来自本地私有仓库；禁止 latest 和公共 registry。
 
+x-app-healthcheck: &app-healthcheck
+  test: ["CMD", "/app/server", "health"]
+  interval: 10s
+  timeout: 3s
+  retries: 6
+  start_period: 5s
+
 services:
   # MySQL 服务：业务事实库与 Temporal persistence 的本地骨架依赖。
   # 端口：3306 映射到主机 3306；数据持久化到 ./data/mysql。
   mysql:
     image: local.ai-video/mysql:8.4.10-arm64
+    pull_policy: never
     restart: unless-stopped
     environment:
       # 数据库 root 密码，通过 .env 注入。
@@ -19,13 +27,20 @@ services:
     volumes:
       # 数据持久化：禁止将业务事实保存在容器可写层。
       - ./data/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
 
   # Temporal 服务：唯一流程推进器；Kafka 不推进业务状态。
   # 端口：7233；数据持久化到 ./data/temporal。
   temporal:
     image: local.ai-video/temporal:1.31.2-arm64
+    pull_policy: never
     restart: unless-stopped
     depends_on:
       - mysql
@@ -36,28 +51,51 @@ services:
       TEMPORAL_NAMESPACE: ai-video-local
     volumes:
       - ./data/temporal:/var/lib/temporal
+    healthcheck:
+      test: ["CMD-SHELL", "temporal operator cluster health --address 127.0.0.1:7233 >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
     ports:
-      - "7233:7233"
+      - "127.0.0.1:7233:7233"
 
   # Kafka 服务：传播已持久化事实事件，不作为业务事实备份。
   # 端口：9092；数据持久化到 ./data/kafka。
   kafka:
     image: local.ai-video/kafka:4.0.0-arm64
+    pull_policy: never
     restart: unless-stopped
     environment:
       # KRaft 本地节点 ID。
       KAFKA_NODE_ID: "1"
-      # local broker 监听地址。
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # KRaft 单节点同时承担 broker/controller；内部与宿主监听器必须分离。
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_LISTENERS: INTERNAL://:29092,CONTROLLER://:29093,EXTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
     volumes:
       - ./data/kafka:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server 127.0.0.1:9092 >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
     ports:
-      - "9092:9092"
+      - "127.0.0.1:9092:9092"
 
   # MinIO 服务：S3 兼容对象存储骨架；Asset 才能登记 canonical object。
   # 端口：9000 API，9001 控制台；数据持久化到 ./data/minio。
   minio:
     image: local.ai-video/minio:2025-04-22-arm64
+    pull_policy: never
     restart: unless-stopped
     environment:
       # MinIO 管理员用户，通过 .env 注入。
@@ -67,38 +105,75 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - ./data/minio:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9000/minio/health/live >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
 
   # Nacos 服务：ag-core 配置中心与服务发现骨架。
   # 端口：8848；数据持久化到 ./data/nacos。
   nacos:
     image: local.ai-video/nacos:2.5.2-arm64
+    pull_policy: never
     restart: unless-stopped
     environment:
       # local 单机模式。
       MODE: standalone
     volumes:
       - ./data/nacos:/home/nacos/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8848/nacos/v1/console/health/readiness >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
     ports:
-      - "8848:8848"
+      - "127.0.0.1:8848:8848"
 
   # Redis 服务：缓存骨架；缓存丢失不得改变业务事实。
   # 端口：6379；数据持久化到 ./data/redis。
   redis:
     image: local.ai-video/redis:8.8.0-arm64
+    pull_policy: never
     restart: unless-stopped
     volumes:
       - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
+
+  # Web 工作台：仅提供已通过 frozen build 的静态资源。
+  # 端口：4173 映射到 nginx 80，便于 local 浏览器验收。
+  web:
+    image: local.ai-video/web:${APP_IMAGE_TAG}
+    pull_policy: never
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+    ports:
+      - "127.0.0.1:4173:80"
 
   # Web BFF 骨架：面向浏览器的聚合入口，不拥有业务事实。
   # 端口：8080；日志分离输出到 ./data/logs/app 与 ./data/logs/error。
   web-bff:
-    image: local.ai-video/web-bff:story-1.3-arm64
+    image: local.ai-video/web-bff:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - temporal
       - kafka
@@ -111,13 +186,15 @@ services:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
 
   # Studio 服务：Project、Revision、Gate 等创作事实 owner。
   # 依赖：MySQL、Kafka；日志分离输出到 ./data/logs/。
   studio:
-    image: local.ai-video/studio:story-1.3-arm64
+    image: local.ai-video/studio:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -133,8 +210,10 @@ services:
   # Workflow 服务：Temporal 工作流游标与 Saga 状态 owner。
   # 依赖：Temporal、Kafka、MySQL；不拥有业务 Project/预算/资产事实。
   workflow:
-    image: local.ai-video/workflow:story-1.3-arm64
+    image: local.ai-video/workflow:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - temporal
       - kafka
@@ -151,8 +230,10 @@ services:
   # Budget 服务：Quote、Reservation、SpendAuthorization 与 Ledger owner。
   # 依赖：MySQL、Kafka；不可用时必须 fail-closed。
   budget:
-    image: local.ai-video/budget:story-1.3-arm64
+    image: local.ai-video/budget:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -168,8 +249,10 @@ services:
   # Asset 服务：canonical object、ArtifactVersion、AdoptionManifest owner。
   # 依赖：MySQL、Kafka、MinIO；对象持久化不可用时必须 fail-closed。
   asset:
-    image: local.ai-video/asset:story-1.3-arm64
+    image: local.ai-video/asset:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -186,8 +269,10 @@ services:
   # Model Gateway 服务：唯一模型出口、Attempt 与 ProviderCostFact owner。
   # 依赖：MySQL、Kafka；不在本 Story 调用真实供应商。
   model-gateway:
-    image: local.ai-video/model-gateway:story-1.3-arm64
+    image: local.ai-video/model-gateway:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -203,8 +288,10 @@ services:
   # Quality 服务：RuleSet、QualityRun、Finding 与 Evidence owner。
   # 依赖：MySQL、Kafka；质量门不可用时必须 fail-closed。
   quality:
-    image: local.ai-video/quality:story-1.3-arm64
+    image: local.ai-video/quality:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -220,8 +307,10 @@ services:
   # Delivery 服务：ReleaseVersion 与 ExportRecord owner。
   # 依赖：MySQL、Kafka、MinIO；本 Story 只提供部署边界。
   delivery:
-    image: local.ai-video/delivery:story-1.3-arm64
+    image: local.ai-video/delivery:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - mysql
       - kafka
@@ -238,8 +327,10 @@ services:
   # Experience Projection 服务：统一 ProjectExperienceView 和通知投影 owner。
   # 依赖：Kafka、MySQL；只读投影不得推进 Workflow。
   experience-projection:
-    image: local.ai-video/experience-projection:story-1.3-arm64
+    image: local.ai-video/experience-projection:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - kafka
       - mysql
@@ -255,8 +346,10 @@ services:
   # Provider Worker：执行面 worker，不拥有核心业务事实。
   # 依赖：Model Gateway 边界；本 Story 不连接真实供应商。
   provider-worker:
-    image: local.ai-video/provider-worker:story-1.3-arm64
+    image: local.ai-video/provider-worker:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - model-gateway
     environment:
@@ -271,8 +364,10 @@ services:
   # Media Worker：媒体转码/探测执行面 worker，不拥有核心业务事实。
   # 依赖：Asset 边界和对象存储；本 Story 只提供部署边界。
   media-worker:
-    image: local.ai-video/media-worker:story-1.3-arm64
+    image: local.ai-video/media-worker:${APP_IMAGE_TAG}
+    pull_policy: never
     restart: unless-stopped
+    healthcheck: *app-healthcheck
     depends_on:
       - asset
       - minio

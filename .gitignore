@@ -9,6 +9,9 @@
 /api/*/server
 /services/*/server
 /workers/*/server
+/web/dist/
+/web/test-results/
+/web/playwright-report/
 
 # Offline dependency payloads are managed outside git; keep only manifests/placeholders.
 /deps/bin/*
@@ -19,3 +22,11 @@
 !/deps/rpm/mysql/README.md
 /deps/source/*
 !/deps/source/README.md
+/deps/go-mod-cache/*
+!/deps/go-mod-cache/README.md
+/deps/pnpm-store/*
+!/deps/pnpm-store/README.md
+/images/base-images/*
+!/images/base-images/README.md
+/images/app-images/*
+!/images/app-images/README.md

@@ -14,11 +14,23 @@ WORKDIR /src
 # 复制仓库源码。离线构建必须确保依赖已在 deps 或本地 module cache 中准备好。
 COPY . .
 
-# 使用 GOWORK=off 验证模块不依赖根 go.work。
-RUN cd "${SERVICE_PATH}" && GOWORK=off go build -o /out/server ./cmd/server
+# 离线 module cache 必须由 deps/manifest.sha256 锁定；禁止 Go 工具链回退联网。
+ENV GOMODCACHE=/src/deps/go-mod-cache \
+    GOPROXY=off \
+    GOSUMDB=off
+
+# 使用 GOWORK=off 验证模块不依赖根 go.work。先编译全部包，避免隐藏在
+# cmd/server 之外的 handler、repository 或生成代码损坏后镜像仍假绿。
+RUN cd "${SERVICE_PATH}" \
+    && test -d "${GOMODCACHE}" \
+    && GOWORK=off go build ./... \
+    && GOWORK=off go build -o /out/server ./cmd/server
 
 # 运行时镜像同样来自本地预加载仓库。
 FROM local.ai-video/runtime-debian:12-arm64
+
+ARG VCS_REF
+LABEL org.opencontainers.image.revision="${VCS_REF}"
 
 # 服务统一运行目录。
 WORKDIR /app
@@ -28,3 +40,6 @@ COPY --from=builder /out/server /app/server
 
 # 默认启动健康/边界命令；业务协议适配由 aggo 生成后再接入。
 ENTRYPOINT ["/app/server"]
+
+# 最小骨架不手写 HTTP 路由；容器健康由同一二进制的 health 命令判定。
+HEALTHCHECK --interval=10s --timeout=3s --retries=6 CMD ["/app/server", "health"]

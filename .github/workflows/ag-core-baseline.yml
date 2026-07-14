@@ -66,4 +66,4 @@ jobs:
           name: BASE-001-${{ github.sha }}
           path: reports/baseline/BASE-001/
           if-no-files-found: error
-          retention-days: 90
+          retention-days: 180

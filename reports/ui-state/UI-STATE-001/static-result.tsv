@@ -1,0 +1,19 @@
+check	status	detail
+file-packageJson	PASS	package.json
+file-lockfile	PASS	pnpm-lock.yaml
+file-main	PASS	src/main.tsx
+file-css	PASS	src/styles.css
+file-html	PASS	index.html
+file-asset	PASS	public/concept-frame.png
+file-playwright	PASS	playwright.config.ts
+package-json	PASS	package.json parses
+node-version	PASS	Node engine is locked to 24.18.0
+pnpm-version	PASS	pnpm is locked to 11.4.0
+react-version	PASS	React and ReactDOM are locked to 19.2.7
+browser-tests	PASS	Playwright and axe are exact dependencies
+main-readable	PASS	src/main.tsx is readable
+css-readable	PASS	src/styles.css is readable
+react-root	PASS	React owns the mounted application
+responsive-drawer	PASS	responsive copilot has an explicit open/close path
+base-aware-asset	PASS	preview asset respects the Vite base path
+reduced-motion	PASS	reduced-motion override exists

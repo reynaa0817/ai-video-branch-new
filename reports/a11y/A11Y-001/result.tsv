@@ -1,32 +1,6 @@
 check	status	detail
-file-packageJson	PASS	/Users/zhangrn/Documents/ai-video/web/package.json
-file-lockfile	PASS	/Users/zhangrn/Documents/ai-video/web/pnpm-lock.yaml
-file-main	PASS	/Users/zhangrn/Documents/ai-video/web/src/main.ts
-file-css	PASS	/Users/zhangrn/Documents/ai-video/web/src/styles.css
-file-html	PASS	/Users/zhangrn/Documents/ai-video/web/index.html
-file-asset	PASS	/Users/zhangrn/Documents/ai-video/web/public/concept-frame.png
-node-version	PASS	Node engine is locked to 24.18.0
-pnpm-version	PASS	pnpm is locked to 11.4.0
-react-version	PASS	React is locked to 19.2.7
-vite-version	PASS	Vite is locked to 8.1.4
-typescript-version	PASS	TypeScript is locked to 5.9.3
-token-#080a12	PASS	CSS includes #080a12
-token-#0b0e18	PASS	CSS includes #0b0e18
-token-#101522	PASS	CSS includes #101522
-token-#6547d9	PASS	CSS includes #6547d9
-token-#2dd4e5	PASS	CSS includes #2dd4e5
-token-#62e7f3	PASS	CSS includes #62e7f3
-responsive->=1280px	PASS	responsive boundary >=1280px is represented
-responsive-1024	PASS	responsive boundary 1024 is represented
-responsive-768	PASS	responsive boundary 768 is represented
-responsive-<768px	PASS	responsive boundary <768px is represented
-focus-visible	PASS	visible focus styles exist
-reduced-motion	PASS	reduced motion media query exists
-touch-targets	PASS	44px target baseline exists
-non-color-state	PASS	states include text labels and visual markers
-stage-rail	PASS	six-stage rail exists
-workbench-not-landing	PASS	first screen is a workbench shell
-preview-asset	PASS	preview asset is wired
-ai-label	PASS	AI generated content label is visible
-no-vw-fonts	PASS	font size does not scale with viewport width
-no-negative-letter-spacing	PASS	CSS has no negative letter spacing
+[A11Y] axe desktop 1440px	PASS	740ms
+[A11Y] axe compact 1100px	PASS	459ms
+[A11Y] axe tablet 900px	PASS	449ms
+[A11Y] axe mobile 390px	PASS	442ms
+[A11Y] keyboard order touch targets and reduced motion	PASS	405ms

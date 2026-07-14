@@ -1,7 +1,6 @@
 check	status	detail
-compose-images	PASS	compose image names avoid latest and public registries
-data-directories	PASS	persistent data and log directories exist
-log-volumes	PASS	application log volumes are declared
-event-roundtrip	PASS	minimal fact-to-projection roundtrip fixture written
-redaction	PASS	observability evidence does not contain forbidden sensitive fields
-OBS-001	PASS	Story 1.3 local platform static smoke passed
+compose-config	PASS	Compose parses; images are no-pull, host ports are loopback-only, and declared health/log policies are explicit
+data-directories	PASS	persistent data and log directories exist and are writable
+event-roundtrip	NOT_RUN	runtime chain was intentionally not executed in config-only mode
+dependency-fail-closed	NOT_RUN	dependency fault injection was intentionally not executed in config-only mode
+OBS-001	NOT_RUN	config-only is not runtime evidence and must not be treated as GREEN
