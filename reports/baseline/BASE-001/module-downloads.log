@@ -1,0 +1,282 @@
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.mod
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.mod
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.mod
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.mod
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.mod
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.mod
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.mod
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.mod
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.mod
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.mod
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.mod
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.mod: 200 OK (0.099s)
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.mod: 200 OK (0.105s)
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.mod: 200 OK (0.105s)
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.mod: 200 OK (0.105s)
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.mod: 200 OK (0.105s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.mod: 200 OK (0.105s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.mod: 200 OK (0.105s)
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.mod: 200 OK (0.105s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.6.0.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.16.mod
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.mod: 200 OK (0.108s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.mod: 200 OK (0.108s)
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.mod: 200 OK (0.108s)
+# get https://goproxy.cn/gopkg.in/yaml.v3/@v/v3.0.1.mod
+# get https://goproxy.cn/github.com/cpuguy83/go-md2man/v2/@v/v2.0.6.mod
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.mod: 200 OK (0.111s)
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.mod: 200 OK (0.111s)
+# get https://goproxy.cn/github.com/stretchr/testify/@v/v1.6.1.mod
+# get https://goproxy.cn/github.com/%21netflix/go-expect/@v/v0.0.0-20220104043353-73e0943537d2.mod
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.1.mod
+# get https://goproxy.cn/golang.org/x/text/@v/v0.4.0.mod
+# get https://goproxy.cn/github.com/hinshun/vt10x/@v/v0.0.0-20220119200601-820417d04eec.mod
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.2.mod
+# get https://goproxy.cn/github.com/creack/pty/@v/v1.1.17.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.8.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.6.0.mod: 200 OK (0.027s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20210615035016-665e8c7367d1.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.16.mod: 200 OK (0.036s)
+# get https://goproxy.cn/gopkg.in/yaml.v3/@v/v3.0.1.mod: 200 OK (0.034s)
+# get https://goproxy.cn/github.com/stretchr/testify/@v/v1.6.1.mod: 200 OK (0.031s)
+# get https://goproxy.cn/github.com/cpuguy83/go-md2man/v2/@v/v2.0.6.mod: 200 OK (0.034s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220811171246-fbc7d0a398ab.mod
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.0.mod
+# get https://goproxy.cn/github.com/pmezard/go-difflib/@v/v1.0.0.mod
+# get https://goproxy.cn/github.com/%21netflix/go-expect/@v/v0.0.0-20220104043353-73e0943537d2.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.1.mod: 200 OK (0.032s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.4.0.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/stretchr/objx/@v/v0.1.0.mod
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.8.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/creack/pty/@v/v1.1.17.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.2.mod: 200 OK (0.032s)
+# get https://goproxy.cn/gopkg.in/yaml.v3/@v/v3.0.0-20200313102051-9f266ea9e77c.mod
+# get https://goproxy.cn/gopkg.in/check.v1/@v/v0.0.0-20161208181325-20d25e280405.mod
+# get https://goproxy.cn/github.com/russross/blackfriday/v2/@v/v2.1.0.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20190222072716-a9d3bda3a223.mod
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.1.12.mod
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.6.0-dev.0.20220419223038-86c51ed26bb4.mod
+# get https://goproxy.cn/github.com/hinshun/vt10x/@v/v0.0.0-20220119200601-820417d04eec.mod: 200 OK (0.036s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220722155257-8c9f86f7a55f.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20210615035016-665e8c7367d1.mod: 200 OK (0.024s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220811171246-fbc7d0a398ab.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/pmezard/go-difflib/@v/v1.0.0.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.0.mod: 200 OK (0.032s)
+# get https://goproxy.cn/github.com/stretchr/objx/@v/v0.1.0.mod: 200 OK (0.034s)
+# get https://goproxy.cn/gopkg.in/yaml.v3/@v/v3.0.0-20200313102051-9f266ea9e77c.mod: 200 OK (0.033s)
+# get https://goproxy.cn/github.com/russross/blackfriday/v2/@v/v2.1.0.mod: 200 OK (0.036s)
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.1.12.mod: 200 OK (0.035s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220722155257-8c9f86f7a55f.mod: 200 OK (0.033s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20190222072716-a9d3bda3a223.mod: 200 OK (0.036s)
+# get https://goproxy.cn/gopkg.in/check.v1/@v/v0.0.0-20161208181325-20d25e280405.mod: 200 OK (0.036s)
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.6.0-dev.0.20220419223038-86c51ed26bb4.mod: 200 OK (0.037s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.7.mod
+# get https://goproxy.cn/github.com/yuin/goldmark/@v/v1.4.13.mod
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20220722155237-a158d28d115b.mod
+# get https://goproxy.cn/golang.org/x/sync/@v/v0.0.0-20220722155255-886fb9371eb4.mod
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.0.0-20191119224855-298f0cb1881e.mod
+# get https://goproxy.cn/golang.org/x/crypto/@v/v0.0.0-20210921155107-089bfa567519.mod
+# get https://goproxy.cn/github.com/yuin/goldmark/@v/v1.4.13.mod: 200 OK (0.028s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.7.mod: 200 OK (0.028s)
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.0.0-20191119224855-298f0cb1881e.mod: 200 OK (0.028s)
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20220722155237-a158d28d115b.mod: 200 OK (0.029s)
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.0.0-20180917221912-90fa682c2a6e.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220520151302-bc2c85ada10a.mod
+# get https://goproxy.cn/golang.org/x/crypto/@v/v0.0.0-20210921155107-089bfa567519.mod: 200 OK (0.031s)
+# get https://goproxy.cn/golang.org/x/sync/@v/v0.0.0-20220722155255-886fb9371eb4.mod: 200 OK (0.032s)
+# get https://goproxy.cn/golang.org/x/xerrors/@v/v0.0.0-20190717185122-a985d3407aa7.mod
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20190620200207-3b0461eec859.mod
+# get https://goproxy.cn/golang.org/x/sync/@v/v0.0.0-20190423024810-112230192c58.mod
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.3.mod
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20210226172049-e18ecbb05110.mod
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20201126162022-7de9c90e9dd1.mod
+# get https://goproxy.cn/golang.org/x/tools/@v/v0.0.0-20180917221912-90fa682c2a6e.mod: 200 OK (0.034s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20220520151302-bc2c85ada10a.mod: 200 OK (0.033s)
+# get https://goproxy.cn/golang.org/x/xerrors/@v/v0.0.0-20190717185122-a985d3407aa7.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20190620200207-3b0461eec859.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/sync/@v/v0.0.0-20190423024810-112230192c58.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.0.mod
+# get https://goproxy.cn/golang.org/x/crypto/@v/v0.0.0-20190308221718-c2843e01d9a2.mod
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20190215142949-d0b11bdaac8a.mod
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.3.mod: 200 OK (0.037s)
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20201126162022-7de9c90e9dd1.mod: 200 OK (0.037s)
+# get https://goproxy.cn/golang.org/x/net/@v/v0.0.0-20210226172049-e18ecbb05110.mod: 200 OK (0.037s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20201119102817-f84b799fce68.mod
+# get https://goproxy.cn/golang.org/x/text/@v/v0.3.0.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/crypto/@v/v0.0.0-20190308221718-c2843e01d9a2.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20190215142949-d0b11bdaac8a.mod: 200 OK (0.030s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.0.0-20201119102817-f84b799fce68.mod: 200 OK (0.024s)
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.mod: 200 OK (0.309s)
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.info
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.info: 200 OK (0.024s)
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.info
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.info: 200 OK (0.025s)
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.info
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.info: 200 OK (0.109s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.info
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.info: 200 OK (0.024s)
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.info
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.info: 200 OK (0.020s)
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.info
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.info: 200 OK (0.022s)
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.info
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.info: 200 OK (0.024s)
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.info
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.info: 200 OK (0.024s)
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.info
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.info: 200 OK (0.023s)
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.info
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.info: 200 OK (0.025s)
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.info
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.info: 200 OK (0.022s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.info
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.info: 200 OK (0.020s)
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.info
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.info: 200 OK (0.022s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.info
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.info: 200 OK (0.026s)
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.zip
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.zip
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.zip
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.zip
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.zip
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.zip
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.zip
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.zip
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.zip
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.zip
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.zip
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.zip
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.zip
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.zip
+# get https://goproxy.cn/golang.org/x/text/@v/v0.22.0.zip: 200 OK (0.042s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.1.zip: 200 OK (0.428s)
+# get https://goproxy.cn/github.com/%21alec%21aivazis/survey/v2/@v/v2.3.7.zip: 200 OK (0.601s)
+# get https://goproxy.cn/golang.org/x/mod/@v/v0.17.0.zip: 200 OK (0.601s)
+# get https://goproxy.cn/golang.org/x/sys/@v/v0.25.0.zip: 200 OK (0.598s)
+# get https://goproxy.cn/golang.org/x/term/@v/v0.0.0-20210927222741-03fcf44c2211.zip: 200 OK (0.598s)
+# get https://goproxy.cn/github.com/kballard/go-shellquote/@v/v0.0.0-20180428030007-95032a82bc51.zip: 200 OK (0.598s)
+# get https://goproxy.cn/github.com/mattn/go-isatty/@v/v0.0.20.zip: 200 OK (0.597s)
+# get https://goproxy.cn/github.com/fatih/color/@v/v1.18.0.zip: 200 OK (0.596s)
+# get https://goproxy.cn/github.com/mgutz/ansi/@v/v0.0.0-20170206155736-9520e82c474b.zip: 200 OK (0.601s)
+# get https://goproxy.cn/github.com/inconshreveable/mousetrap/@v/v1.1.0.zip: 200 OK (0.596s)
+# get https://goproxy.cn/github.com/samber/lo/@v/v1.52.0.zip: 200 OK (0.598s)
+# get https://goproxy.cn/github.com/spf13/pflag/@v/v1.0.9.zip: 200 OK (0.598s)
+# get https://goproxy.cn/github.com/mattn/go-colorable/@v/v0.1.13.zip: 200 OK (0.599s)
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.mod
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.mod
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.mod
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.mod
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.mod: 200 OK (0.044s)
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.mod: 200 OK (0.044s)
+# get https://goproxy.cn/go.yaml.in/yaml/v3/@v/v3.0.4.mod
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.mod: 200 OK (0.047s)
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.mod: 200 OK (0.047s)
+# get https://goproxy.cn/github.com/stretchr/testify/@v/v1.2.3-0.20181224173747-660f15d67dbb.mod
+# get https://goproxy.cn/go.yaml.in/yaml/v3/@v/v3.0.4.mod: 200 OK (0.018s)
+# get https://goproxy.cn/github.com/stretchr/testify/@v/v1.2.3-0.20181224173747-660f15d67dbb.mod: 200 OK (0.018s)
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.info
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.info: 200 OK (0.015s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.info
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.info: 200 OK (0.017s)
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.info
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.info: 200 OK (0.097s)
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.info
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.info: 200 OK (0.017s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.zip
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.zip
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.zip
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.zip
+# get https://goproxy.cn/gopkg.in/yaml.v2/@v/v2.4.0.zip: 200 OK (0.027s)
+# get https://goproxy.cn/github.com/spf13/cobra/@v/v1.10.2.zip: 200 OK (0.092s)
+# get https://goproxy.cn/github.com/360%21ent%21sec%21group-%21skylar/excelize/@v/v1.4.1.zip: 200 OK (0.316s)
+# get https://goproxy.cn/github.com/mohae/deepcopy/@v/v0.0.0-20170929034955-c48cc78d4826.zip: 200 OK (0.531s)
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.mod
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.mod
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.mod
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.mod
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.mod
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.mod: 200 OK (0.135s)
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.mod: 200 OK (0.139s)
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.mod: 200 OK (0.139s)
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.mod: 200 OK (0.185s)
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.mod: 200 OK (0.213s)
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.info
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.info: 200 OK (0.016s)
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.info
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.info: 200 OK (0.140s)
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.info
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.info: 200 OK (0.102s)
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.info
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.info: 200 OK (0.017s)
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.info
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.info: 200 OK (0.013s)
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.zip
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.zip
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.zip
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.zip
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.zip
+# get https://goproxy.cn/github.com/davecgh/go-spew/@v/v1.1.2-0.20180830191138-d8f796af33cc.zip: 200 OK (0.021s)
+# get https://goproxy.cn/google.golang.org/genproto/googleapis/api/@v/v0.0.0-20251222181119-0a764e51fe1b.zip: 200 OK (0.120s)
+# get https://goproxy.cn/google.golang.org/protobuf/@v/v1.36.11.zip: 200 OK (0.279s)
+# get https://goproxy.cn/github.com/cloudwego/kitex/@v/v0.15.2.zip: 200 OK (0.712s)
+# get https://goproxy.cn/github.com/aif-go/ag-core/@v/v0.0.1-alpha.3.zip: 200 OK (0.713s)
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6
+awk: can't open file reports/baseline/BASE-001/baseline-manifest.yaml
+ source line number 6

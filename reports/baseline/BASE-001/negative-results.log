@@ -1,0 +1,9 @@
+BASE-001-N01 PASS B001-E01 unreachable ref
+BASE-001-N02 PASS B001-E02 SHA mismatch
+BASE-001-N03 PASS B001-E03 legacy GitLab provenance
+BASE-001-N04 PASS B001-E04 local go.work/replace masking
+BASE-001-N05 PASS B001-E05 missing or misnamed gendb
+BASE-001-N06 PASS B001-E06 tool/root provenance mismatch
+BASE-001-N07 PASS B001-E07 invalid VCS stamping
+BASE-001-N08 PASS B001-E08 unfrozen environment
+BASE-001-N09 PASS B001-E09 unapproved or unprotected release

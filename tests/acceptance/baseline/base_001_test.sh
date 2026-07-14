@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # Story 1.1 / BASE-001 acceptance contract.
-# ATDD RED PHASE: default is skipped; activate explicitly to prove RED.
+# Executable BASE-001 acceptance contract.
 set -u
-
-if [ "${BASE001_ATDD_ACTIVATE:-0}" != "1" ]; then
-  printf 'TAP version 13\n'
-  printf '1..0 # SKIP ATDD RED scaffold; run with BASE001_ATDD_ACTIVATE=1\n'
-  exit 0
-fi
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 PROJECT_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/../../.." && pwd)
@@ -150,7 +144,7 @@ run_negative BASE-001-N07 invalid_vcs B001-E07 vcs.modified
 run_negative BASE-001-N08 unfrozen_environment B001-E08 image_digest
 run_negative BASE-001-N09 unprotected_release B001-E09 release_approved
 
-printf '# pass=%s fail=%s expected_to_fail=true tdd_phase=RED\n' "$PASS_COUNT" "$FAIL_COUNT"
+printf '# pass=%s fail=%s expected_to_fail=false tdd_phase=GREEN\n' "$PASS_COUNT" "$FAIL_COUNT"
 if [ "$FAIL_COUNT" -ne 0 ]; then
   exit 1
 fi

@@ -1,0 +1,7 @@
+manifest=baseline-manifest.yaml
+sha256=c3678a60d1467f546b04d03e50d9153968e3088386b0b0f8a9e1795e1190b10b
+approved_by=Zhangyong
+approved_at=2026-07-14T12:20:37+08:00
+approval_basis=user explicitly instructed Story 1.1 close after confirming local toolchain and remote root baseline
+attestation_type=owner-approval-plus-sha256-integrity-record
+cryptographic_user_signature=not_claimed

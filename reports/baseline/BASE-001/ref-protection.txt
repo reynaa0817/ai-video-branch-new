@@ -1,0 +1,15 @@
+ruleset_id=18908015
+ruleset_name=BASE-001 immutable ag-core refs
+target=tag
+enforcement=active
+include=refs/tags/v0.0.1-alpha.3,refs/tags/ag-core-tools-v*
+rules=deletion,non_fast_forward,update
+bypass_actors=none
+current_user_can_bypass=never
+evidence_url=https://github.com/aif-go/ag-core/rules/18908015
+verified_at=2026-07-14T12:12:51+08:00
+tool_source_ref=3ad9bb9cf7106560400391b62a7f373f682cf591
+tool_source_protection=content-addressed Git commit; immutable by object identity
+tool_source_remote_recovery=git fetch --depth=1 origin 3ad9bb9cf7106560400391b62a7f373f682cf591
+root_dep_ref=refs/tags/v0.0.1-alpha.3
+root_dep_protection=ruleset 18908015 blocks update and deletion with no bypass actor

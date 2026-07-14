@@ -1,5 +1,5 @@
 # generated: 2026-07-14T01:55:28+08:00
-# last_updated: 2026-07-14T10:57:11+08:00
+# last_updated: 2026-07-14T12:22:45+08:00
 # project: ai-video
 # project_key: NOKEY
 # tracking_system: file-system
@@ -40,10 +40,11 @@
 # - Story 进入 review 后执行代码审查，通过后再转为 done
 # - Sprint 前置 [TD] Test Design 已完成；实施就绪度门禁当前仅允许 Sprint 0 风险收敛
 # - Correct Course 已批准：Story 1.1/1.2 关闭 P0 后才能启动 Story 1.3 完整脚手架
+# - 2026-07-14 Correct Course：Story 1.1 不再冻结本机 checkout SHA；候选必须从规范远端可达提交/tag 或受审 PR merge SHA 中经 preflight 选择
 # - Epic 3 固定先完成 3.1 模型/价格/配额/资格快照，再执行 3.2 正式生产计划
 
 generated: 2026-07-14T01:55:28+08:00
-last_updated: 2026-07-14T10:57:11+08:00
+last_updated: 2026-07-14T12:22:45+08:00
 project: ai-video
 project_key: NOKEY
 tracking_system: file-system
@@ -51,8 +52,8 @@ story_location: /Users/zhangyong/Desktop/ai-video/_bmad-output/implementation-ar
 
 development_status:
   epic-1: in-progress
-  1-1-锁定可恢复的-ag-core-与生成工具基线: in-progress
-  1-2-锁定全栈-p0-技术基线: backlog
+  1-1-锁定可恢复的-ag-core-与生成工具基线: review
+  1-2-锁定全栈-p0-技术基线: ready-for-dev
   1-3-建立可独立构建的最小平台骨架: backlog
   1-4-创建受硬预算保护的作品项目: backlog
   1-5-生成并锁定创意简报: backlog

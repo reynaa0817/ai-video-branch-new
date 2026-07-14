@@ -1,0 +1,23 @@
+/var/folders/2l/48q5j39j6x33g_npz9s6zffw0000gn/T//base-001-gate.aa9EKM/bin/protoc-gen-go-aghertz: go1.25.1
+	path	github.com/aif-go/ag-core/tool/cmd/protoc-gen-go-aghertz
+	mod	github.com/aif-go/ag-core/tool/cmd/protoc-gen-go-aghertz	v0.0.0-20260714041655-3ad9bb9cf710
+	dep	github.com/aif-go/ag-core	v0.0.1-alpha.3	h1:+hH31AYUCV2PlvTqzB2/iTn9JtQe5m7We0llZr/P4QE=
+	dep	github.com/cloudwego/kitex	v0.15.2	h1:YeVBnQ4KZ1+lS5rjcJfad+6dLV/nKgIcx5T93eKCwrk=
+	dep	github.com/davecgh/go-spew	v1.1.2-0.20180830191138-d8f796af33cc	h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
+	dep	google.golang.org/genproto/googleapis/api	v0.0.0-20251222181119-0a764e51fe1b	h1:uA40e2M6fYRBf0+8uN5mLlqUtV192iiksiICIBkYJ1E=
+	dep	google.golang.org/protobuf	v1.36.11	h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	DefaultGODEBUG=containermaxprocs=0,decoratemappings=0,tlssha1=1,updatemaxprocs=0,x509sha256skid=0
+	build	CGO_ENABLED=1
+	build	CGO_CFLAGS=
+	build	CGO_CPPFLAGS=
+	build	CGO_CXXFLAGS=
+	build	CGO_LDFLAGS=
+	build	GOARCH=arm64
+	build	GOOS=darwin
+	build	GOARM64=v8.0
+	build	vcs=git
+	build	vcs.revision=3ad9bb9cf7106560400391b62a7f373f682cf591
+	build	vcs.time=2026-07-14T04:16:55Z
+	build	vcs.modified=false

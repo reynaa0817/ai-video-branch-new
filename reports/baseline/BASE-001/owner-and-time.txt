@@ -1,0 +1,15 @@
+repository=aif-go/ag-core
+executor=frochyzhang
+executor_permission=admin
+ruleset_created_at=2026-07-14T12:12:10.847+08:00
+candidate_verified_at=2026-07-14T12:12:51+08:00
+architecture_approver=Zhangyong
+architecture_approval_basis=2026-07-14 user confirmed local toolchain and remote root baseline are sufficient to close Story 1.1
+independent_pr_approver=NOT_REQUIRED_BY_OWNER_FOR_STORY_CLOSE
+release_approver=Zhangyong
+release_approval_basis=2026-07-14 user instruction to close Story 1.1 without tag publication or push
+tool_source_ref=3ad9bb9cf7106560400391b62a7f373f682cf591
+tool_source_sha=3ad9bb9cf7106560400391b62a7f373f682cf591
+root_dep_version=v0.0.1-alpha.3
+root_dep_sha=1624c77ab90b12b77191c38005b64d59f8a0029e
+pr_merge_note=PR #5 was merged before the user correction; it is recorded as an execution error, not a Story prerequisite

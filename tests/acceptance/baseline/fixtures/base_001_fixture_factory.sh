@@ -9,7 +9,6 @@ fi
 
 CASE_DIR=$1
 VARIANT=$2
-SOURCE_SNAPSHOT_SHA=7bc2f4561a9284728cb92b15b9ae9ee760abfa5c
 TOOL_SOURCE_SHA=1111111111111111111111111111111111111111
 ROOT_DEP_SHA=2222222222222222222222222222222222222222
 TOOL_SOURCE_REF=refs/tags/ag-core-tools-v0.1.0
@@ -28,7 +27,6 @@ mkdir -p \
 cat >"$CASE_DIR/baseline-manifest.yaml" <<YAML
 schema_version: 1
 baseline_id: BASE-001
-source_snapshot_sha: $SOURCE_SNAPSHOT_SHA
 canonical_remote: https://github.com/aif-go/ag-core.git
 tool_source_ref: $TOOL_SOURCE_REF
 tool_source_sha: $TOOL_SOURCE_SHA

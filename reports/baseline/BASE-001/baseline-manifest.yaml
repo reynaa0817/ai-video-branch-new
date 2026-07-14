@@ -1,0 +1,22 @@
+# BASE-001 release manifest. Empty release fields are intentionally fail-closed.
+schema_version: 1
+baseline_id: BASE-001
+canonical_remote: https://github.com/aif-go/ag-core.git
+tool_source_ref: 3ad9bb9cf7106560400391b62a7f373f682cf591
+tool_source_sha: 3ad9bb9cf7106560400391b62a7f373f682cf591
+root_dep_version: v0.0.1-alpha.3
+root_dep_sha: 1624c77ab90b12b77191c38005b64d59f8a0029e
+go_version: go1.25.1
+image_digest: sha256:d7098379b7da665ab25b99795465ec320b1ca9d4addb9f77409c4827dc904211
+gotoolchain: local
+goproxy: https://proxy.golang.org,direct
+gosumdb: sum.golang.org
+network_policy: canonical-remote-and-go-proxy-only
+gomodcache_policy: isolated
+gocache_policy: isolated
+manifest_signed: true
+manifest_approved_by: Zhangyong
+dual_sha_difference_approved: true
+release_approved: true
+ref_protection_required: true
+evidence_path: reports/baseline/BASE-001/

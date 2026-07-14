@@ -1,0 +1,31 @@
+/var/folders/2l/48q5j39j6x33g_npz9s6zffw0000gn/T//base-001-gate.aa9EKM/bin/aggo: go1.25.1
+	path	github.com/aif-go/ag-core/tool/cmd/aggo
+	mod	github.com/aif-go/ag-core/tool/cmd/aggo	v0.0.0-20260714041655-3ad9bb9cf710
+	dep	github.com/AlecAivazis/survey/v2	v2.3.7	h1:6I/u8FvytdGsgonrYsVn2t8t4QiRnh6QSTqkkhIiSjQ=
+	dep	github.com/fatih/color	v1.18.0	h1:S8gINlzdQ840/4pfAwic/ZE0djQEH3wM94VfqLTZcOM=
+	dep	github.com/kballard/go-shellquote	v0.0.0-20180428030007-95032a82bc51	h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
+	dep	github.com/mattn/go-colorable	v0.1.13	h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=
+	dep	github.com/mattn/go-isatty	v0.0.20	h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
+	dep	github.com/mgutz/ansi	v0.0.0-20170206155736-9520e82c474b	h1:j7+1HpAFS1zy5+Q4qx1fWh90gTKwiN4QCGoY9TWyyO4=
+	dep	github.com/samber/lo	v1.52.0	h1:Rvi+3BFHES3A8meP33VPAxiBZX/Aws5RxrschYGjomw=
+	dep	github.com/spf13/cobra	v1.10.1	h1:lJeBwCfmrnXthfAupyUTzJ/J4Nc1RsHC/mSRU2dll/s=
+	dep	github.com/spf13/pflag	v1.0.9	h1:9exaQaMOCwffKiiiYk6/BndUBv+iRViNW+4lEMi0PvY=
+	dep	golang.org/x/mod	v0.17.0	h1:zY54UmvipHiNd+pm+m0x9KhZ9hl1/7QNMyxXbc6ICqA=
+	dep	golang.org/x/sys	v0.25.0	h1:r+8e+loiHxRqhXVl6ML1nO3l1+oFoWbnlu2Ehimmi34=
+	dep	golang.org/x/term	v0.0.0-20210927222741-03fcf44c2211	h1:JGgROgKl9N8DuW20oFS5gxc+lE67/N3FcwmBPMe7ArY=
+	dep	golang.org/x/text	v0.22.0	h1:bofq7m3/HAFvbF51jz3Q9wLg3jkvSPuiZu/pD1XwgtM=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	DefaultGODEBUG=containermaxprocs=0,decoratemappings=0,tlssha1=1,updatemaxprocs=0,x509sha256skid=0
+	build	CGO_ENABLED=1
+	build	CGO_CFLAGS=
+	build	CGO_CPPFLAGS=
+	build	CGO_CXXFLAGS=
+	build	CGO_LDFLAGS=
+	build	GOARCH=arm64
+	build	GOOS=darwin
+	build	GOARM64=v8.0
+	build	vcs=git
+	build	vcs.revision=3ad9bb9cf7106560400391b62a7f373f682cf591
+	build	vcs.time=2026-07-14T04:16:55Z
+	build	vcs.modified=false

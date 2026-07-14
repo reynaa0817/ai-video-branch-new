@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/aif-go/ai-video/reports/baseline/BASE-001/baseline-manifest.schema.json",
+  "title": "BASE-001 ag-core 双锁发布清单",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "baseline_id", "canonical_remote",
+    "tool_source_ref", "tool_source_sha", "root_dep_version", "root_dep_sha",
+    "go_version", "image_digest", "gotoolchain", "goproxy", "gosumdb",
+    "network_policy", "gomodcache_policy", "gocache_policy", "manifest_signed",
+    "manifest_approved_by", "dual_sha_difference_approved", "release_approved",
+    "ref_protection_required", "evidence_path"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "baseline_id": {"const": "BASE-001"},
+    "canonical_remote": {"const": "https://github.com/aif-go/ag-core.git"},
+    "tool_source_ref": {
+      "type": "string",
+      "anyOf": [
+        {"pattern": "^refs/tags/[A-Za-z0-9._-]+$"},
+        {"pattern": "^[0-9a-f]{40}$"}
+      ]
+    },
+    "tool_source_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "root_dep_version": {"type": "string", "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"},
+    "root_dep_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "go_version": {"type": "string", "pattern": "^go1\\.25\\.[0-9]+$"},
+    "image_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "gotoolchain": {"const": "local"},
+    "goproxy": {"type": "string", "minLength": 1},
+    "gosumdb": {"type": "string", "minLength": 1},
+    "network_policy": {"const": "canonical-remote-and-go-proxy-only"},
+    "gomodcache_policy": {"const": "isolated"},
+    "gocache_policy": {"const": "isolated"},
+    "manifest_signed": {"type": "boolean"},
+    "manifest_approved_by": {"type": "string"},
+    "dual_sha_difference_approved": {"type": "boolean"},
+    "release_approved": {"type": "boolean"},
+    "ref_protection_required": {"const": true},
+    "evidence_path": {"const": "reports/baseline/BASE-001/"}
+  }
+}

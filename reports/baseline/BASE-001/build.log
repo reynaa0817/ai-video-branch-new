@@ -1,0 +1,14 @@
+tool=aggo module=tool/cmd/aggo action=build_start
+tool=aggo module=tool/cmd/aggo result=PASS
+tool=gendb module=tool/cmd/gen-go-db action=build_start
+tool=gendb module=tool/cmd/gen-go-db result=PASS
+tool=protoc-gen-go-agapi module=tool/cmd/protoc-gen-go-agapi action=build_start
+tool=protoc-gen-go-agapi module=tool/cmd/protoc-gen-go-agapi result=PASS
+tool=protoc-gen-go-aghertz module=tool/cmd/protoc-gen-go-aghertz action=build_start
+tool=protoc-gen-go-aghertz module=tool/cmd/protoc-gen-go-aghertz result=PASS
+tool=protoc-gen-go-agkitex module=tool/cmd/protoc-gen-go-agkitex action=build_start
+tool=protoc-gen-go-agkitex module=tool/cmd/protoc-gen-go-agkitex result=PASS
+tool=protoc-gen-go-agserver module=tool/cmd/protoc-gen-go-agserver action=build_start
+tool=protoc-gen-go-agserver module=tool/cmd/protoc-gen-go-agserver result=PASS
+tool=protoc-gen-go-agservice module=tool/cmd/protoc-gen-go-agservice action=build_start
+tool=protoc-gen-go-agservice module=tool/cmd/protoc-gen-go-agservice result=PASS

@@ -1,0 +1,65 @@
+name: ag-core-baseline
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/ag-core-baseline.yml
+      - reports/baseline/BASE-001/**
+      - scripts/verify-ag-core-baseline.sh
+      - tests/acceptance/baseline/**
+  push:
+    branches:
+      - main
+    paths:
+      - reports/baseline/BASE-001/**
+      - scripts/verify-ag-core-baseline.sh
+      - tests/acceptance/baseline/**
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: BASE-001
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: golang:1.25.1@sha256:d7098379b7da665ab25b99795465ec320b1ca9d4addb9f77409c4827dc904211
+    env:
+      GOTOOLCHAIN: local
+      GOPROXY: https://proxy.golang.org,direct
+      GOSUMDB: sum.golang.org
+      GOWORK: "off"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Validate shell contracts
+        shell: bash
+        run: |
+          bash -n scripts/verify-ag-core-baseline.sh
+          bash -n tests/acceptance/baseline/base_001_test.sh
+          bash -n tests/acceptance/baseline/fixtures/base_001_fixture_factory.sh
+
+      - name: Run deterministic contract suite
+        shell: bash
+        run: BASE001_ATDD_ACTIVATE=1 bash tests/acceptance/baseline/base_001_test.sh
+
+      - name: Verify remote immutable baseline
+        shell: bash
+        run: |
+          bash scripts/verify-ag-core-baseline.sh \
+            --manifest reports/baseline/BASE-001/baseline-manifest.yaml \
+            --evidence-dir reports/baseline/BASE-001 \
+            --check all
+
+      - name: Upload BASE-001 evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: BASE-001-${{ github.sha }}
+          path: reports/baseline/BASE-001/
+          if-no-files-found: error
+          retention-days: 180
