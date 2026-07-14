@@ -1,0 +1,8 @@
+field	value
+brokers	3
+replication_factor	3
+min_insync_replicas	2
+produce_consume	PASS
+leader_failure	PASS
+dlq_topic	PASS
+rebalance_two_consumers	PENDING

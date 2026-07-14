@@ -1,0 +1,19 @@
+Namespace ai-video-int successfully registered.
+  NamespaceInfo.Name                    ai-video-int
+  NamespaceInfo.Id                      056bed84-13c4-4396-a7e6-0adbaeb674fa
+  NamespaceInfo.Description
+  NamespaceInfo.OwnerEmail
+  NamespaceInfo.State                   Registered
+  NamespaceInfo.Data                    map[]
+  Config.WorkflowExecutionRetentionTtl  24h0m0s
+  ReplicationConfig.ActiveClusterName   active
+  ReplicationConfig.Clusters            [{"clusterName":"active"}]
+  ReplicationConfig.State               Normal
+  Config.HistoryArchivalState           Disabled
+  Config.VisibilityArchivalState        Disabled
+  IsGlobalNamespace                     false
+  FailoverVersion                       0
+  FailoverHistory                       []
+  Config.HistoryArchivalUri
+  Config.VisibilityArchivalUri
+  Config.CustomSearchAttributeAliases   map[]

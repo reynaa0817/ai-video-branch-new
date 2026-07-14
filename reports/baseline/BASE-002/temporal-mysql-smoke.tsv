@@ -1,0 +1,6 @@
+component	status	evidence
+mysql_8_4_10	PASS	temporal-mysql.log
+temporal_schema_1_19_1_14	PASS	temporal-schema-versions.tsv
+namespace_isolation	PASS	temporal-namespace.log
+workflow_sdk_compatibility	PASS	temporal-sdk.log
+upgrade_rollback_restore	PENDING	timed-DR

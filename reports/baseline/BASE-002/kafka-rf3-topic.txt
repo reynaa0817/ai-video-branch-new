@@ -1,0 +1,4 @@
+Topic: ai-video-int-events	TopicId: Z1K8hBgqSRaxFN5IHFDkUA	PartitionCount: 3	ReplicationFactor: 3	Configs: min.insync.replicas=2
+	Topic: ai-video-int-events	Partition: 0	Leader: 1	Replicas: 1,2,3	Isr: 1,2,3	Elr: 	LastKnownElr:
+	Topic: ai-video-int-events	Partition: 1	Leader: 2	Replicas: 2,3,1	Isr: 2,3,1	Elr: 	LastKnownElr:
+	Topic: ai-video-int-events	Partition: 2	Leader: 3	Replicas: 3,1,2	Isr: 3,1,2	Elr: 	LastKnownElr:

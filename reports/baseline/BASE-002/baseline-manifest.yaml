@@ -12,7 +12,7 @@ manifest_approved_by: Zhangyong
 release_approved: true
 evidence_path: reports/baseline/BASE-002/
 temporal_server_version: 1.31.2
-temporal_go_sdk_version: 1.46.0
+temporal_go_sdk_version: 1.45.0
 temporal_schema_version: temporal-1.19_visibility-1.14
 mysql_version: 8.4.10
 mysql_image_digest: sha256:c831a0f11348d402b43d77453e17d770be2eef356615a2823fe0f5a0d6c8b9af

@@ -1,6 +1,6 @@
 component	status	evidence
 redis	PASS	runtime-redis.log
 object_storage	PASS	runtime-minio.log
-kafka	PASS-SINGLE-NODE	runtime-kafka.log
+kafka	PASS-RF3-LEADER-FAULT	kafka-rf3-smoke.tsv
 nacos	PASS	runtime-nacos.log
-temporal_mysql	PENDING	manual-schema-and-workflow-smoke
+temporal_mysql	PASS-SCHEMA-NAMESPACE-SDK	temporal-mysql-smoke.tsv
