@@ -1,0 +1,18 @@
+{
+  "event_id": "evt_01JZSTORY13UNKNOWNFIELD",
+  "workspace_id": "ws_story_13",
+  "aggregate_id": "project_01JZSTORY13",
+  "aggregate_version": 1,
+  "owner_domain": "DOMAIN_STUDIO",
+  "event_kind": "EVENT_KIND_FACT_RECORDED",
+  "schema_version": "ai.video.platform.v1.DomainEventEnvelope",
+  "occurred_at": "2026-07-14T19:25:59+08:00",
+  "producer": "studio",
+  "trace": {
+    "trace_id": "trace_story_13",
+    "span_id": "span_unknown_field",
+    "request_id": "req_unknown_field"
+  },
+  "payload": "e30=",
+  "prompt_text": "forbidden raw prompt"
+}

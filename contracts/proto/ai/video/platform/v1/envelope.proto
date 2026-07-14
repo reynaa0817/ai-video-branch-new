@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package ai.video.platform.v1;
+
+option go_package = "github.com/frochyzhang/ai-video/contracts/gen/go/ai/video/platform/v1;platformv1";
+
+// Domain enumerates fact-owning contexts. Zero must be fail-closed.
+enum Domain {
+  DOMAIN_UNSPECIFIED = 0;
+  DOMAIN_STUDIO = 1;
+  DOMAIN_WORKFLOW = 2;
+  DOMAIN_BUDGET = 3;
+  DOMAIN_ASSET = 4;
+  DOMAIN_MODEL_GATEWAY = 5;
+  DOMAIN_QUALITY = 6;
+  DOMAIN_DELIVERY = 7;
+  DOMAIN_EXPERIENCE_PROJECTION = 8;
+}
+
+// EventKind is intentionally small for Story 1.3 golden vectors.
+enum EventKind {
+  EVENT_KIND_UNSPECIFIED = 0;
+  EVENT_KIND_FACT_RECORDED = 1;
+  EVENT_KIND_PROJECTION_UPDATED = 2;
+}
+
+message TraceContext {
+  string trace_id = 1;
+  string span_id = 2;
+  string request_id = 3;
+}
+
+// DomainEventEnvelope is the only Story 1.3 event shape allowed on Kafka.
+// It carries identifiers and small facts only; media URLs and prompt text are forbidden.
+message DomainEventEnvelope {
+  string event_id = 1;
+  string workspace_id = 2;
+  string aggregate_id = 3;
+  uint64 aggregate_version = 4;
+  Domain owner_domain = 5;
+  EventKind event_kind = 6;
+  string schema_version = 7;
+  string occurred_at = 8;
+  string producer = 9;
+  TraceContext trace = 10;
+  bytes payload = 11;
+
+  reserved 12 to 20;
+}

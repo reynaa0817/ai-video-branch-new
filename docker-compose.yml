@@ -1,0 +1,286 @@
+# 项目：ai-video Story 1.3 local 平台骨架
+# 说明：所有镜像必须由离线包预加载或来自本地私有仓库；禁止 latest 和公共 registry。
+
+services:
+  # MySQL 服务：业务事实库与 Temporal persistence 的本地骨架依赖。
+  # 端口：3306 映射到主机 3306；数据持久化到 ./data/mysql。
+  mysql:
+    image: local.ai-video/mysql:8.4.10-arm64
+    restart: unless-stopped
+    environment:
+      # 数据库 root 密码，通过 .env 注入。
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      # 默认业务库名称。
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # UTF-8 字符集，必须支持完整 Unicode。
+      MYSQL_CHARSET: utf8mb4
+      # UTF-8 排序规则。
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    volumes:
+      # 数据持久化：禁止将业务事实保存在容器可写层。
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # Temporal 服务：唯一流程推进器；Kafka 不推进业务状态。
+  # 端口：7233；数据持久化到 ./data/temporal。
+  temporal:
+    image: local.ai-video/temporal:1.31.2-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      # Temporal persistence 数据库地址。
+      DB_HOST: mysql
+      # Temporal namespace，仅用于 local。
+      TEMPORAL_NAMESPACE: ai-video-local
+    volumes:
+      - ./data/temporal:/var/lib/temporal
+    ports:
+      - "7233:7233"
+
+  # Kafka 服务：传播已持久化事实事件，不作为业务事实备份。
+  # 端口：9092；数据持久化到 ./data/kafka。
+  kafka:
+    image: local.ai-video/kafka:4.0.0-arm64
+    restart: unless-stopped
+    environment:
+      # KRaft 本地节点 ID。
+      KAFKA_NODE_ID: "1"
+      # local broker 监听地址。
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    volumes:
+      - ./data/kafka:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+
+  # MinIO 服务：S3 兼容对象存储骨架；Asset 才能登记 canonical object。
+  # 端口：9000 API，9001 控制台；数据持久化到 ./data/minio。
+  minio:
+    image: local.ai-video/minio:2025-04-22-arm64
+    restart: unless-stopped
+    environment:
+      # MinIO 管理员用户，通过 .env 注入。
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      # MinIO 管理员密码，通过 .env 注入。
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./data/minio:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  # Nacos 服务：ag-core 配置中心与服务发现骨架。
+  # 端口：8848；数据持久化到 ./data/nacos。
+  nacos:
+    image: local.ai-video/nacos:2.5.2-arm64
+    restart: unless-stopped
+    environment:
+      # local 单机模式。
+      MODE: standalone
+    volumes:
+      - ./data/nacos:/home/nacos/data
+    ports:
+      - "8848:8848"
+
+  # Redis 服务：缓存骨架；缓存丢失不得改变业务事实。
+  # 端口：6379；数据持久化到 ./data/redis。
+  redis:
+    image: local.ai-video/redis:8.8.0-arm64
+    restart: unless-stopped
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - "6379:6379"
+
+  # Web BFF 骨架：面向浏览器的聚合入口，不拥有业务事实。
+  # 端口：8080；日志分离输出到 ./data/logs/app 与 ./data/logs/error。
+  web-bff:
+    image: local.ai-video/web-bff:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - temporal
+      - kafka
+    environment:
+      # 服务名称，用于日志和 trace。
+      SERVICE_NAME: web-bff
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+    ports:
+      - "8080:8080"
+
+  # Studio 服务：Project、Revision、Gate 等创作事实 owner。
+  # 依赖：MySQL、Kafka；日志分离输出到 ./data/logs/。
+  studio:
+    image: local.ai-video/studio:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      # 服务名称，用于日志、trace 与 topic producer。
+      SERVICE_NAME: studio
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Workflow 服务：Temporal 工作流游标与 Saga 状态 owner。
+  # 依赖：Temporal、Kafka、MySQL；不拥有业务 Project/预算/资产事实。
+  workflow:
+    image: local.ai-video/workflow:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - temporal
+      - kafka
+      - mysql
+    environment:
+      # 服务名称，用于日志、trace 与 Temporal namespace。
+      SERVICE_NAME: workflow
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Budget 服务：Quote、Reservation、SpendAuthorization 与 Ledger owner。
+  # 依赖：MySQL、Kafka；不可用时必须 fail-closed。
+  budget:
+    image: local.ai-video/budget:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      # 服务名称，用于日志、trace 与 budget topic producer。
+      SERVICE_NAME: budget
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Asset 服务：canonical object、ArtifactVersion、AdoptionManifest owner。
+  # 依赖：MySQL、Kafka、MinIO；对象持久化不可用时必须 fail-closed。
+  asset:
+    image: local.ai-video/asset:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+      - minio
+    environment:
+      # 服务名称，用于日志、trace 与 asset topic producer。
+      SERVICE_NAME: asset
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Model Gateway 服务：唯一模型出口、Attempt 与 ProviderCostFact owner。
+  # 依赖：MySQL、Kafka；不在本 Story 调用真实供应商。
+  model-gateway:
+    image: local.ai-video/model-gateway:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      # 服务名称，用于日志、trace 与 model topic producer。
+      SERVICE_NAME: model-gateway
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Quality 服务：RuleSet、QualityRun、Finding 与 Evidence owner。
+  # 依赖：MySQL、Kafka；质量门不可用时必须 fail-closed。
+  quality:
+    image: local.ai-video/quality:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      # 服务名称，用于日志、trace 与 quality topic producer。
+      SERVICE_NAME: quality
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Delivery 服务：ReleaseVersion 与 ExportRecord owner。
+  # 依赖：MySQL、Kafka、MinIO；本 Story 只提供部署边界。
+  delivery:
+    image: local.ai-video/delivery:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+      - minio
+    environment:
+      # 服务名称，用于日志、trace 与 delivery topic producer。
+      SERVICE_NAME: delivery
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Experience Projection 服务：统一 ProjectExperienceView 和通知投影 owner。
+  # 依赖：Kafka、MySQL；只读投影不得推进 Workflow。
+  experience-projection:
+    image: local.ai-video/experience-projection:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - kafka
+      - mysql
+    environment:
+      # 服务名称，用于日志、trace 与 projection consumer group。
+      SERVICE_NAME: experience-projection
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Provider Worker：执行面 worker，不拥有核心业务事实。
+  # 依赖：Model Gateway 边界；本 Story 不连接真实供应商。
+  provider-worker:
+    image: local.ai-video/provider-worker:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - model-gateway
+    environment:
+      # 服务名称，用于日志和 trace。
+      SERVICE_NAME: provider-worker
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error
+
+  # Media Worker：媒体转码/探测执行面 worker，不拥有核心业务事实。
+  # 依赖：Asset 边界和对象存储；本 Story 只提供部署边界。
+  media-worker:
+    image: local.ai-video/media-worker:story-1.3-arm64
+    restart: unless-stopped
+    depends_on:
+      - asset
+      - minio
+    environment:
+      # 服务名称，用于日志和 trace。
+      SERVICE_NAME: media-worker
+      # 日志保留天数，必须严格为 30。
+      LOG_RETENTION_DAYS: "30"
+    volumes:
+      - ./data/logs/app:/app/logs/app
+      - ./data/logs/error:/app/logs/error

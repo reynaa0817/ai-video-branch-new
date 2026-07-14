@@ -4,3 +4,8 @@
 .gstack/browse-audit.jsonl
 .gstack/browse-network.log
 .gstack/browse.json
+
+# Story 1.3 local Go build outputs.
+/api/*/server
+/services/*/server
+/workers/*/server

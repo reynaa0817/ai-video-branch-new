@@ -1,0 +1,19 @@
+check	status	detail
+proto-shape	PASS	Envelope enum zero values and reserved fields are present
+golden-valid	PASS	Valid event golden vector has required fields
+golden-unknown-enum	PASS	Unknown enum negative vector is preserved
+golden-unknown-field	PASS	Unknown field negative vector is preserved
+build-api/web-bff	PASS	independent Go module builds with GOWORK=off
+build-services/studio	PASS	independent Go module builds with GOWORK=off
+build-services/workflow	PASS	independent Go module builds with GOWORK=off
+build-services/budget	PASS	independent Go module builds with GOWORK=off
+build-services/asset	PASS	independent Go module builds with GOWORK=off
+build-services/model-gateway	PASS	independent Go module builds with GOWORK=off
+build-services/quality	PASS	independent Go module builds with GOWORK=off
+build-services/delivery	PASS	independent Go module builds with GOWORK=off
+build-services/experience-projection	PASS	independent Go module builds with GOWORK=off
+build-workers/provider-worker	PASS	independent Go module builds with GOWORK=off
+build-workers/media-worker	PASS	independent Go module builds with GOWORK=off
+forbidden-imports	PASS	no forbidden cross-service internal imports detected
+canonical-agcore	PASS	legacy GitLab ag-core path absent
+CONTRACT-001	PASS	Story 1.3 contract boundary checks passed
