@@ -57,6 +57,7 @@ ffprobe_version: 8.1.2
 license_index: evidence/licenses.tsv
 compatibility_matrix: evidence/compatibility-matrix.tsv
 rollback_target: BASE-002-previous-verified
+ci_artifact: reports/baseline/BASE-002/ci-artifact.tsv
 YAML
 
 cat >"$EVIDENCE/licenses.tsv" <<'TSV'
@@ -146,6 +147,15 @@ TSV
 
 printf '%s\n' 'owner=architecture-sre-owner approved=true' >"$EVIDENCE/owner-and-approval.txt"
 printf '%s\n' 'rollback=BASE-002-previous-verified preserve_failed_candidate=true' >"$EVIDENCE/rollback.md"
+cat >"$EVIDENCE/ci-artifact.tsv" <<'TSV'
+field	value
+workflow_run_id	123456789
+artifact_id	987654321
+head_sha	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+artifact_manifest_sha256	bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+run_url	https://github.com/example/ai-video/actions/runs/123456789
+download_verified	true
+TSV
 
 replace_manifest_value() {
   key=$1

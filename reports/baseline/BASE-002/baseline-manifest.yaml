@@ -43,3 +43,4 @@ ffprobe_version: 8.1.2
 license_index: reports/baseline/BASE-002/licenses.tsv
 compatibility_matrix: reports/baseline/BASE-002/compatibility-matrix.tsv
 rollback_target: BASE-001-plus-no-BASE-002-services
+ci_artifact: reports/baseline/BASE-002/ci-artifact.tsv

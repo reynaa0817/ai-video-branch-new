@@ -10,7 +10,7 @@
     "object_storage_product", "object_storage_version", "object_storage_image_digest", "ffmpeg_version", "ffmpeg_image_digest",
     "node_version", "node_image_digest", "package_manager", "package_manager_version", "react_version", "vite_version", "typescript_version",
     "kubernetes_version", "kubernetes_distribution", "cni_version", "csi_version", "ingress_version", "otel_collector_version", "ffprobe_version",
-    "license_index", "compatibility_matrix", "rollback_target"
+    "license_index", "compatibility_matrix", "rollback_target", "ci_artifact"
   ],
   "properties": {
     "schema_version": {"const": 1},
@@ -33,6 +33,7 @@
     "package_manager": {"type": "string"}, "package_manager_version": {"type": "string"}, "react_version": {"type": "string"}, "vite_version": {"type": "string"}, "typescript_version": {"type": "string"},
     "kubernetes_version": {"type": "string"}, "kubernetes_distribution": {"type": "string"}, "cni_version": {"type": "string"}, "csi_version": {"type": "string"},
     "ingress_version": {"type": "string"}, "otel_collector_version": {"type": "string"}, "ffprobe_version": {"type": "string"},
-    "license_index": {"type": "string"}, "compatibility_matrix": {"type": "string"}, "rollback_target": {"type": "string"}
+    "license_index": {"type": "string"}, "compatibility_matrix": {"type": "string"}, "rollback_target": {"type": "string"},
+    "ci_artifact": {"const": "reports/baseline/BASE-002/ci-artifact.tsv"}
   }
 }

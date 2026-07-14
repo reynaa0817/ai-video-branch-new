@@ -16,7 +16,7 @@ pass() { printf '%s PASS\n' "$1"; }
 
 manifest_value() {
   key=$1
-  awk -v target="$key:" '$1 == target { sub(/^[^:]+:[[:space:]]*/, ""); gsub(/^[\047\"]|[\047\"]$/, ""); print; exit }' "$MANIFEST"
+  awk -v target="$key:" '$1 == target { sub(/^[^:]+:[[:space:]]*/, ""); gsub(/^[\047"]|[\047"]$/, ""); print; exit }' "$MANIFEST"
 }
 
 require_value() {
@@ -44,6 +44,8 @@ check_manifest() {
   [ "$(require_value manifest_signed)" = true ] || fail B002-E01 'component=manifest_signed expected=true'
   require_value manifest_approved_by >/dev/null
   [ "$(require_value release_approved)" = true ] || fail B002-E01 'component=release_approved expected=true'
+  [ "$(require_value ci_artifact)" = reports/baseline/BASE-002/ci-artifact.tsv ] || \
+    fail B002-E01 'component=ci_artifact expected=reports/baseline/BASE-002/ci-artifact.tsv'
 
   required='temporal_server_version temporal_go_sdk_version temporal_schema_version mysql_version mysql_image_digest kafka_version kafka_image_digest agsarama_version nacos_version redis_version object_storage_product object_storage_version object_storage_image_digest ffmpeg_version ffmpeg_image_digest node_version node_image_digest package_manager package_manager_version react_version vite_version typescript_version kubernetes_version kubernetes_distribution cni_version csi_version ingress_version otel_collector_version ffprobe_version license_index compatibility_matrix rollback_target'
   for key in $required; do
@@ -60,6 +62,14 @@ check_manifest() {
   require_file licenses.tsv
   awk -F '\t' 'NR > 1 && $3 !~ /^approved/ { exit 1 }' "$EVIDENCE_DIR/licenses.tsv" || \
     fail B002-E01 'component=license status=unapproved'
+  require_file ci-artifact.tsv
+  artifact="$EVIDENCE_DIR/ci-artifact.tsv"
+  for field in workflow_run_id artifact_id head_sha artifact_manifest_sha256 run_url; do
+    value=$(awk -F '\t' -v field="$field" '$1 == field { print $2; exit }' "$artifact")
+    [ -n "$value" ] && [ "$value" != PENDING ] || fail B002-E01 "component=ci_artifact field=$field reason=missing"
+  done
+  [ "$(awk -F '\t' '$1 == "download_verified" { print $2; exit }' "$artifact")" = true ] || \
+    fail B002-E01 'component=ci_artifact download_verified=false'
 }
 
 check_compatibility() {

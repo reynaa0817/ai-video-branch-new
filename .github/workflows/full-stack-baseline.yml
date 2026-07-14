@@ -40,4 +40,4 @@ jobs:
         with:
           name: BASE-002-evidence
           path: reports/baseline/BASE-002/
-          retention-days: 180
+          retention-days: 90
