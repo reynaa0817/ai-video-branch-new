@@ -1,6 +1,6 @@
 name: full-stack-baseline
 
-on:
+"on":
   pull_request:
     paths:
       - "scripts/verify-full-stack-baseline.sh"
