@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -13,6 +16,8 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	storyprobe "github.com/frochyzhang/ai-video/services/experience-projection/internal/probe"
 )
 
 const (
@@ -81,17 +86,33 @@ func main() {
 		mode = os.Args[1]
 	}
 	switch mode {
+	case "inspect-projection":
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+		if err := storyprobe.Run(ctx, mode); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 	case "health":
 		ctx, cancel := context.WithTimeout(context.Background(), readinessTimeout())
 		defer cancel()
 		deps, err := checkReadiness(ctx)
 		if err != nil {
-			_ = writeStructuredLog("error", "readiness failed", deps)
-			_ = emit("not_ready", deps)
+			if logErr := writeStructuredLog("error", "readiness failed", deps); logErr != nil {
+				fmt.Fprintf(os.Stderr, "readiness failed: %v; structured log failed: %v\n", err, logErr)
+				os.Exit(1)
+			}
+			if emitErr := emit("not_ready", deps); emitErr != nil {
+				fmt.Fprintf(os.Stderr, "readiness failed: %v; health output failed: %v\n", err, emitErr)
+				os.Exit(1)
+			}
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
-		_ = writeStructuredLog("info", "readiness passed", deps)
+		if err := writeStructuredLog("info", "readiness passed", deps); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 		if err := emit("ready", deps); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
@@ -116,9 +137,18 @@ func main() {
 		}
 		ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 		defer stop()
-		<-ctx.Done()
-		_ = writeStructuredLog("info", "service stopped", nil)
-		_ = emit("stopped", nil)
+		if err := storyprobe.Serve(ctx); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		if err := writeStructuredLog("info", "service stopped", nil); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		if err := emit("stopped", nil); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 	default:
 		fmt.Fprintf(os.Stderr, "unknown mode %q\n", mode)
 		os.Exit(2)
@@ -128,16 +158,13 @@ func main() {
 func checkReadiness(ctx context.Context) ([]DependencyStatus, error) {
 	var deps []DependencyStatus
 	var failures []string
-	for _, spec := range splitList(os.Getenv("REQUIRED_TCP_ENDPOINTS")) {
+	for _, spec := range splitList(os.Getenv("REQUIRED_DEPENDENCY_ENDPOINTS")) {
 		name, address := splitPair(spec)
-		status := DependencyStatus{Name: name, Kind: "tcp", Status: "ready"}
-		dialer := net.Dialer{}
-		conn, err := dialer.DialContext(ctx, "tcp", address)
+		status := DependencyStatus{Name: name, Kind: protocolKind(name), Status: "ready"}
+		err := probeEndpoint(ctx, name, address)
 		if err != nil {
 			status.Status = "not_ready"
 			failures = append(failures, name)
-		} else {
-			_ = conn.Close()
 		}
 		deps = append(deps, status)
 	}
@@ -145,6 +172,149 @@ func checkReadiness(ctx context.Context) ([]DependencyStatus, error) {
 		return deps, fmt.Errorf("dependencies not ready: %s", strings.Join(failures, ","))
 	}
 	return deps, nil
+}
+
+func protocolKind(name string) string {
+	switch name {
+	case "mysql":
+		return "mysql-handshake"
+	case "kafka":
+		return "kafka-api-versions"
+	case "temporal":
+		return "grpc-http2"
+	case "minio":
+		return "http-health"
+	default:
+		return "application-health"
+	}
+}
+
+func probeEndpoint(ctx context.Context, name, address string) error {
+	switch name {
+	case "minio":
+		return probeHTTP(ctx, "http://"+address+"/minio/health/live")
+	case "budget", "quality", "asset", "model-gateway":
+		return probeHTTP(ctx, "http://"+address+"/healthz")
+	case "temporal":
+		return probeHTTP2(ctx, address)
+	case "mysql":
+		return storyprobe.CheckDatabase(ctx)
+	case "kafka":
+		return probeKafka(ctx, address)
+	default:
+		return fmt.Errorf("no protocol probe registered for %s", name)
+	}
+}
+
+func probeHTTP(ctx context.Context, endpoint string) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
+	if err != nil {
+		return err
+	}
+	resp, err := (&http.Client{Timeout: readinessTimeout()}).Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("HTTP status %d", resp.StatusCode)
+	}
+	return nil
+}
+
+func probeMySQL(ctx context.Context, address string) error {
+	conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", address)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	_ = conn.SetDeadline(time.Now().Add(readinessTimeout()))
+	header := make([]byte, 4)
+	if _, err := io.ReadFull(conn, header); err != nil {
+		return err
+	}
+	length := int(header[0]) | int(header[1])<<8 | int(header[2])<<16
+	if length < 1 || length > 1<<20 {
+		return fmt.Errorf("invalid MySQL handshake length %d", length)
+	}
+	payload := make([]byte, length)
+	if _, err := io.ReadFull(conn, payload); err != nil {
+		return err
+	}
+	if payload[0] != 10 {
+		return fmt.Errorf("unexpected MySQL protocol version %d", payload[0])
+	}
+	return nil
+}
+
+func probeKafka(ctx context.Context, address string) error {
+	conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", address)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	_ = conn.SetDeadline(time.Now().Add(readinessTimeout()))
+	clientID := []byte("health")
+	body := make([]byte, 10+len(clientID))
+	binary.BigEndian.PutUint16(body[0:2], 18)
+	binary.BigEndian.PutUint16(body[2:4], 0)
+	binary.BigEndian.PutUint32(body[4:8], 1)
+	binary.BigEndian.PutUint16(body[8:10], uint16(len(clientID)))
+	copy(body[10:], clientID)
+	request := make([]byte, 4+len(body))
+	binary.BigEndian.PutUint32(request[:4], uint32(len(body)))
+	copy(request[4:], body)
+	if _, err := conn.Write(request); err != nil {
+		return err
+	}
+	header := make([]byte, 8)
+	if _, err := io.ReadFull(conn, header); err != nil {
+		return err
+	}
+	length := binary.BigEndian.Uint32(header[:4])
+	if length < 8 || length > 1<<20 {
+		return fmt.Errorf("invalid Kafka ApiVersions response length %d", length)
+	}
+	if binary.BigEndian.Uint32(header[4:8]) != 1 {
+		return errors.New("Kafka correlation id mismatch")
+	}
+	payload := make([]byte, int(length)-4)
+	if _, err := io.ReadFull(conn, payload); err != nil {
+		return err
+	}
+	if len(payload) < 4 {
+		return errors.New("Kafka ApiVersions response too short")
+	}
+	apiCount := int(binary.BigEndian.Uint32(payload[:4]))
+	if apiCount <= 0 || len(payload) < 4+apiCount*6 {
+		return fmt.Errorf("invalid Kafka ApiVersions API count %d", apiCount)
+	}
+	for offset := 4; offset < 4+apiCount*6; offset += 6 {
+		if binary.BigEndian.Uint16(payload[offset:offset+2]) == 18 {
+			return nil
+		}
+	}
+	return errors.New("Kafka ApiVersions response did not include ApiVersions API key")
+}
+
+func probeHTTP2(ctx context.Context, address string) error {
+	conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", address)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	_ = conn.SetDeadline(time.Now().Add(readinessTimeout()))
+	if _, err := conn.Write([]byte("PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n")); err != nil {
+		return err
+	}
+	frame := make([]byte, 9)
+	if _, err := io.ReadFull(conn, frame); err != nil {
+		return err
+	}
+	if frame[3] != 4 {
+		return fmt.Errorf("expected HTTP/2 SETTINGS frame, got type %d", frame[3])
+	}
+	return nil
 }
 
 func readinessTimeout() time.Duration {

@@ -1,6 +1,7 @@
 check	status	detail
 compose-config	PASS	Compose parses; images are no-pull, host ports are loopback-only, and declared health/log policies are explicit
 data-directories	PASS	persistent data and log directories exist and are writable
+redaction-guard	PASS	scanner catches sensitive fields without rejecting ordinary URLs or prose
 event-roundtrip	NOT_RUN	runtime chain was intentionally not executed in config-only mode
 dependency-fail-closed	NOT_RUN	dependency fault injection was intentionally not executed in config-only mode
 OBS-001	NOT_RUN	config-only is not runtime evidence and must not be treated as GREEN

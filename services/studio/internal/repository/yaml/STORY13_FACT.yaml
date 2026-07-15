@@ -1,0 +1,27 @@
+table_name: STORY13_FACT
+columns:
+  - name: EVENT_ID
+    type: string
+    length: "96"
+    not_null: true
+    support_update: false
+  - name: AGGREGATE_ID
+    type: string
+    length: "128"
+    not_null: true
+    support_update: true
+  - name: AGGREGATE_VERSION
+    type: int64
+    not_null: true
+    support_update: true
+  - name: ENVELOPE_JSON
+    type: text
+    not_null: true
+    support_update: true
+  - name: CREATED_AT
+    type: timestamp
+    not_null: true
+    support_update: false
+    tag: ///@create
+primary_key:
+  - EVENT_ID

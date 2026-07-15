@@ -26,8 +26,11 @@ name: story-1-3-platform
       - "tests/acceptance/observability/**"
       - "web/**"
   push:
-    branches: [main]
+    branches:
+      - main
+      - "validation/**"
     paths:
+      - ".github/workflows/story-1-3-platform.yml"
       - "api/**"
       - ".env.example"
       - "services/**"
@@ -82,21 +85,28 @@ jobs:
         uses: bufbuild/buf-setup-action@a47c93e0b1648d5651a065437926377d060baa99
         with:
           version: 1.53.0
-      - name: Initialize fresh evidence
+      - name: Install contract shell dependencies
         run: |
-          rm -f reports/contracts/CONTRACT-001/result.tsv reports/observability/OBS-001/result.tsv
-          printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/contracts/CONTRACT-001/ci-run.tsv
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+      - name: Validate story metadata before evidence reset
+        run: node scripts/validate-story-metadata.mjs
       - name: Validate shell and Node entrypoints
         run: |
           bash -n scripts/verify-contracts.sh
           bash -n scripts/verify-local-platform.sh
+          bash -n scripts/apply-local-schema.sh
           bash -n scripts/run-event-roundtrip.sh
           bash -n scripts/verify-fail-closed.sh
+          bash -n scripts/verify-kafka-outbox-recovery.sh
           bash -n scripts/verify-offline.sh
           node --check scripts/check-service-boundaries.mjs
           node --check scripts/validate-event-envelope.mjs
           node --check scripts/validate-story-metadata.mjs
-          node scripts/validate-story-metadata.mjs
+      - name: Initialize fresh evidence
+        run: |
+          rm -f reports/contracts/CONTRACT-001/result.tsv reports/observability/OBS-001/result.tsv
+          printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/contracts/CONTRACT-001/ci-run.tsv
       - name: Run executable contract acceptance
         run: bash tests/acceptance/contracts/story_1_3_contract_test.sh
       - name: Validate Compose without claiming runtime evidence
@@ -167,7 +177,7 @@ jobs:
           persist-credentials: false
       - name: Initialize fresh runtime evidence
         run: |
-          rm -f reports/observability/OBS-001/result.tsv reports/observability/OBS-001/minimal-event-roundtrip.json
+          rm -f reports/observability/OBS-001/result.tsv reports/observability/OBS-001/minimal-event-roundtrip.json reports/observability/OBS-001/kafka-outbox-recovery.json
           printf 'sha\trun_id\n%s\t%s\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > reports/observability/OBS-001/ci-run.tsv
       - name: Verify isolated ARM64 offline runner prerequisites
         shell: bash

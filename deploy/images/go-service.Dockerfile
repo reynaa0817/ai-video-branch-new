@@ -22,7 +22,7 @@ ENV GOMODCACHE=/src/deps/go-mod-cache \
 # 使用 GOWORK=off 验证模块不依赖根 go.work。先编译全部包，避免隐藏在
 # cmd/server 之外的 handler、repository 或生成代码损坏后镜像仍假绿。
 RUN cd "${SERVICE_PATH}" \
-    && test -d "${GOMODCACHE}" \
+    && if [ -d vendor ]; then export GOFLAGS=-mod=vendor; else test -d "${GOMODCACHE}"; fi \
     && GOWORK=off go build ./... \
     && GOWORK=off go build -o /out/server ./cmd/server
 

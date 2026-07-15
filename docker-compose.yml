@@ -20,6 +20,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       # 默认业务库名称。
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # Story 1.3 owner-scoped application users are created by scripts/apply-local-schema.sh.
+      STUDIO_DB_PASSWORD: ${STUDIO_DB_PASSWORD}
+      PROJECTION_DB_PASSWORD: ${PROJECTION_DB_PASSWORD}
       # UTF-8 字符集，必须支持完整 Unicode。
       MYSQL_CHARSET: utf8mb4
       # UTF-8 排序规则。
@@ -185,8 +188,8 @@ services:
       SERVICE_NAME: web-bff
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测 Temporal 与 Kafka。
-      REQUIRED_TCP_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092"
+      # readiness 协议依赖：分别执行 gRPC/HTTP2 与 Kafka ApiVersions 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
     volumes:
@@ -212,10 +215,13 @@ services:
       SERVICE_NAME: studio
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 协议依赖：Studio 对 MySQL 执行认证 DAO 查询，对 Kafka 执行 ApiVersions 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      DATA_DB_USER_DRIVER: mysql
+      DATA_DB_USER_DSN: "studio_app:${STUDIO_DB_PASSWORD}@tcp(mysql:3306)/${MYSQL_DATABASE}?parseTime=True"
+      KAFKA_BROKERS: kafka:29092
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -239,8 +245,8 @@ services:
       SERVICE_NAME: workflow
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测 Temporal、Kafka 与 MySQL。
-      REQUIRED_TCP_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092,mysql=mysql:3306"
+      # readiness 协议依赖：执行 Temporal gRPC/HTTP2、Kafka ApiVersions 与 MySQL handshake。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "temporal=temporal:7233,kafka=kafka:29092,mysql=mysql:3306"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
     volumes:
@@ -264,10 +270,11 @@ services:
       SERVICE_NAME: budget
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 协议依赖：分别执行 MySQL handshake 与 Kafka ApiVersions 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      HEALTH_LISTEN_ADDR: ":8081"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -291,10 +298,11 @@ services:
       SERVICE_NAME: asset
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库、Kafka 与 MinIO 端口。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
+      # readiness 协议依赖：执行 MySQL/Kafka 协议与 MinIO HTTP health 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      HEALTH_LISTEN_ADDR: ":8081"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -316,10 +324,11 @@ services:
       SERVICE_NAME: model-gateway
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 协议依赖：分别执行 MySQL handshake 与 Kafka ApiVersions 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      HEALTH_LISTEN_ADDR: ":8081"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -341,10 +350,11 @@ services:
       SERVICE_NAME: quality
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库与 Kafka。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
+      # readiness 协议依赖：分别执行 MySQL handshake 与 Kafka ApiVersions 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      HEALTH_LISTEN_ADDR: ":8081"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -368,8 +378,8 @@ services:
       SERVICE_NAME: delivery
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测事实库、Kafka 与 MinIO 端口。
-      REQUIRED_TCP_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
+      # readiness 协议依赖：执行 MySQL/Kafka 协议与 MinIO HTTP health 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "mysql=mysql:3306,kafka=kafka:29092,minio=minio:9000"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
     volumes:
@@ -393,10 +403,13 @@ services:
       SERVICE_NAME: experience-projection
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测 Kafka 与投影库。
-      REQUIRED_TCP_ENDPOINTS: "kafka=kafka:29092,mysql=mysql:3306"
+      # readiness 协议依赖：Projection 对 Kafka 执行 ApiVersions，对 MySQL 执行认证 DAO 查询。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "kafka=kafka:29092,mysql=mysql:3306"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      DATA_DB_USER_DRIVER: mysql
+      DATA_DB_USER_DSN: "projection_app:${PROJECTION_DB_PASSWORD}@tcp(mysql:3306)/${MYSQL_DATABASE}?parseTime=True"
+      KAFKA_BROKERS: kafka:29092
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -418,6 +431,8 @@ services:
       LOG_RETENTION_DAYS: "30"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
+      # Worker 必须探测真实 Model Gateway 应用健康协议，而不是仅依赖 Compose 启动顺序。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "model-gateway=model-gateway:8081"
     volumes:
       - ./data/logs/app:/app/logs/app
       - ./data/logs/error:/app/logs/error
@@ -439,8 +454,8 @@ services:
       SERVICE_NAME: media-worker
       # 日志保留天数，必须严格为 30。
       LOG_RETENTION_DAYS: "30"
-      # readiness TCP 依赖：health 命令必须真实探测 MinIO 端口。
-      REQUIRED_TCP_ENDPOINTS: "minio=minio:9000"
+      # readiness 协议依赖：执行 Asset 应用 health 与 MinIO HTTP health 探测。
+      REQUIRED_DEPENDENCY_ENDPOINTS: "asset=asset:8081,minio=minio:9000"
       # readiness 单依赖超时时间，单位秒。
       READINESS_TIMEOUT_SECONDS: "2"
     volumes:

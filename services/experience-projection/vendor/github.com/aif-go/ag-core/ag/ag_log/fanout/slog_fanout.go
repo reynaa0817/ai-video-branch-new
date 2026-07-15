@@ -1,0 +1,71 @@
+package fanout
+
+import (
+	"github.com/aif-go/ag-core/ag/ag_conf"
+	"github.com/aif-go/ag-core/ag/ag_log/agslog"
+	"fmt"
+	"log/slog"
+
+	slogmulti "github.com/samber/slog-multi"
+)
+
+const (
+	AgSlogFanoutPropertiesKeyPrefix = "aglog.fanout"
+)
+
+// AgSlogFanoutProperties 日志分发给多个handler
+type AgSlogFanoutProperties struct {
+	Logs map[string][]string
+}
+
+// BindAgSLogFanoutProperties 绑定slogfanout配置
+func BindAgSLogFanoutProperties(binder ag_conf.IBinder) (*AgSlogFanoutProperties, error) {
+	prop := &AgSlogFanoutProperties{}
+	err := binder.Bind(prop, AgSlogFanoutPropertiesKeyPrefix)
+	if err != nil {
+		fmt.Printf("BindSlogZapProperties err: %v", err)
+		return nil, nil
+	}
+	return prop, nil
+}
+
+func NewFanoutHandlerFactorys(props *AgSlogFanoutProperties) ([]*agslog.HandlerFactory, error) {
+	factories := make([]*agslog.HandlerFactory, 0)
+	for name, handlers := range props.Logs {
+		// 创建fanout handler工厂
+		// 创建局部变量副本
+		handlerscopy := handlers
+		factory := agslog.NewHandlerFactory(
+			name,
+			getDoGetHandlerFunc(handlerscopy),
+		)
+		factories = append(factories, factory)
+	}
+	return factories, nil
+}
+
+func getDoGetHandlerFunc(
+	fanoutHandlerNames []string,
+) func(getHandler func(handlerName string) (slog.Handler, error)) (slog.Handler, error) {
+	return func(getHandler func(handlerName string) (slog.Handler, error)) (slog.Handler, error) {
+		subHandlers := make([]slog.Handler, 0)
+		for _, handlerName := range fanoutHandlerNames {
+			// 根据handlername获取handler
+			subhandler, err := getHandler(handlerName)
+			if err != nil || subhandler == nil {
+				fmt.Printf("agslog: fanout handler %s not found, will ignore and continue, err: %v", handlerName, err)
+				continue
+			}
+
+			subHandlers = append(subHandlers, subhandler)
+		}
+
+		if len(subHandlers) == 0 {
+			return nil, fmt.Errorf("agslog: fanout handler %s not found", fanoutHandlerNames)
+		}
+
+		fanoutHandler := slogmulti.Fanout(subHandlers...)
+
+		return fanoutHandler, nil
+	}
+}

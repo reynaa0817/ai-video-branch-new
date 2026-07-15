@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# 功能：通过依赖故障注入验证 Story 1.3 local runtime 保持 fail-closed。
-# 参数：$1-输出 JSON 证据路径。
-# 返回值：0-故障注入均拒绝状态推进，1-任一依赖故障未 fail-closed。
+# 功能：调用真实 Studio guarded command，并验证依赖故障时应用拒绝且事实状态未推进。
 
 set -euo pipefail
 
@@ -19,90 +17,54 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# 加载受保护 env 文件，仅用于容器内 mysql 客户端认证；不打印敏感值。
-set -a
-# shellcheck disable=SC1090
-. "$ENV_FILE"
-set +a
-
 command -v docker >/dev/null 2>&1 || { echo "docker is required" >&2; exit 1; }
 command -v node >/dev/null 2>&1 || { echo "node is required" >&2; exit 1; }
-
-SQL_INIT="$WORK_DIR/fail_closed_init.sql"
-cat >"$SQL_INIT" <<'SQL'
-CREATE TABLE IF NOT EXISTS story13_fail_closed (
-  dependency_name VARCHAR(64) PRIMARY KEY,
-  state_advanced BOOLEAN NOT NULL DEFAULT FALSE,
-  checked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-SQL
-"${COMPOSE[@]}" exec -T -e MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql \
-  mysql -uroot "$MYSQL_DATABASE" < "$SQL_INIT"
-
-declare -A TARGETS=(
-  [budget]="budget"
-  [object_storage]="minio"
-  [quality]="quality"
-  [temporal]="temporal"
-)
 
 EVIDENCE_JSON="$WORK_DIR/evidence.json"
 printf '{\n' >"$EVIDENCE_JSON"
 first=true
 
-service_is_healthy() {
-  local service="$1"
-  "${COMPOSE[@]}" ps --format json "$service" \
-    | node -e 'const fs=require("fs"); const rows=fs.readFileSync(0,"utf8").trim().split(/\n+/).filter(Boolean).map(JSON.parse); process.exit(rows.some((r)=>r.State==="running" && r.Health==="healthy") ? 0 : 1);'
-}
+for spec in \
+  'budget|budget' \
+  'object_storage|minio' \
+  'quality|quality' \
+  'temporal|temporal'
+do
+  dependency="${spec%%|*}"
+  service="${spec#*|}"
+  control_id="guard_control_${dependency}_$$"
+  fault_id="guard_fault_${dependency}_$$"
 
-for dependency in budget object_storage quality temporal; do
-  service="${TARGETS[$dependency]}"
-  "${COMPOSE[@]}" exec -T -e MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql \
-    mysql -uroot "$MYSQL_DATABASE" \
-    -e "DELETE FROM story13_fail_closed WHERE dependency_name='${dependency}';"
+  "${COMPOSE[@]}" exec -T \
+    -e PROBE_COMMAND_ID="$control_id" \
+    -e PROBE_DEPENDENCY="$dependency" \
+    studio /app/server advance-platform-state >/dev/null
+  control_json="$("${COMPOSE[@]}" exec -T -e PROBE_COMMAND_ID="$control_id" studio /app/server inspect-platform-state)"
 
   "${COMPOSE[@]}" stop "$service" >/dev/null
-  injected=true
-  command_rejected=false
-  state_advanced=false
-
-  if service_is_healthy "$service"; then
-    "${COMPOSE[@]}" exec -T -e MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql \
-      mysql -uroot "$MYSQL_DATABASE" \
-      -e "INSERT INTO story13_fail_closed(dependency_name, state_advanced) VALUES ('${dependency}', TRUE) ON DUPLICATE KEY UPDATE state_advanced=TRUE;"
-  else
-    command_rejected=true
-  fi
-
-  advanced="$("${COMPOSE[@]}" exec -T -e MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql \
-    mysql -N -B -uroot "$MYSQL_DATABASE" \
-    -e "SELECT COALESCE(MAX(state_advanced), 0) FROM story13_fail_closed WHERE dependency_name='${dependency}';" | tr -d '\r')"
-  if [[ "$advanced" == "1" ]]; then
-    state_advanced=true
-  fi
-
+  set +e
+  "${COMPOSE[@]}" exec -T \
+    -e PROBE_COMMAND_ID="$fault_id" \
+    -e PROBE_DEPENDENCY="$dependency" \
+    studio /app/server advance-platform-state >/dev/null 2>&1
+  command_rc=$?
+  set -e
+  fault_json="$("${COMPOSE[@]}" exec -T -e PROBE_COMMAND_ID="$fault_id" studio /app/server inspect-platform-state)"
   "${COMPOSE[@]}" up -d --wait --wait-timeout 180 "$service" >/dev/null
 
-  if [[ "$command_rejected" != true || "$state_advanced" != false ]]; then
-    echo "dependency $dependency did not remain fail-closed" >&2
-    exit 1
-  fi
-
-  if [[ "$first" == true ]]; then
-    first=false
-  else
-    printf ',\n' >>"$EVIDENCE_JSON"
-  fi
-  node - "$dependency" "$service" "$injected" "$command_rejected" "$state_advanced" >>"$EVIDENCE_JSON" <<'NODE'
-const [dependency, service, injected, commandRejected, stateAdvanced] = process.argv.slice(2);
-process.stdout.write(JSON.stringify(dependency) + ": " + JSON.stringify({
-  service,
-  injected: injected === "true",
-  command_rejected: commandRejected === "true",
-  state_advanced: stateAdvanced === "true",
-}));
+  item_json="$(node - "$dependency" "$service" "$command_rc" "$control_json" "$fault_json" <<'NODE'
+const [dependency, service, rcRaw, controlRaw, faultRaw] = process.argv.slice(2);
+const control = JSON.parse(controlRaw);
+const fault = JSON.parse(faultRaw);
+const rc = Number(rcRaw);
+if (control.found !== true || control.state_advanced !== true) throw new Error(`${dependency} healthy control did not advance`);
+if (rc === 0) throw new Error(`${dependency} fault command was accepted`);
+if (fault.found !== false || fault.state_advanced !== false) throw new Error(`${dependency} fault advanced state`);
+process.stdout.write(JSON.stringify({service, healthy_control_advanced: true, injected: true, command_rejected: true, state_advanced: false}));
 NODE
+)"
+  if [[ "$first" == true ]]; then first=false; else printf ',\n' >>"$EVIDENCE_JSON"; fi
+  printf '  "%s": %s' "$dependency" "$item_json" >>"$EVIDENCE_JSON"
 done
 
 printf '\n}\n' >>"$EVIDENCE_JSON"

@@ -1,0 +1,23 @@
+table_name: STORY13_GUARDED_COMMAND
+columns:
+  - name: COMMAND_ID
+    type: string
+    length: "96"
+    not_null: true
+    support_update: false
+  - name: DEPENDENCY_NAME
+    type: string
+    length: "64"
+    not_null: true
+    support_update: false
+  - name: STATE_ADVANCED
+    type: tinyint
+    not_null: true
+    support_update: false
+  - name: CREATED_AT
+    type: timestamp
+    not_null: true
+    support_update: false
+    tag: ///@create
+primary_key:
+  - COMMAND_ID

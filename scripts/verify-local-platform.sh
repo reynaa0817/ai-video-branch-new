@@ -58,8 +58,8 @@ if [[ "$MODE" == "runtime" ]]; then
   node - "$WORK_DIR/compose.json" <<'NODE' || fail "runtime-secrets" "runtime credentials still use example/default values"
 const fs = require("fs");
 const services = JSON.parse(fs.readFileSync(process.argv[2], "utf8")).services ?? {};
-const forbidden = new Set(["change-me-local", "minioadmin", "", undefined]);
-for (const [service, keys] of Object.entries({mysql: ["MYSQL_ROOT_PASSWORD"], minio: ["MINIO_ROOT_USER", "MINIO_ROOT_PASSWORD"]})) {
+  const forbidden = new Set(["change-me-local", "change-me-local-studio", "change-me-local-projection", "minioadmin", "", undefined]);
+  for (const [service, keys] of Object.entries({mysql: ["MYSQL_ROOT_PASSWORD", "STUDIO_DB_PASSWORD", "PROJECTION_DB_PASSWORD"], minio: ["MINIO_ROOT_USER", "MINIO_ROOT_PASSWORD"]})) {
   for (const key of keys) if (forbidden.has(services[service]?.environment?.[key])) throw new Error(`${service}.${key} is not protected`);
 }
 NODE
@@ -99,13 +99,14 @@ for (const name of Object.keys(registry.services)) {
   const volumes = (service.volumes ?? []).map((volume) => String(volume.source ?? volume));
   if (!volumes.some((value) => value.includes("data/logs/app")) || !volumes.some((value) => value.includes("data/logs/error"))) throw new Error(`${name} lacks app/error log volumes`);
   if (String(service.environment?.LOG_RETENTION_DAYS) !== "30") throw new Error(`${name} log retention must be 30 days`);
-  const tcpReadiness = String(service.environment?.REQUIRED_TCP_ENDPOINTS ?? "");
+  const dependencyReadiness = String(service.environment?.REQUIRED_DEPENDENCY_ENDPOINTS ?? "");
   for (const dependency of Object.keys(deps)) {
-    if (["mysql", "kafka", "temporal", "minio"].includes(dependency) && !tcpReadiness.includes(`${dependency}=`)) {
+    const requiresProtocolProbe = ["mysql", "kafka", "temporal", "minio"].includes(dependency) || Object.hasOwn(registry.services, dependency);
+    if (requiresProtocolProbe && !dependencyReadiness.includes(`${dependency}=`)) {
       throw new Error(`${name} health command does not probe ${dependency}`);
     }
   }
-  if (tcpReadiness && String(service.environment?.READINESS_TIMEOUT_SECONDS ?? "") === "") {
+  if (dependencyReadiness && String(service.environment?.READINESS_TIMEOUT_SECONDS ?? "") === "") {
     throw new Error(`${name} readiness timeout must be explicit`);
   }
 }
@@ -117,6 +118,16 @@ for dir in data/mysql data/temporal data/kafka data/minio data/nacos data/redis 
 done
 pass "data-directories" "persistent data and log directories exist and are writable"
 
+REDACTION_PATTERN="([\"']?(secret|password|token|access[_-]?token|refresh[_-]?token|api[_-]?key|media[_-]?url|prompt[_-]?text)[\"']?[[:space:]]*[:=]|bearer[[:space:]]+|[?&](token|access_token|refresh_token|api_key|signature|x-amz-credential)=)"
+printf '%s\n' '{"status_url":"http://127.0.0.1/healthz","message":"password policy loaded"}' >"$WORK_DIR/redaction-safe.json"
+printf '%s\n' '{"access_token":"fixture-sensitive-value","api_key":"fixture-sensitive-value","refresh_token":"fixture-sensitive-value"}' >"$WORK_DIR/redaction-sensitive.json"
+if rg -ni "$REDACTION_PATTERN" "$WORK_DIR/redaction-safe.json" >/dev/null 2>&1; then
+  fail "redaction-guard" "safe operational URL or prose caused a redaction false positive"
+fi
+rg -ni "$REDACTION_PATTERN" "$WORK_DIR/redaction-sensitive.json" >/dev/null 2>&1 \
+  || fail "redaction-guard" "sensitive structured field was not detected"
+pass "redaction-guard" "scanner catches sensitive fields without rejecting ordinary URLs or prose"
+
 if [[ "$MODE" == "--config-only" ]]; then
   not_run "event-roundtrip" "runtime chain was intentionally not executed in config-only mode"
   not_run "dependency-fail-closed" "dependency fault injection was intentionally not executed in config-only mode"
@@ -125,6 +136,13 @@ if [[ "$MODE" == "--config-only" ]]; then
 fi
 
 STARTED=true
+"${COMPOSE[@]}" up -d --wait --wait-timeout 180 mysql temporal kafka minio nacos redis || fail "infra-start" "OBS_PLATFORM_UNAVAILABLE: infrastructure services did not become healthy"
+export AI_VIDEO_COMPOSE_PROJECT="$PROJECT"
+export AI_VIDEO_COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
+export AI_VIDEO_ENV_FILE
+bash "$ROOT_DIR/scripts/apply-local-schema.sh" || fail "local-schema" "could not apply the idempotent Story 1.3 schema and least-privilege users to the persistent MySQL volume"
+pass "local-schema" "owner-scoped schema and least-privilege users are present on the current persistent MySQL volume"
+
 "${COMPOSE[@]}" up -d --wait --wait-timeout 180 || fail "platform-start" "OBS_PLATFORM_UNAVAILABLE: Compose services did not become healthy"
 "${COMPOSE[@]}" ps --format json >"$WORK_DIR/ps.jsonl" || fail "platform-health" "could not inspect Compose health"
 node - "$WORK_DIR/ps.jsonl" <<'NODE' || fail "platform-health" "one or more Compose services are not running/healthy"
@@ -140,9 +158,6 @@ pass "platform-health" "all Compose services are running and declared health che
 
 ROUNDTRIP="$ROOT_DIR/scripts/run-event-roundtrip.sh"
 [[ -x "$ROUNDTRIP" ]] || fail "event-roundtrip" "OBS_RUNTIME_NOT_IMPLEMENTED: executable roundtrip driver is missing"
-export AI_VIDEO_COMPOSE_PROJECT="$PROJECT"
-export AI_VIDEO_COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
-export AI_VIDEO_ENV_FILE
 "$ROUNDTRIP" "$REPORT_DIR/minimal-event-roundtrip.json" || fail "event-roundtrip" "OBS_EVENT_ROUNDTRIP_FAILED: persistence/outbox/Kafka/projection chain failed"
 node - "$REPORT_DIR/minimal-event-roundtrip.json" "$WORK_DIR/roundtrip-envelope.json" <<'NODE' || fail "event-roundtrip" "roundtrip evidence lacks independently correlatable fact/outbox/Kafka/projection proof"
 const fs = require("fs");
@@ -151,14 +166,30 @@ const required = ["fact", "outbox", "kafka", "projection"];
 for (const key of required) if (!evidence[key] || typeof evidence[key] !== "object") throw new Error(`missing ${key} proof`);
 const ids = required.map((key) => evidence[key].event_id);
 if (ids.some((id) => typeof id !== "string" || id.length === 0) || new Set(ids).size !== 1) throw new Error("event_id does not correlate all stages");
-if (!Number.isInteger(evidence.fact.aggregate_version) || evidence.fact.aggregate_version < 1) throw new Error("invalid fact version");
-if (evidence.outbox.published !== true || !Number.isInteger(evidence.kafka.partition) || !Number.isInteger(evidence.kafka.offset)) throw new Error("missing publish/offset proof");
-if (evidence.projection.aggregate_version !== evidence.fact.aggregate_version) throw new Error("projection version does not match fact version");
 if (!evidence.envelope || typeof evidence.envelope !== "object") throw new Error("missing envelope");
+if (!Number.isInteger(evidence.fact.aggregate_version) || evidence.fact.aggregate_version < 1) throw new Error("invalid fact version");
+if (evidence.outbox.published !== true || !Number.isInteger(evidence.kafka.partition) || !Number.isInteger(evidence.kafka.offset) || evidence.kafka.offset < 0) throw new Error("missing publish/offset proof");
+if (evidence.projection.aggregate_version !== evidence.fact.aggregate_version) throw new Error("projection version does not match fact version");
+if (evidence.fact.workspace_id !== evidence.envelope.workspace_id || evidence.projection.workspace_id !== evidence.envelope.workspace_id) throw new Error("workspace identity was not preserved");
+if (evidence.fact.envelope_digest !== evidence.outbox.envelope_digest || evidence.fact.envelope_digest !== evidence.projection.envelope_digest) throw new Error("digest does not correlate all stages");
+if (evidence.projection.trace_id !== evidence.envelope.trace?.trace_id || evidence.projection.span_id !== evidence.envelope.trace?.span_id || evidence.projection.request_id !== evidence.envelope.trace?.request_id) throw new Error("trace identity was not preserved");
 fs.writeFileSync(process.argv[3], `${JSON.stringify(evidence.envelope)}\n`);
 NODE
 node "$ROOT_DIR/scripts/validate-event-envelope.mjs" "$WORK_DIR/roundtrip-envelope.json" || fail "event-roundtrip" "roundtrip envelope is invalid"
 pass "event-roundtrip" "fact persisted, traversed outbox/Kafka and was observed in the projection view"
+
+KAFKA_RECOVERY="$ROOT_DIR/scripts/verify-kafka-outbox-recovery.sh"
+[[ -x "$KAFKA_RECOVERY" ]] || fail "kafka-outbox-recovery" "OBS_KAFKA_RECOVERY_NOT_IMPLEMENTED: executable recovery driver is missing"
+"$KAFKA_RECOVERY" "$REPORT_DIR/kafka-outbox-recovery.json" || fail "kafka-outbox-recovery" "persisted outbox did not recover after Kafka outage"
+node - "$REPORT_DIR/kafka-outbox-recovery.json" <<'NODE' || fail "kafka-outbox-recovery" "Kafka outage recovery evidence is incomplete"
+const fs = require("fs");
+const evidence = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+if (!evidence.fact_persisted_during_outage || !evidence.outbox_unpublished_during_outage || !evidence.outbox_published_after_recovery || !evidence.projection_observed_after_recovery) {
+  throw new Error("recovery evidence did not prove all required states");
+}
+if (!Number.isInteger(evidence.kafka?.offset) || evidence.kafka.offset < 0) throw new Error("invalid recovered Kafka offset");
+NODE
+pass "kafka-outbox-recovery" "Studio persisted outbox during Kafka outage and relay/projection recovered after restart"
 
 FAIL_CLOSED="$ROOT_DIR/scripts/verify-fail-closed.sh"
 [[ -x "$FAIL_CLOSED" ]] || fail "dependency-fail-closed" "OBS_FAIL_CLOSED_NOT_IMPLEMENTED: fault-injection driver is missing"
@@ -176,7 +207,7 @@ pass "dependency-fail-closed" "dependency fault injection remained fail-closed"
 
 "${COMPOSE[@]}" logs --no-color >"$WORK_DIR/runtime.log" || fail "redaction" "could not collect runtime logs"
 set +e
-rg -ni '(secret|password|access[_-]?token|bearer[[:space:]]+|media[_-]?url|prompt[_-]?text|https?://)' "$WORK_DIR/runtime.log" "$REPORT_DIR" "$ROOT_DIR/data/logs" --glob '*.json' --glob '*.log'
+rg -ni "$REDACTION_PATTERN" "$WORK_DIR/runtime.log" "$REPORT_DIR" "$ROOT_DIR/data/logs" --glob '*.json' --glob '*.log'
 redaction_rc=$?
 set -e
 if [[ $redaction_rc -eq 0 ]]; then

@@ -1,0 +1,37 @@
+table_name: STORY13_OUTBOX
+columns:
+  - name: EVENT_ID
+    type: string
+    length: "96"
+    not_null: true
+    support_update: false
+  - name: ENVELOPE_JSON
+    type: text
+    not_null: true
+    support_update: true
+  - name: PUBLISHED
+    type: tinyint
+    not_null: true
+    support_update: true
+  - name: KAFKA_PARTITION
+    type: int
+    not_null: true
+    default: "-1"
+    support_update: true
+  - name: KAFKA_OFFSET
+    type: int64
+    not_null: true
+    default: "-1"
+    support_update: true
+  - name: CREATED_AT
+    type: timestamp
+    not_null: true
+    support_update: false
+    tag: ///@create
+  - name: PUBLISHED_AT
+    type: timestamp
+    not_null: true
+    default: "1970-01-01 00:00:01"
+    support_update: true
+primary_key:
+  - EVENT_ID

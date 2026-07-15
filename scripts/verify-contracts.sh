@@ -104,7 +104,7 @@ while IFS=$'\t' read -r service_name service_path service_kind may_write; do
   [[ -f "$ROOT_DIR/$service_path/go.mod" ]] || fail "module-$service_name" "missing go.mod"
   [[ -f "$ROOT_DIR/$service_path/cmd/server/main.go" ]] || fail "module-$service_name" "missing cmd/server/main.go"
   output_name="${service_path//\//-}"
-  (cd "$ROOT_DIR/$service_path" && GOWORK=off go build ./... && GOWORK=off go build -o "$WORK_DIR/$output_name" ./cmd/server) || fail "build-$service_name" "GOWORK=off go build ./... failed"
+  (cd "$ROOT_DIR/$service_path" && GOWORK=off go test ./... && GOWORK=off go build ./... && GOWORK=off go build -o "$WORK_DIR/$output_name" ./cmd/server) || fail "build-$service_name" "GOWORK=off go test/build ./... failed"
   "$WORK_DIR/$output_name" contract >"$WORK_DIR/$service_name.json" || fail "contract-$service_name" "contract command failed"
   node - "$WORK_DIR/$service_name.json" "$service_name" "$service_kind" "$may_write" <<'NODE' || fail "identity-$service_name" "binary identity does not match registry"
 const fs = require("fs");
@@ -128,8 +128,30 @@ if (!fs.existsSync(logPath)) throw new Error("missing dated app log");
 const entry = JSON.parse(fs.readFileSync(logPath, "utf8").trim().split(/\n/).at(-1));
 if (entry.level !== "info" || entry.service !== health.service_name || !entry.trace_id) throw new Error("invalid app log entry");
 NODE
+  node - "$health_dir/app" <<'NODE'
+const fs = require("fs");
+const path = require("path");
+const dir = process.argv[2];
+fs.mkdirSync(dir, {recursive: true});
+for (const [name, days] of [["expired.log", 31], ["retained.log", 29]]) {
+  const file = path.join(dir, name);
+  fs.writeFileSync(file, "retention-probe\n");
+  const stamp = new Date(Date.now() - days * 86400_000);
+  fs.utimesSync(file, stamp, stamp);
+}
+NODE
+  APP_LOG_DIR="$health_dir/app" ERROR_LOG_DIR="$health_dir/error" LOG_RETENTION_DAYS=30 \
+    "$WORK_DIR/$output_name" health >/dev/null || fail "retention-$service_name" "health could not execute retention policy"
+  [[ ! -e "$health_dir/app/expired.log" && -e "$health_dir/app/retained.log" ]] \
+    || fail "retention-$service_name" "30-day retention boundary was not enforced"
   set +e
-  APP_LOG_DIR="$health_dir/app" ERROR_LOG_DIR="$health_dir/error" LOG_RETENTION_DAYS=30 REQUIRED_TCP_ENDPOINTS="missing=127.0.0.1:1" \
+  APP_LOG_DIR=/dev/null ERROR_LOG_DIR=/dev/null LOG_RETENTION_DAYS=30 \
+    "$WORK_DIR/$output_name" health >/dev/null 2>"$health_dir/log-failure.stderr"
+  log_failure_rc=$?
+  set -e
+  [[ $log_failure_rc -ne 0 ]] || fail "log-failure-$service_name" "structured log write failure was ignored"
+  set +e
+  APP_LOG_DIR="$health_dir/app" ERROR_LOG_DIR="$health_dir/error" LOG_RETENTION_DAYS=30 REQUIRED_DEPENDENCY_ENDPOINTS="missing=127.0.0.1:1" \
     "$WORK_DIR/$output_name" health >"$health_dir/not-ready.json" 2>"$health_dir/not-ready.stderr"
   not_ready_rc=$?
   set -e
@@ -148,6 +170,7 @@ if (entry.level !== "error" || entry.service !== health.service_name || !entry.t
 NODE
   pass "build-$service_name" "all packages build independently and runtime identity matches registry"
   pass "health-$service_name" "health readiness, trace fields, app log and error log fail-closed checks passed"
+  pass "retention-$service_name" "30-day retention boundary and log-write failure are executable"
 done <"$WORK_DIR/services.tsv"
 
 DOCKERFILE="$ROOT_DIR/deploy/images/go-service.Dockerfile"

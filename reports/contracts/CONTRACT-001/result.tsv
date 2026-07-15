@@ -6,16 +6,38 @@ golden-unknown-field	PASS	CONTRACT_UNKNOWN_FIELD: buf decoder rejected the vecto
 service-registry	PASS	registry has 11 unique modules and single-owner business facts
 registry-completeness	PASS	every discovered independent module is registered exactly once
 build-web-bff	PASS	all packages build independently and runtime identity matches registry
+health-web-bff	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-web-bff	PASS	30-day retention boundary and log-write failure are executable
 build-studio	PASS	all packages build independently and runtime identity matches registry
+health-studio	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-studio	PASS	30-day retention boundary and log-write failure are executable
 build-workflow	PASS	all packages build independently and runtime identity matches registry
+health-workflow	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-workflow	PASS	30-day retention boundary and log-write failure are executable
 build-budget	PASS	all packages build independently and runtime identity matches registry
+health-budget	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-budget	PASS	30-day retention boundary and log-write failure are executable
 build-asset	PASS	all packages build independently and runtime identity matches registry
+health-asset	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-asset	PASS	30-day retention boundary and log-write failure are executable
 build-model-gateway	PASS	all packages build independently and runtime identity matches registry
+health-model-gateway	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-model-gateway	PASS	30-day retention boundary and log-write failure are executable
 build-quality	PASS	all packages build independently and runtime identity matches registry
+health-quality	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-quality	PASS	30-day retention boundary and log-write failure are executable
 build-delivery	PASS	all packages build independently and runtime identity matches registry
+health-delivery	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-delivery	PASS	30-day retention boundary and log-write failure are executable
 build-experience-projection	PASS	all packages build independently and runtime identity matches registry
+health-experience-projection	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-experience-projection	PASS	30-day retention boundary and log-write failure are executable
 build-provider-worker	PASS	all packages build independently and runtime identity matches registry
+health-provider-worker	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-provider-worker	PASS	30-day retention boundary and log-write failure are executable
 build-media-worker	PASS	all packages build independently and runtime identity matches registry
+health-media-worker	PASS	health readiness, trace fields, app log and error log fail-closed checks passed
+retention-media-worker	PASS	30-day retention boundary and log-write failure are executable
 image-entry	PASS	shared image entry builds every registered independent module
 service-boundaries	PASS	cross-service private imports and shared business tables are absent
 canonical-agcore	PASS	legacy GitLab ag-core path absent
